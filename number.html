@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+    <script src="number.js"></script> 
+    <h1>Agizow8ganak</h1>
+    <a href="index.html">Les verbes</a>
+    <h3>Écris un nombre en chiffre pour le traduire en Abénaki.</h3>
+    <input type="text" id="NumberInput" value="2023">
+    <button onclick="UpdateNumber()">Convertis</button>
+    <br/>
+    <script>
+        function UpdateNumber()
+        {
+            document.getElementById("number").innerHTML = GenerateNumber(document.getElementById("NumberInput").value);
+        }
+    </script>
+    <p id="number"></p>
+</body>
+</html>
