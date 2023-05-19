@@ -1,4 +1,16 @@
-function GenerateNumber(Number)
+class NumberType
+{
+    static Animate = new NumberType("animate");
+    static Inanimate = new NumberType("inanimate");
+    static Neutral = new NumberType("neutral");
+
+    constructor(name)
+    {
+        this.name = name;
+    }
+}
+
+function GenerateNumber(number, type=NumberType.Neutral)
 {
     const AnimateFigures = [ "ndakagwi", "pazgo", "niswak", "nlhoak", "iawak", "n8nnoak" ];
     const InanimateFigures = [ "ndakagwi", "pazgwen", "nisnol","nhenol", "iawnol", "n8nnenol" ];
@@ -10,60 +22,59 @@ function GenerateNumber(Number)
     const Thousands = [ "ngwed8mkwaki", "nis8mkwaki", "nas8mkwaki", "iaw8mkwaki", "n8nn8mkwaki", "ngwed8s kas8mkwaki", "ngwed8s kas8mkwaki", "t8baw8s kas8mkwaki", "ns8zek kas8mkwaki", "noliwi kas8mkwaki" ];
 
     let result = "";
-    if (Number < 10)
+    if (number < 10)
     {
-        /*
         // Exceptions for the first five figures.
-        if (type != Type.Neutral && Number != 0 && Number <= 5)
+        if (type != NumberType.Neutral && Number != 0 && Number <= 5)
         {
-            if ( type == Type.Animate )
+            if ( type == NumberType.Animate )
             {
                 result = AnimateFigures[Number];
             }
-            else if ( type == Type.Inanimate )
+            else if ( type == NumberType.Inanimate )
             {
                 result = InanimateFigures[Number];
             }
         }
-        else*/
+        else
         {
-            result = Figures[Number];
+            result = Figures[number];
         }
     }
-    else if (Number < 20)
+    else if (number < 20)
     {
-        result = Teens[Number - 10];
+        result = Teens[number - 10];
     }
-    else if (Number < 100)
+    else if (number < 100)
     {
-        result += Tens[Math.floor(Number / 10) - 2];
-        if (Number % 10 > 0)
+        result += Tens[Math.floor(number / 10) - 2];
+        if (number % 10 > 0)
         {
-            result += " taba " + GenerateNumber(Number % 10/*, Type.Neutral*/);
+            result += " taba " + GenerateNumber(number % 10/*, Type.Neutral*/);
         }
     }
-    else if (Number < 1000)
+    else if (number < 1000)
     {
-        result = Hundreds[Math.floor(Number / 100) - 1];
-        if (Number % 100 != 0)
+        result = Hundreds[Math.floor(number / 100) - 1];
+        if (number % 100 != 0)
         {
-            result += " taba " + GenerateNumber(Number % 100/*, Type.Neutral*/);
+            result += " taba " + GenerateNumber(number % 100/*, Type.Neutral*/);
         }
     }
-    else if (Number < 10000)
+    else if (number < 10000)
     {
-        result = Thousands[Math.floor(Number / 1000) - 1];
-        if (Number % 1000 != 0)
+        result = Thousands[Math.floor(number / 1000) - 1];
+        if (number % 1000 != 0)
         {
-            result += " taba " + GenerateNumber(Number % 1000/*, Type.Neutral*/);
+            result += " taba " + GenerateNumber(number % 1000/*, Type.Neutral*/);
         }
     }
-    else if (Number < 1000000)
+    else if (number < 1000000)
     {
-        result = GenerateNumber(Math.floor(Number / 1000)) + " kas8mkwaki";
-        if (Number % 1000 != 0)
+        result = GenerateNumber(Math.floor(number / 1000)) + " kas8mkwaki";
+        if (number % 1000 != 0)
         {
-            result += " taba " + GenerateNumber(Number % 1000/*, Type.Neutral*/);
+            result += " taba " + GenerateNumber(number % 1000/*, Type.Neutral*/);
         }
     }        
     return result;

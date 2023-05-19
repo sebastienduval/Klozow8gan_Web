@@ -6,5 +6,5 @@ function GenerateDate(date)
     const DayOfWeek = DaysOfWeek[date.getDay()];
     const Month = Months[date.getMonth()];
 
-    return DayOfWeek + ", " + "<Day Number>"/*Number.GenerateNumber(date.Day)*/ + " " + Month + ", " + "<Year Number>" /*Number.GenerateNumber(date.Year)*/ + " kasigaden.";
+    return DayOfWeek + ", " + GenerateNumber(date.getDate()) + " " + Month + ", " + GenerateNumber(date.getFullYear()) + " kasigaden.";
 }
