@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <h1>Akw8bagim8mek</h1>
+    <h1>Akw8bagim8mek (La date)</h1>
     <a href="index.html">Les verbes</a>
     <script src="date.js"></script>   
     <script src="number.js"></script> 
+    <script src="string.js"></script>     
     <p id="demo"></p>
-    <script> document.getElementById("demo").innerHTML = GenerateDate(new Date()); </script> 
+    <script> 
+        let date = new Date();
+        document.getElementById("demo").innerHTML = GenerateDate(date) + "<br><br>" + GenerateTime(date); 
+    </script> 
 
 </body>
 </html> 
