@@ -43,8 +43,7 @@ function Conjugate()
     for ( let i = 0; i < Terminations.length; i++ )
     {
         var Pronoun = GetPronoun(i, VerbRoot, false);    
-        document.getElementById("demo").innerHTML += Pronoun;
-        document.getElementById("demo").innerHTML += VerbRoot.slice(0, -1) + Terminations[i];
-        document.getElementById("demo").innerHTML +="<br>";
+        const conjugation = GetFirstLetterUpperCase(Pronoun + VerbRoot.slice(0, -1) + Terminations[i]);
+        document.getElementById("demo").innerHTML += conjugation + "<br>";
     }  
 }
