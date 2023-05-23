@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <script src="string.js"></script> 
+    <script src="plural.js"></script> 
+    <h1>Le pluriel des noms</h1>
+    <a href="index.html">Les verbes</a>
+    <h3>Écris un mot en Abénaki au singulier pour générer le pluriel.</h3>
+    <h4>Exemples de mots animés:</h4>
+    Awasos (Ours), Nid8ba (Mon ami), Skotam (Truite), Mskwamagw (Saumon), Pabaskw (Sangsue), Aasazit (verre)
+    <br> 
+    <h4>Exemples de mots inanimés:</h4>
+    Klh8gan (Porte), Sata (Bleuet), Wswadagen (Fourrure), Msizekw (Mon oeil), Atalipimek (Restaurant)
+    <br>       
+    <br>
+    Inanimé: <input type="radio" name="animacy" id="inanimate"> Animé: <input type="radio" name="animacy" id="animate"> 
+    <input type="text" id="input" value="awasos">
+    <button onclick="UpdatePlural()">Convertis</button>
+
+    <script>
+        function UpdatePlural()
+        {
+            var animacy = document.getElementById("animate").checked;
+            document.getElementById("result").innerHTML = GeneratePlural(document.getElementById("input").value, animacy);
+        }
+    </script>
+    <p id="result"></p>
+</body>
+</html>
