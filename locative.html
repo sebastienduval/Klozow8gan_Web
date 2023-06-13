@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <script src="string.js"></script> 
+    <script src="locative.js"></script> 
+    <h1>Le locatif des noms</h1>
+    <a href="index.html">Les verbes</a>
+    <h3>Écris un mot en Abénaki pour générer sa forme locative.</h3>
+    <h4>Exemples de noms animés:</h4>
+    Wajo (Montagne), Kwigwigem (Canard), Tegw (Vague), Malhakws (Frêne noir)
+    <br> 
+    <h4>Exemples de noms inanimés:</h4>
+    Sata (Bleuet), Tawipodiagen (Nappe), Mad8bakw (Guerre), Wigw8m (Maison)
+    <br>       
+    <br>
+    Inanimé: <input type="radio" name="animacy" id="inanimate"> Animé: <input type="radio" name="animacy" id="animate"> 
+    <input type="text" id="input" value="awasos">
+    <button onclick="UpdateLocative()">Convertis</button>
+
+    <script>
+        function UpdateLocative()
+        {
+            var animacy = document.getElementById("animate").checked;
+            document.getElementById("result").innerHTML = GenerateLocative(document.getElementById("input").value, animacy);
+        }
+    </script>
+    <p id="result"></p>
+</body>
+</html>

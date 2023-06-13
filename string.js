@@ -1,3 +1,5 @@
+const vowelSet = new Set(['a','i','o','8']);
+
 function GetFirstLetterUpperCase(string)
 {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -5,13 +7,12 @@ function GetFirstLetterUpperCase(string)
 
 function StartsWithVowel(string) 
 {
-  const vowelRegex = new RegExp('^[aio8].*', 'i');
-  return vowelRegex.test(string);
+  return vowelSet.has(string[0]);
 }
 
-function EndsWithVowel(string) 
-{
-  const vowelRegex = new RegExp('^*.[aio8]', 'i');
-  return vowelRegex.test(string);
+function EndsWithVowel(string)
+{ 
+  return vowelSet.has(string[string.length-1]);
 }
+
 
