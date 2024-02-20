@@ -1,9 +1,3 @@
-function StartsWithVowel(InputString) 
-{
-  const VowelRegex = new RegExp('^[aio8].*', 'i');
-  return VowelRegex.test(InputString);
-}
-
 function GetPronoun(Index, Root, Definite)
 {
     const Pronouns = [ "n", "k", "w", "n", "k", "k", "w" ];
@@ -26,20 +20,34 @@ function GetPronoun(Index, Root, Definite)
 function Conjugate() 
 {
     var VerbRoot = document.getElementById("VerbRoot").value;
+    var VerbTense = document.getElementById("Tense").value;    
 
-    var TerminationsMap = new Map();
-    TerminationsMap.set("a", ["a", "a", "a", "abna", "abna", "aba", "ak"]);
-    TerminationsMap.set("i", ["i", "i", "o", "ibna", "ibna", "iba", "oak"]);
-    TerminationsMap.set("8", ["8", "8", "a", "8bna", "8bna", "8ba", "ak"]);
-    TerminationsMap.set("o", ["o", "o", "o", "obna", "obna", "oba", "oak"]);
-    TerminationsMap.set("m", ["m", "m", "m", "mobna", "mobna", "moba", "mok"]);
+    var TenseMap = new Map();
 
-    const Terminations_i = ["i", "i", "o", "ibna", "ibna", "iba", "oak"];
+    var PresentMap = new Map();
+    PresentMap.set("a", ["a", "a", "a", "abna", "abna", "aba", "ak"]);
+    PresentMap.set("i", ["i", "i", "o", "ibna", "ibna", "iba", "oak"]);
+    PresentMap.set("8", ["8", "8", "a", "8bna", "8bna", "8ba", "ak"]);
+    PresentMap.set("o", ["o", "o", "o", "obna", "obna", "oba", "oak"]);
+    PresentMap.set("m", ["m", "m", "m", "mobna", "mobna", "moba", "mok"]);
 
-    const LastChar = VerbRoot.substr(VerbRoot.length - 1);    
+    var PastMap = new Map();
+    PastMap.set("a", ["ab", "ab", "ab", "abnob", "abnob", "ab8b", "abanik"]);
+    PastMap.set("i", ["ib", "ib", "ob", "ibnob", "ibnv", "ib8b", "obanik"]);
+    PastMap.set("8", ["8b", "8b", "ab", "8bnob", "8bnob", "8b8b", "abanik"]);
+    PastMap.set("o", ["ob", "ob", "ob", "obnob", "obnob", "ob8b", "obanik"]);
+    PastMap.set("m", ["mob", "mob", "mob", "mobnob", "mobnob", "mob8b", "mobanki"]);  
+    
+    TenseMap.set("Présent", PresentMap);
+    TenseMap.set("Imparfait", PastMap);
+
+    const LastChar = VerbRoot.substr(VerbRoot.length - 1);   
+    
+    const TerminationsMap = TenseMap.get(VerbTense);
     const Terminations = TerminationsMap.get(LastChar);
 
     document.getElementById("demo").innerHTML = "";
+    document.getElementById("demo").innerHTML += VerbTense + "<br><br>";
     for ( let i = 0; i < Terminations.length; i++ )
     {
         var Pronoun = GetPronoun(i, VerbRoot, false);    

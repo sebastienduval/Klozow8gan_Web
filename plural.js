@@ -13,7 +13,7 @@ function GeneratePlural(noun, animate=false)
         }
         else if (noun.endsWith("akw") || noun.endsWith("agw") || noun.endsWith("skw") || noun.endsWith("sgw"))
         {
-            plural = noun.slice(0, -1) + "ok";
+             
         }
         else if (noun.endsWith("at") || noun.endsWith("it") || noun.endsWith("ad") || noun.endsWith("id"))
         {
