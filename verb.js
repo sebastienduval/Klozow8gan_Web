@@ -33,7 +33,7 @@ function Conjugate()
 
     var PastMap = new Map();
     PastMap.set("a", ["ab", "ab", "ab", "abnob", "abnob", "ab8b", "abanik"]);
-    PastMap.set("i", ["ib", "ib", "ob", "ibnob", "ibnv", "ib8b", "obanik"]);
+    PastMap.set("i", ["ib", "ib", "ob", "ibnob", "ibnob", "ib8b", "obanik"]);
     PastMap.set("8", ["8b", "8b", "ab", "8bnob", "8bnob", "8b8b", "abanik"]);
     PastMap.set("o", ["ob", "ob", "ob", "obnob", "obnob", "ob8b", "obanik"]);
     PastMap.set("m", ["mob", "mob", "mob", "mobnob", "mobnob", "mob8b", "mobanki"]);  
