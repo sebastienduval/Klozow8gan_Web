@@ -17,10 +17,13 @@ function GetPronoun(Index, Root, Definite)
     return Pronoun;
 }
 
-function Conjugate() 
+function GetVerbEndings(VerbTense, LastChar)
 {
-    var VerbRoot = document.getElementById("VerbRoot").value;
-    var VerbTense = document.getElementById("Tense").value;    
+    var EffectiveVerbTense = VerbTense;
+    if ( VerbTense == "Passé Composé" )
+    {
+        EffectiveVerbTense = "Présent";
+    }
 
     var TenseMap = new Map();
 
@@ -41,17 +44,33 @@ function Conjugate()
     TenseMap.set("Présent", PresentMap);
     TenseMap.set("Imparfait", PastMap);
 
+    const EndingMap = TenseMap.get(EffectiveVerbTense);
+    return EndingMap.get(LastChar);
+}
+
+function GetIntro(VerbTense)
+{
+    if ( VerbTense == "Passé Composé" )
+    {
+        return "Kizi ";
+    }
+    return "";
+}
+
+function Conjugate() 
+{
+    var VerbRoot = document.getElementById("VerbRoot").value;
+    var VerbTense = document.getElementById("Tense").value;    
+
     const LastChar = VerbRoot.substr(VerbRoot.length - 1);   
-    
-    const TerminationsMap = TenseMap.get(VerbTense);
-    const Terminations = TerminationsMap.get(LastChar);
+    const Endings = GetVerbEndings(VerbTense, LastChar);
 
     document.getElementById("demo").innerHTML = "";
     document.getElementById("demo").innerHTML += VerbTense + "<br><br>";
-    for ( let i = 0; i < Terminations.length; i++ )
+    for ( let i = 0; i < Endings.length; i++ )
     {
         var Pronoun = GetPronoun(i, VerbRoot, false);    
-        const conjugation = GetFirstLetterUpperCase(Pronoun + VerbRoot.slice(0, -1) + Terminations[i]);
+        const conjugation = GetFirstLetterUpperCase(GetIntro(VerbTense) + Pronoun + VerbRoot.slice(0, -1) + Endings[i]);
         document.getElementById("demo").innerHTML += conjugation + "<br>";
     }  
 }
