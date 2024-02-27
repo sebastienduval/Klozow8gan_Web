@@ -17,10 +17,24 @@ function GetPronoun(Index, Root, Definite)
     return Pronoun;
 }
 
+function GetExtraTenseVerbEndings(VerbTense)
+{
+    var ExtraTenseEnding = "";
+    if ( VerbTense == "Futur" )
+    {
+        ExtraTenseEnding = "ji";
+    }
+    else if ( VerbTense == "Conditionnel" )
+    {
+        ExtraTenseEnding = "ba";
+    }
+    return ExtraTenseEnding;
+}
+
 function GetVerbEndings(VerbTense, LastChar)
 {
     var EffectiveVerbTense = VerbTense;
-    if ( VerbTense == "Passé Composé" )
+    if ( VerbTense == "Passé Composé" || VerbTense == "Futur" || VerbTense == "Conditionnel")
     {
         EffectiveVerbTense = "Présent";
     }
@@ -67,10 +81,13 @@ function Conjugate()
 
     document.getElementById("demo").innerHTML = "";
     document.getElementById("demo").innerHTML += VerbTense + "<br><br>";
+
+    const ExtraTenseVerbEnding = GetExtraTenseVerbEndings(VerbTense);
+
     for ( let i = 0; i < Endings.length; i++ )
     {
         var Pronoun = GetPronoun(i, VerbRoot, false);    
-        const conjugation = GetFirstLetterUpperCase(GetIntro(VerbTense) + Pronoun + VerbRoot.slice(0, -1) + Endings[i]);
+        const conjugation = GetFirstLetterUpperCase(GetIntro(VerbTense) + Pronoun + VerbRoot.slice(0, -1) + Endings[i] + ExtraTenseVerbEnding);
         document.getElementById("demo").innerHTML += conjugation + "<br>";
     }  
 }
