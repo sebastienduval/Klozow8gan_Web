@@ -1,5 +1,8 @@
 function GeneratePlural(noun, animate=false)
 {
+    // Trim the whitespaces.
+    noun = noun.trim();
+
     var plural = "";
     if (animate)
     {

@@ -1,11 +1,14 @@
-function GenerateLocative(noun, animate=false)
+function GenerateLocative(noun)
 {
+    // Trim the whitespaces.
+    noun = noun.trim();
+
     var locative = "";
     if (EndsWithVowel(noun))
     {
         locative = noun + "k";
     }
-    else if ( animate && noun.endsWith("em") || !animate && noun.endsWith("gen") )
+    else if ( noun.endsWith("em") || noun.endsWith("gen") )
     {
         locative = noun + "ok";
     }
