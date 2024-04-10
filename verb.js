@@ -1,5 +1,10 @@
-function GetPronoun(Index, Root, Definite)
+function GetPronoun(Index, Root, Definite, VerbTense)
 {
+    if ( VerbTense == "Impératif" )
+    {
+        return "";
+    }
+
     const Pronouns = [ "n", "k", "w", "n", "k", "k", "w" ];
     var Pronoun = Pronouns[Index];
     if ( !Definite && (Index == 2 || Index ==6) )
@@ -31,6 +36,15 @@ function GetExtraTenseVerbEndings(VerbTense)
     return ExtraTenseEnding;
 }
 
+function GetConjugationIndices(VerbTense, LastChar)
+{
+    if ( VerbTense == "Impératif" )
+    {
+        return [1, 4, 5];
+    }
+    return [0, 1, 2, 3,4, 5, 6];
+}
+
 function GetVerbEndings(VerbTense, LastChar)
 {
     var EffectiveVerbTense = VerbTense;
@@ -58,8 +72,28 @@ function GetVerbEndings(VerbTense, LastChar)
     TenseMap.set("Présent", PresentMap);
     TenseMap.set("Imparfait", PastMap);
 
+    var ImperativeMap = new Map();    
+    ImperativeMap.set("a", ["", "a", "aj", "ada", "ada", "akw", "adij"]);
+    ImperativeMap.set("i", ["", "i", "ij", "ida", "ida", "ikw", "idij"]);
+    ImperativeMap.set("8", ["", "a", "8j", "8da", "8da", "okw", "8dij"]);
+    ImperativeMap.set("o", ["", "o", "oj", "oda", "oda", "okw", "odij"]);
+    ImperativeMap.set("m", ["", "a", "ej", "moda", "moda", "mokw", "moodij"]);
+    TenseMap.set("Impératif", ImperativeMap);
+
     const EndingMap = TenseMap.get(EffectiveVerbTense);
     return EndingMap.get(LastChar);
+}
+
+// Given a verb root, slice the ending to be conjugated.
+function SliceVerbRootEnding(Index, VerbRoot, VerbTense)
+{
+    // Special case at the imperative order where K'waj8nem (you own something inanimate) 
+    // becomes Waj8na (own something inanimate).
+    if ( VerbTense == "Impératif" && Index == 1 )
+    {
+        return VerbRoot.slice(0, -2);
+    }
+    return VerbRoot.slice(0, -1);
 }
 
 function GetIntro(VerbTense)
@@ -78,16 +112,18 @@ function Conjugate()
 
     const LastChar = VerbRoot.substr(VerbRoot.length - 1);   
     const Endings = GetVerbEndings(VerbTense, LastChar);
+    const Indices = GetConjugationIndices(VerbTense);
 
     document.getElementById("demo").innerHTML = "";
     document.getElementById("demo").innerHTML += VerbTense + "<br><br>";
 
     const ExtraTenseVerbEnding = GetExtraTenseVerbEndings(VerbTense);
 
-    for ( let i = 0; i < Endings.length; i++ )
+    Indices.forEach(i => 
     {
-        var Pronoun = GetPronoun(i, VerbRoot, false);    
-        const conjugation = GetFirstLetterUpperCase(GetIntro(VerbTense) + Pronoun + VerbRoot.slice(0, -1) + Endings[i] + ExtraTenseVerbEnding);
+        var Pronoun = GetPronoun(i, VerbRoot, false, VerbTense);
+        const conjugation = GetFirstLetterUpperCase(GetIntro(VerbTense) + Pronoun + SliceVerbRootEnding(i, VerbRoot, VerbTense) + Endings[i] + ExtraTenseVerbEnding);
         document.getElementById("demo").innerHTML += conjugation + "<br>";
-    }  
+    } 
+    ); 
 }
