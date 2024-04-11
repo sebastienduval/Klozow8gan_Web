@@ -1,6 +1,6 @@
 function GenerateDate(date)
 {
-    const DaysOfWeek = ["sanda", "kizsanda", "nisda alokan", "nasda alokan", "iawda alokan", "skawategwikizgat", "kadaw sanda"];
+    const DaysOfWeek = ["sanda", "kizsanda", "nisda alokan", "nasda alokan", "iawda alokan", "skawategwikizgat", "kadawsanda"];
     const Months = ["alamikos", "pia8dagos", "mozokas", "sogalikas", "kikas", "nokahigas", "tmaskikos", "tmez8was", "skamonkas", "pnibagos", "mzatanos", "pbonkas"];
 
     const DayOfWeek = DaysOfWeek[date.getDay()];
