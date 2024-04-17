@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionnaire</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+</head>
+<body>
+
+<script src="Dict.json"></script>
+<script src="game.js"></script>
+
+<h1>Nadodemow8ganal (Questions)</h1>
+
+<a href="index.html">Verbes</a>
+
+<p>Choose your favorite Web language:</p>
+
+<h4 id="question">How many letters are there in "JS"?</h4>
+<ul class="choices">
+    <li>
+        <label>
+            <input type="radio" name="question0" value=0 />
+            <span id="choice0">2</span>
+        </label>
+    </li>
+    <li>
+        <label
+            ><input type="radio" name="question0" value=1 />
+            <span id="choice1">1</span
+            ></label
+        >
+    </li>
+    <li>
+        <label>
+            <input type="radio" name="question0" value=2 />
+            <span id="choice2">3</span>
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" name="question0" value=3 />
+            <span id="choice3">4</span>
+        </label>
+    </li>
+</ul>
+
+<script> 
+    GenerateQuestion();
+</script>
+
+<button class="view-results" onclick="returnScore()">View Results</button>
+<span id="myresults" class="my-results"></span>
+
+</body>
+</html>
