@@ -19,27 +19,26 @@
 <ul class="choices">
     <li>
         <label>
-            <input type="radio" name="question0" value=0 />
-            <span id="choice0">2</span>
-        </label>
-    </li>
-    <li>
-        <label
-            ><input type="radio" name="question0" value=1 />
-            <span id="choice1">1</span
-            ></label
-        >
-    </li>
-    <li>
-        <label>
-            <input type="radio" name="question0" value=2 />
-            <span id="choice2">3</span>
+            <input type="button" name="question0" id="choice0" value=0 onclick="Validate(0)"/>
+            <span id="answer0" hidden=true>answer0</span>
         </label>
     </li>
     <li>
         <label>
-            <input type="radio" name="question0" value=3 />
-            <span id="choice3">4</span>
+            <input type="button" name="question0" id="choice1" value=1 onclick="Validate(1)"/>
+            <span id="answer1" hidden=true>answer1</span>
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="button" name="question0" id="choice2" value=2 onclick="Validate(2)"/>
+            <span id="answer2" hidden=true>answer2</span>
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="button" name="question0" id="choice3" value=3 onclick="Validate(3)"/>
+            <span id="answer3" hidden=true>answer3</span>            
         </label>
     </li>
 </ul>
@@ -48,7 +47,6 @@
     GenerateQuestion();
 </script>
 
-<button class="view-results" onclick="returnScore()">Résultat</button>
 <span id="myresults" class="my-results"></span>
 
 </body>

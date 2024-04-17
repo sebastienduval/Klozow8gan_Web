@@ -1,45 +1,49 @@
 var choices = [];
 var answer = 0;
 
-function getRandomInt(max) 
+function GetRandomInt(max) 
 {
     return Math.floor(Math.random() * max);
 }
 
-function getCheckedIndex() 
+function Validate(index) 
 {
-    var radios = document.getElementsByName("question0");
-    for (var y = 0; y < radios.length; y++)
-        if (radios[y].checked) return radios[y].value;
-}
-
-function returnScore() 
-{
-    if ( getCheckedIndex() == answer )
+    var good = false;
+    if ( index == answer )
     {
         document.getElementById("myresults").innerHTML = "Bon";
+        good = true;
     }
     else
     {
-        document.getElementById("myresults").innerHTML = "Mauvais";        
+        document.getElementById("myresults").innerHTML = "Mauvais";
+        document.getElementById("answer"+ index).style = "color:red";    
+        good = false;     
     }
 
-    //document.getElementById("myresults").innerHTML = getCheckedIndex() + " " + answer;
+    document.getElementById("answer"+ answer).style = "color:green";
+
+    for ( var i = 0; i <= 3; i ++ )
+    {
+        document.getElementById("choice"+ i).hidden = true;        
+        document.getElementById("answer"+ i).innerHTML = dictionary[choices[i]].French + " \"" + dictionary[choices[i]].Abenaki + "\"";
+        document.getElementById("answer"+ i).hidden = false;
+    }
 }
 
 function GenerateQuestion()
 {    
     for (let i = 0; i < 4; i++) 
     {
-        choices.push(getRandomInt(dictionary.length));
+        choices.push(GetRandomInt(dictionary.length));
     }
 
-    answer = getRandomInt(4);
+    answer = GetRandomInt(4);
 
     document.getElementById("question").textContent = "Quel est la meilleur définition pour \"" + dictionary[choices[answer]].Abenaki + "\".";
-    document.getElementById("choice0").innerHTML = dictionary[choices[0]].French;
-    document.getElementById("choice1").innerHTML = dictionary[choices[1]].French;
-    document.getElementById("choice2").innerHTML = dictionary[choices[2]].French;
-    document.getElementById("choice3").innerHTML = dictionary[choices[3]].French;
+    document.getElementById("choice0").value = dictionary[choices[0]].French;
+    document.getElementById("choice1").value = dictionary[choices[1]].French;
+    document.getElementById("choice2").value = dictionary[choices[2]].French;
+    document.getElementById("choice3").value = dictionary[choices[3]].French;
     
 }
