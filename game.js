@@ -8,31 +8,43 @@ function GetRandomInt(max)
 
 function Validate(index) 
 {
-    var good = false;
-    if ( index == answer )
+    var good = index == answer;
+    if ( !good )
     {
-        document.getElementById("myresults").innerHTML = "Bon";
-        good = true;
-    }
-    else
-    {
-        document.getElementById("myresults").innerHTML = "Mauvais";
-        document.getElementById("answer"+ index).style = "color:red";    
-        good = false;     
+        document.getElementById("answer"+ index).style = "color:red";
     }
 
     document.getElementById("answer"+ answer).style = "color:green";
 
     for ( var i = 0; i <= 3; i ++ )
     {
-        document.getElementById("choice"+ i).hidden = true;        
-        document.getElementById("answer"+ i).innerHTML = dictionary[choices[i]].French + " \"" + dictionary[choices[i]].Abenaki + "\"";
-        document.getElementById("answer"+ i).hidden = false;
+        var answerElement = document.getElementById("answer"+ i);
+        var choiceElement = document.getElementById("choice"+ i);
+
+        choiceElement.hidden = true;        
+        answerElement.innerHTML = dictionary[choices[i]].French + " \"" + dictionary[choices[i]].Abenaki + "\"";
+        answerElement.hidden = false;
     }
+
+    document.getElementById("next").hidden = false;
+}
+
+function Reset()
+{
+    document.getElementById("next").hidden = true;
+    for ( var i = 0; i <= 3; i ++ )
+    {
+        var answerElement = document.getElementById("answer"+ i);
+        answerElement.style = "color:black";
+        document.getElementById("answer" + i).hidden = true;
+    }    
 }
 
 function GenerateQuestion()
 {    
+    Reset();
+
+    choices = [];
     for (let i = 0; i < 4; i++) 
     {
         choices.push(GetRandomInt(dictionary.length));
@@ -41,9 +53,10 @@ function GenerateQuestion()
     answer = GetRandomInt(4);
 
     document.getElementById("question").textContent = "Quel est la meilleur définition pour \"" + dictionary[choices[answer]].Abenaki + "\".";
-    document.getElementById("choice0").value = dictionary[choices[0]].French;
-    document.getElementById("choice1").value = dictionary[choices[1]].French;
-    document.getElementById("choice2").value = dictionary[choices[2]].French;
-    document.getElementById("choice3").value = dictionary[choices[3]].French;
-    
+
+    for ( var i = 0; i <= 3; i ++ )
+    {
+        document.getElementById("choice" + i).hidden = false;        
+        document.getElementById("choice" + i).value = dictionary[choices[i]].French;
+    }    
 }

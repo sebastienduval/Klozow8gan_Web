@@ -16,38 +16,28 @@
 <a href="index.html">Verbes</a>
 
 <h4 id="question"></h4>
-<ul class="choices">
-    <li>
-        <label>
-            <input type="button" name="question0" id="choice0" value=0 onclick="Validate(0)"/>
-            <span id="answer0" hidden=true>answer0</span>
-        </label>
-    </li>
-    <li>
-        <label>
-            <input type="button" name="question0" id="choice1" value=1 onclick="Validate(1)"/>
-            <span id="answer1" hidden=true>answer1</span>
-        </label>
-    </li>
-    <li>
-        <label>
-            <input type="button" name="question0" id="choice2" value=2 onclick="Validate(2)"/>
-            <span id="answer2" hidden=true>answer2</span>
-        </label>
-    </li>
-    <li>
-        <label>
-            <input type="button" name="question0" id="choice3" value=3 onclick="Validate(3)"/>
-            <span id="answer3" hidden=true>answer3</span>            
-        </label>
-    </li>
-</ul>
+<ol>    
+    <input type="button" name="question0" id="choice0" value=0 onclick="Validate(0)"/>
+    <span id="answer0" hidden=true>answer0</span>
+</ol>    
+<ol>    
+    <input type="button" name="question0" id="choice1" value=1 onclick="Validate(1)"/>
+    <span id="answer1" hidden=true>answer1</span>
+</ol>    
+<ol>    
+    <input type="button" name="question0" id="choice2" value=2 onclick="Validate(2)"/>
+    <span id="answer2" hidden=true>answer2</span>
+</ol>    
+<ol>
+    <input type="button" name="question0" id="choice3" value=3 onclick="Validate(3)"/>
+    <span id="answer3" hidden=true>answer3</span>            
+</ol>
+
+<input type="button" id="next" value="Suivant" hidden=true onclick="GenerateQuestion()"/>
 
 <script> 
     GenerateQuestion();
 </script>
-
-<span id="myresults" class="my-results"></span>
 
 </body>
 </html>
