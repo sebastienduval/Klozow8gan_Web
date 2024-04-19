@@ -7,34 +7,22 @@
     <link rel="stylesheet" href="klozow8gan.css">
 </head>
 <body>
+    <script src="Dict.json"></script>
+    <script src="dictionary_utils.js"></script>
+    <script src="dictionary.js"></script>  
+
     <h1>Dictionnaire</h1>
     <a href="index.html">Les verbes</a>
+    <br>
+        <select name="categories" id="categories" onchange="onCategoryChanged()">
+        </select>    
+    </br>
     <div id="schedule-container">
         <table id="sched-table"></table>
-    </div>
-    <script src="Dict.json"></script>
+    </div>  
     <script>
-
-        function formatToTable(data) {
-            var tableContainer = document.getElementById("sched-table");
-            var tableHTML = "<table>";
-
-            for (var i = 0; i < data.length; i++) {
-                tableHTML += "<tr>";
-                tableHTML += "<td>" + i + "</td>";
-                tableHTML += "<td>" + data[i].French + "</td>";
-                tableHTML += "<td>" + data[i].Type + "</td>";
-                tableHTML += "<td>" + data[i].Abenaki + "</td>";
-                tableHTML += "<td>" + data[i].Source + "</td>";
-                tableHTML += "</tr>";
-            }
-
-            tableHTML += "</table>";
-            tableContainer.innerHTML = tableHTML;
-        }
-
-        // Call the function to load JSON data
-        formatToTable(dictionary);
+        formatCategories(dictionary);        
+        onCategoryChanged();
     </script>
 </body>
 </html>
