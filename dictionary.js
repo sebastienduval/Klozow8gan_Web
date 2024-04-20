@@ -1,21 +1,13 @@
 function formatCategories(data)
 {
     var categoriesSelect = document.getElementById("categories");
-    const categories = GatherCategories(data);
+    const categories = gatherCategories(data);
     var categoryInnerHTML = "";
     for ( const category of categories )
     {
         categoryInnerHTML += "<option value=\"" + category + "\">" + category + "</option>";
     }
-    console.log("Pouet");
-    console.log(categoryInnerHTML);
-    console.log("Pouet");
     categoriesSelect.innerHTML = categoryInnerHTML;
-}
-
-function entryIncludesCategory(entry, category)
-{
-    return !category || entry.Meta.split(";").includes(category);
 }
 
 function formatToTable(data, category="") {
@@ -25,7 +17,7 @@ function formatToTable(data, category="") {
     for (var i = 0; i < data.length; i ++ ) 
     {
         const entry = data[i];
-        if ( entryIncludesCategory(entry, category) )
+        if ( doesEntryIncludesCategory(entry, category) )
         {            
             tableHTML += "<tr>";
             tableHTML += "<td>" + i + "</td>";

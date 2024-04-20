@@ -1,12 +1,13 @@
+var wordsIncategory = [];
 var choices = [];
 var answer = 0;
 
-function GetRandomInt(max) 
+function getRandomInt(max) 
 {
     return Math.floor(Math.random() * max);
 }
 
-function Validate(index) 
+function validate(index) 
 {
     var good = index == answer;
     if ( !good )
@@ -29,7 +30,7 @@ function Validate(index)
     document.getElementById("next").hidden = false;
 }
 
-function Reset()
+function reset()
 {
     document.getElementById("next").hidden = true;
     for ( var i = 0; i <= 3; i ++ )
@@ -40,17 +41,19 @@ function Reset()
     }    
 }
 
-function GenerateQuestion()
+function generateQuestion(dictionary, category)
 {    
-    Reset();
+    reset();
+
+    wordsIndicesIncategory = generateWordIndices(dictionary, category);
 
     choices = [];
     for (let i = 0; i < 4; i++) 
     {
-        choices.push(GetRandomInt(dictionary.length));
+        choices.push(wordsIndicesIncategory[getRandomInt(wordsIndicesIncategory.length)]);
     }
 
-    answer = GetRandomInt(4);
+    answer = getRandomInt(4);
 
     document.getElementById("question").textContent = "Quel est la meilleur définition pour \"" + dictionary[choices[answer]].Abenaki + "\".";
 
@@ -59,4 +62,9 @@ function GenerateQuestion()
         document.getElementById("choice" + i).hidden = false;        
         document.getElementById("choice" + i).value = dictionary[choices[i]].French;
     }    
+}
+
+function onCategoryChanged()
+{
+    generateQuestion(dictionary, document.getElementById("categories").value);
 }

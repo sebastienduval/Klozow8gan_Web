@@ -9,34 +9,39 @@
 <body>
 
 <script src="Dict.json"></script>
+<script src="dictionary_utils.js"></script>
 <script src="game.js"></script>
 
 <h1>Nadodemow8ganal (Questions)</h1>
 
 <a href="index.html">Verbes</a>
-
+<br>
+<select name="categories" id="categories" onchange="onCategoryChanged()">
+</select>    
+</br>
 <h4 id="question"></h4>
 <ol>    
-    <input type="button" name="question0" id="choice0" value=0 onclick="Validate(0)"/>
+    <input type="button" name="question0" id="choice0" value=0 onclick="validate(0)"/>
     <span id="answer0" hidden=true>answer0</span>
 </ol>    
 <ol>    
-    <input type="button" name="question0" id="choice1" value=1 onclick="Validate(1)"/>
+    <input type="button" name="question0" id="choice1" value=1 onclick="validate(1)"/>
     <span id="answer1" hidden=true>answer1</span>
 </ol>    
 <ol>    
-    <input type="button" name="question0" id="choice2" value=2 onclick="Validate(2)"/>
+    <input type="button" name="question0" id="choice2" value=2 onclick="validate(2)"/>
     <span id="answer2" hidden=true>answer2</span>
 </ol>    
 <ol>
-    <input type="button" name="question0" id="choice3" value=3 onclick="Validate(3)"/>
+    <input type="button" name="question0" id="choice3" value=3 onclick="validate(3)"/>
     <span id="answer3" hidden=true>answer3</span>            
 </ol>
 
-<input type="button" id="next" value="Suivant" hidden=true onclick="GenerateQuestion()"/>
+<input type="button" id="next" value="Suivant" hidden=true onclick="onCategoryChanged()"/>
 
-<script> 
-    GenerateQuestion();
+<script>
+    formatCategories(dictionary, "categories"); 
+    onCategoryChanged();
 </script>
 
 </body>
