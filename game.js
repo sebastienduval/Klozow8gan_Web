@@ -40,6 +40,42 @@ function reset()
     }    
 }
 
+function fillQuestionTypeAbenakiToFrench(document, dictionary)
+{
+    document.getElementById("question").textContent = "Quel est la meilleur définition pour \"" + dictionary[choices[answer]].Abenaki + "\"?";
+
+    for ( var i = 0; i <= 3; i ++ )
+    {
+        if ( i < choices.length )
+        {
+            document.getElementById("choice" + i).hidden = false;        
+            document.getElementById("choice" + i).value = dictionary[choices[i]].French;
+        }
+        else
+        {
+            document.getElementById("choice" + i).hidden = true;       
+        }
+    }    
+}
+
+function fillQuestionTypeFrenchToAbenaki(document, dictionary)
+{
+    document.getElementById("question").textContent = "Quel mot abénaki correspond le mieux à cette définition: \"" + dictionary[choices[answer]].French + "\"?";
+
+    for ( var i = 0; i <= 3; i ++ )
+    {
+        if ( i < choices.length )
+        {
+            document.getElementById("choice" + i).hidden = false;        
+            document.getElementById("choice" + i).value = dictionary[choices[i]].Abenaki;
+        }
+        else
+        {
+            document.getElementById("choice" + i).hidden = true;       
+        }
+    }    
+}
+
 function generateQuestion(dictionary, category)
 {    
     reset();
@@ -55,20 +91,14 @@ function generateQuestion(dictionary, category)
 
     answer = getRandomInt(choices.length);
 
-    document.getElementById("question").textContent = "Quel est la meilleur définition pour \"" + dictionary[choices[answer]].Abenaki + "\".";
-
-    for ( var i = 0; i <= 3; i ++ )
+    if ( getRandomInt(2) == 0 )
     {
-        if ( i < choices.length )
-        {
-            document.getElementById("choice" + i).hidden = false;        
-            document.getElementById("choice" + i).value = dictionary[choices[i]].French;
-        }
-        else
-        {
-            document.getElementById("choice" + i).hidden = true;       
-        }
-    }    
+        fillQuestionTypeAbenakiToFrench(document, dictionary);   
+    }
+    else
+    {
+        fillQuestionTypeFrenchToAbenaki(document, dictionary);  
+    }
 }
 
 function onCategoryChanged()
