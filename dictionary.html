@@ -8,14 +8,23 @@
 </head>
 <body>
     <script src="Dict.json"></script>
+    <script src="string.js"></script>  
     <script src="dictionary_utils.js"></script>
     <script src="dictionary.js"></script>  
 
     <h1>Dictionnaire</h1>
-    <a href="index.html">Les verbes</a>
+    <a href="index.html">Les verbes</a>    
     <br>
-        <select name="categories" id="categories" onchange="onCategoryChanged()">
-        </select>    
+        Catégories
+        <select name="categories" id="categories" onchange="onCategoryChanged()"></select>
+    <br/>
+    <br>
+        Recherches
+        <input type="text" id="filter" name="search" oninput="onCategoryChanged()">
+        <select name="filter_language" id="filter_language" onchange="onCategoryChanged()">
+            <option value="French">Français</option>
+            <option value="Abenaki">Abénaki</option>
+        </select>        
     </br>
     <div id="schedule-container">
         <table id="sched-table"></table>

@@ -15,4 +15,9 @@ function EndsWithVowel(string)
   return vowelSet.has(string[string.length-1]);
 }
 
+function startsWithIgnoreCase(string1, string2)
+{
+  return string1.toUpperCase().startsWith(string2.toUpperCase());
+}
+
 

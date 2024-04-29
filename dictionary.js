@@ -10,14 +10,15 @@ function formatCategories(data)
     categoriesSelect.innerHTML = categoryInnerHTML;
 }
 
-function formatToTable(data, category="") {
+function formatToTable(data, category="", filter="", filter_language) {
     var tableContainer = document.getElementById("sched-table");
     var tableHTML = "<table>";
 
     for (var i = 0; i < data.length; i ++ ) 
     {
         const entry = data[i];
-        if ( doesEntryIncludesCategory(entry, category) )
+        if ( doesEntryIncludesCategory(entry, category) && 
+            (!filter || startsWithIgnoreCase(entry[filter_language], filter)) )
         {            
             tableHTML += "<tr>";
             tableHTML += "<td>" + i + "</td>";
@@ -35,5 +36,5 @@ function formatToTable(data, category="") {
 
 function onCategoryChanged() 
 {
-    formatToTable(dictionary, document.getElementById("categories").value);
+    formatToTable(dictionary, document.getElementById("categories").value, document.getElementById("filter").value, document.getElementById("filter_language").value);
 }
