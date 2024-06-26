@@ -89,7 +89,7 @@ function SliceVerbRootEnding(Index, VerbRoot, VerbTense)
 {
     // Special case at the imperative order where K'waj8nem (you own something inanimate) 
     // becomes Waj8na (own something inanimate).
-    if ( VerbTense == "Impératif" && Index == 1 )
+    if ( VerbTense == "Impératif" && Index == 1 && VerbRoot.endsWith("m") )
     {
         return VerbRoot.slice(0, -2);
     }
