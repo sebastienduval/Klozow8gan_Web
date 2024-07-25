@@ -20,4 +20,9 @@ function startsWithIgnoreCase(string1, string2)
   return string1.toUpperCase().startsWith(string2.toUpperCase());
 }
 
+function containsIgnoreCase(string1, string2)
+{
+  return string1.toUpperCase().includes(string2.toUpperCase());
+}
+
 

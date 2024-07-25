@@ -18,7 +18,7 @@ function formatToTable(data, category="", filter="", filter_language) {
     {
         const entry = data[i];
         if ( doesEntryIncludesCategory(entry, category) && 
-            (!filter || startsWithIgnoreCase(entry[filter_language], filter)) )
+            (!filter || containsIgnoreCase(entry[filter_language], filter)) )
         {            
             tableHTML += "<tr>";
             tableHTML += "<td>" + i + "</td>";
