@@ -48,3 +48,26 @@ function generateWordIndices(dictionary, category)
     }
     return wordList;
 }
+
+// Given a list of words generate a list of indices.
+function convertAbenakiWordListToIndices(dictionary, wordList)
+{
+    var wordListCopy = wordList.slice();
+    var indices = []; 
+    for ( let i = 0; i < dictionary.length; i ++ ) 
+    {                
+        var word = dictionary[i].Abenaki.toLowerCase();
+        if ( wordListCopy.includes(word) )
+        {
+            indices.push(i);
+            wordListCopy = wordListCopy.filter(item => item !== word);
+        }
+    }
+
+    if ( wordListCopy.length > 0 )
+    {
+        console.log(wordListCopy)
+    }
+
+    return indices;
+}

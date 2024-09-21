@@ -76,16 +76,24 @@ function fillQuestionTypeFrenchToAbenaki(document, dictionary)
     }    
 }
 
-function generateQuestion(dictionary, category)
+function generateQuestionFromAbenakiWordList(dictionary, wordList)
+{
+    generateQuestionFromIndices(dictionary, convertAbenakiWordListToIndices(dictionary, wordList));    
+}
+
+function generateQuestionFromCategory(dictionary, category)
+{    
+    generateQuestionFromIndices(dictionary, generateWordIndices(dictionary, category));
+}
+
+function generateQuestionFromIndices(dictionary, indices)
 {    
     reset();
 
-    let wordsIndicesInCategory = generateWordIndices(dictionary, category);
-
     choices = [];
-    for (let i = 0; i < 4 && wordsIndicesInCategory.length > 0; i++) 
+    for (let i = 0; i < 4 && indices.length > 0; i++) 
     {
-        const index = wordsIndicesInCategory.splice(getRandomInt(wordsIndicesInCategory.length), 1);
+        const index = indices.splice(getRandomInt(indices.length), 1);
         choices.push([index]);
     }
 
@@ -103,5 +111,5 @@ function generateQuestion(dictionary, category)
 
 function onCategoryChanged()
 {
-    generateQuestion(dictionary, document.getElementById("categories").value);
+    generateQuestionFromCategory(dictionary, document.getElementById("categories").value);
 }
