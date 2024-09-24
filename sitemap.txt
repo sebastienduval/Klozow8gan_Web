@@ -1,0 +1,10 @@
+https://klozow8gan-web.vercel.app/index.html
+https://klozow8gan-web.vercel.app/number.html
+https://klozow8gan-web.vercel.app/date.html
+https://klozow8gan-web.vercel.app/plural.html
+https://klozow8gan-web.vercel.app/locative.html
+https://klozow8gan-web.vercel.app/meteo.html
+https://klozow8gan-web.vercel.app/dictionary.html
+https://klozow8gan-web.vercel.app/game.html
+https://klozow8gan-web.vercel.app/cours2_quiz.html
+
