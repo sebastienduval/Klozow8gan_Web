@@ -105,25 +105,51 @@ function GetIntro(VerbTense)
     return "";
 }
 
-function Conjugate() 
+function Conjugate(VerbRoot, VerbTense) 
 {
-    var VerbRoot = document.getElementById("VerbRoot").value;
-    var VerbTense = document.getElementById("Tense").value;    
+    var Conjugations = [];
+
+    // Slice the pronoun.
+    if ( startsWithIgnoreCase(VerbRoot, "n'") )
+    {
+        VerbRoot = VerbRoot.slice(2);
+    }
+    if ( startsWithIgnoreCase(VerbRoot, "nd'") )
+    {
+        VerbRoot = VerbRoot.slice(3);
+    }    
 
     const LastChar = VerbRoot.substr(VerbRoot.length - 1);   
     const Endings = GetVerbEndings(VerbTense, LastChar);
     const Indices = GetConjugationIndices(VerbTense);
-
-    document.getElementById("demo").innerHTML = "";
-    document.getElementById("demo").innerHTML += VerbTense + "<br><br>";
-
     const ExtraTenseVerbEnding = GetExtraTenseVerbEndings(VerbTense);
 
     Indices.forEach(i => 
     {
         var Pronoun = GetPronoun(i, VerbRoot, false, VerbTense);
-        const conjugation = GetFirstLetterUpperCase(GetIntro(VerbTense) + Pronoun + SliceVerbRootEnding(i, VerbRoot, VerbTense) + Endings[i] + ExtraTenseVerbEnding);
-        document.getElementById("demo").innerHTML += conjugation + "<br>";
+        const Conjugation = GetFirstLetterUpperCase(GetIntro(VerbTense) + Pronoun + SliceVerbRootEnding(i, VerbRoot, VerbTense) + Endings[i] + ExtraTenseVerbEnding);
+
+        Conjugations.push(Conjugation);
+    } 
+    ); 
+
+    return Conjugations;
+}
+
+function ConjugateToHtmlElement(elementName) 
+{
+
+    var VerbRoot = document.getElementById("VerbRoot").value;
+    var VerbTense = document.getElementById("Tense").value;   
+
+    const Conjugations = Conjugate(VerbRoot, VerbTense);
+
+    document.getElementById("demo").innerHTML = "";
+    document.getElementById("demo").innerHTML += VerbTense + "<br><br>";
+
+    Conjugations.forEach(Conjugation => 
+    {
+        document.getElementById(elementName).innerHTML += Conjugation + "<br>";
     } 
     ); 
 }

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+</head>
+<body>
+
+<script src="Dict.json"></script>
+<script src="dictionary_utils.js"></script>
+<script src="game.js"></script>
+
+<script>
+        const verbDictionary = [{"Abenaki":"n'tkasmi","French":"Je nages"},
+                                {"Abenaki":"k'tkasmi","French":"Tu nages"},
+                                {"Abenaki":"tkasmo","French":"Il nage"},
+                                {"Abenaki":"n'tkasmibna","French":"Nous nageons (exclusif)"},
+                                {"Abenaki":"k'tkasmibna","French":"Nous nageons (inclusif)"},
+                                {"Abenaki":"k'tkasmiba","French":"Vous nagez"},
+                                {"Abenaki":"tkasmoak","French":"Ils nagent"},
+                                {"Abenaki":"tkasmi","French":"Nage"},
+                                {"Abenaki":"tkasmida","French":"Nageons"},
+                                {"Abenaki":"tkasmikw","French":"Nagez"},
+                                {"Abenaki":"n'tkasmib","French":"Je nagais"}, 
+                                {"Abenaki":"k'tkasmib","French":"Tu nagais"}, 
+                                {"Abenaki":"tkasmob","French":"Il nagait"},
+                                {"Abenaki":"n'tkasmibnob","French":"Nous nagions (exclusif)"}, 
+                                {"Abenaki":"k'tkasmibnob","French":"Nous nagions (inclusif)"}, 
+                                {"Abenaki":"k'tkasmib8b","French":"Vous nagiez"}, 
+                                {"Abenaki":"tkasmobanik","French":"Ils nagaient"},
+                                {"Abenaki":"n'pmosa","French":"Je marche"},
+                                {"Abenaki":"k'pmosa","French":"Tu marches"},
+                                {"Abenaki":"pmosa","French":"Il marche"},
+                                {"Abenaki":"n'pmosabna","French":"Nous marchons (exclusif)"},
+                                {"Abenaki":"k'pmosabna","French":"Nous marchons (inclusif)"},
+                                {"Abenaki":"k'pmosaba","French":"Vous marchez"},
+                                {"Abenaki":"pmosak","French":"Ils marchent"},
+                                {"Abenaki":"pmosa","French":"Marche"},
+                                {"Abenaki":"pmosada","French":"Marchons"},
+                                {"Abenaki":"pmosakw","French":"Marchez"},
+                                {"Abenaki":"n'pmosab","French":"Je marchais"}, 
+                                {"Abenaki":"k'pmosab","French":"Tu marchais"}, 
+                                {"Abenaki":"pmosab","French":"Il marchait"},
+                                {"Abenaki":"n'pmosabnob","French":"Nous marchions (exclusif)"}, 
+                                {"Abenaki":"k'pmosabnob","French":"Nous marchions (inclusif)"}, 
+                                {"Abenaki":"k'pmosab8b","French":"Vous marchiez"}, 
+                                {"Abenaki":"pmosabanik","French":"Ils marchaient"}                                
+                        ];    
+    function onGenerateNewQuestion()
+    {   
+        const wordList = ["n'tkasmi",
+                          "k'tkasmi",
+                          "tkasmo",
+                          "n'tkasmibna",
+                          "k'tkasmibna",
+                          "k'tkasmiba",
+                          "tkasmoak",
+                          "tkasmi",
+                          "tkasmida",
+                          "tkasmikw",
+                          "n'tkasmib",
+                          "k'tkasmib",
+                          "tkasmob",
+                          "n'tkasmibnob",
+                          "k'tkasmibnob",
+                          "k'tkasmib8b",
+                          "tkasmobanik",
+                          "n'pmosa",
+                          "k'pmosa",
+                          "pmosa",
+                          "n'pmosabna",
+                          "k'pmosabna",
+                          "k'pmosaba",
+                          "pmosak",
+                          "pmosa",
+                          "pmosada",
+                          "pmosakw",
+                          "n'pmosab",
+                          "k'pmosab",
+                          "pmosab",
+                          "n'pmosabnob",
+                          "k'pmosabnob",
+                          "k'pmosab8b",
+                          "pmosabanik",                         
+                        ];                
+        generateQuestionFromAbenakiWordList(verbDictionary, wordList);
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) Quiz cours #3 (2024-09-26)</h1>
+<h2>Conjugaison de verbe intransitif animé au présent, l'imparfait et l'impératif</h2>
+<br> 
+</br>
+<h4 id="question"></h4>
+<ol>    
+    <input type="button" name="question0" id="choice0" value=0 onclick="validate(0)"/>
+    <span id="answer0" hidden=true>answer0</span>
+</ol>    
+<ol>    
+    <input type="button" name="question0" id="choice1" value=1 onclick="validate(1)"/>
+    <span id="answer1" hidden=true>answer1</span>
+</ol>    
+<ol>    
+    <input type="button" name="question0" id="choice2" value=2 onclick="validate(2)"/>
+    <span id="answer2" hidden=true>answer2</span>
+</ol>    
+<ol>
+    <input type="button" name="question0" id="choice3" value=3 onclick="validate(3)"/>
+    <span id="answer3" hidden=true>answer3</span>            
+</ol>
+
+<input type="button" id="next" value="Suivant" hidden=true onclick="onGenerateNewQuestion()"/>
+
+<script>
+    onGenerateNewQuestion();
+</script>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
-var choices = [];
-var answer = 0;
+var choiceEntries = [];
+var answerIndex = 0;
+var currentDictionary;
 
 function getRandomInt(max) 
 {
@@ -8,21 +9,21 @@ function getRandomInt(max)
 
 function validate(index) 
 {
-    var good = index == answer;
+    var good = index == answerIndex;
     if ( !good )
     {
-        document.getElementById("answer"+ index).style = "color:red";
+        document.getElementById("answer" + index).style = "color:red";
     }
 
-    document.getElementById("answer"+ answer).style = "color:green";
+    document.getElementById("answer"+ answerIndex).style = "color:green";
 
-    for ( var i = 0; i < choices.length; i ++ )
+    for ( var i = 0; i < choiceEntries.length; i ++ )
     {
         var answerElement = document.getElementById("answer"+ i);
         var choiceElement = document.getElementById("choice"+ i);
 
         choiceElement.hidden = true;        
-        answerElement.innerHTML = dictionary[choices[i]].French + " \"" + dictionary[choices[i]].Abenaki + "\"";
+        answerElement.innerHTML = currentDictionary[choiceEntries[i]].French + " \"" + currentDictionary[choiceEntries[i]].Abenaki + "\"";
         answerElement.hidden = false;
     }
 
@@ -42,14 +43,14 @@ function reset()
 
 function fillQuestionTypeAbenakiToFrench(document, dictionary)
 {
-    document.getElementById("question").textContent = "Quel est la meilleur définition pour \"" + dictionary[choices[answer]].Abenaki + "\"?";
+    document.getElementById("question").textContent = "Quel est la meilleur définition pour \"" + dictionary[choiceEntries[answerIndex]].Abenaki + "\"?";
 
     for ( var i = 0; i <= 3; i ++ )
     {
-        if ( i < choices.length )
+        if ( i < choiceEntries.length )
         {
             document.getElementById("choice" + i).hidden = false;        
-            document.getElementById("choice" + i).value = dictionary[choices[i]].French;
+            document.getElementById("choice" + i).value = dictionary[choiceEntries[i]].French;
         }
         else
         {
@@ -60,14 +61,30 @@ function fillQuestionTypeAbenakiToFrench(document, dictionary)
 
 function fillQuestionTypeFrenchToAbenaki(document, dictionary)
 {
-    document.getElementById("question").textContent = "Quel mot abénaki correspond le mieux à cette définition: \"" + dictionary[choices[answer]].French + "\"?";
+    document.getElementById("question").textContent = "Quel mot abénaki correspond le mieux à cette définition: \"" + dictionary[choiceEntries[answerIndex]].French + "\"?";
+
+    var choices = [];
+    for ( var i = 0; i <= 3; i ++ )
+    {     
+        if ( i < choiceEntries.length )
+        {            
+            choices.push(dictionary[choiceEntries[i]].Abenaki);
+        }
+    }
+    
+    fillQuestionTypeFrenchToAbenakiWithAnswerAndChoices(document, dictionary[choiceEntries[answerIndex]].French, choices);
+}
+
+function fillQuestionTypeFrenchToAbenakiWithAnswerAndChoices(document, answer, choices)
+{
+    document.getElementById("question").textContent = "Quel mot abénaki correspond le mieux à cette définition: \"" + answer + "\"?";
 
     for ( var i = 0; i <= 3; i ++ )
     {
         if ( i < choices.length )
         {
             document.getElementById("choice" + i).hidden = false;        
-            document.getElementById("choice" + i).value = dictionary[choices[i]].Abenaki;
+            document.getElementById("choice" + i).value = choices[i];
         }
         else
         {
@@ -88,16 +105,17 @@ function generateQuestionFromCategory(dictionary, category)
 
 function generateQuestionFromIndices(dictionary, indices)
 {    
+    currentDictionary = dictionary;
     reset();
 
-    choices = [];
+    choiceEntries = [];
     for (let i = 0; i < 4 && indices.length > 0; i++) 
     {
         const index = indices.splice(getRandomInt(indices.length), 1);
-        choices.push([index]);
+        choiceEntries.push([index]);
     }
 
-    answer = getRandomInt(choices.length);
+    answerIndex = getRandomInt(choiceEntries.length);
 
     if ( getRandomInt(2) == 0 )
     {
