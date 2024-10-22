@@ -58,9 +58,14 @@ function reset()
         document.getElementById("answer" + i).hidden = true;
         document.getElementById("choice" + i).hidden = true;        
     }
-    document.getElementById("hardQuestion").hidden = true; 
-    document.getElementById("hardQuestionInput").value = "";
-    document.getElementById("hardQuestionAnswer").hidden = true;         
+
+    try
+    {
+        document.getElementById("hardQuestion").hidden = true; 
+        document.getElementById("hardQuestionInput").value = "";
+        document.getElementById("hardQuestionAnswer").hidden = true;  
+    }    
+    catch (error) {} 
 }
 
 function fillQuestionTypeAbenakiToFrench(document, dictionary)
