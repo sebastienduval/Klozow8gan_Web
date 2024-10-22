@@ -18,10 +18,18 @@
         const wordList = ["8mkapapowigamikw", "8wdi", "8wdisis", "kchi 8wdi", "8kolhaïgamikw", "aïamihawigamikw", "alnahlagw8wdi", "akwamalsowigamikw", 
             "ataladakamek", "atalagakidimek", "atalipapimek", "atalipimek", "kapigamikw", "kik8n", "kpiwi", "lesagw8gan", "mamilitigan", "m8nigamikw", 
             "mziwi kagwi 8shagin8wak atali namit8zik", "m8wis8glamalsowigamikw", "nebesis", "odana", "odanasis", "kchi odana", "podawazwigamikw", "s8khebaïgamikw", 
-            "sigwnigan", "papisookwazik", "papizowilh8k", "skwedaiwagin", "kaas", "kaas8dep", "kchi wasakwlhanigan", "wasanm8gan", "wasanm8ganihla", "abasand8ganal",
+            "sigwnigan", "papizookwazik", "papizowilh8k", "skwedaiwagin", "kaas", "kaas8dep", "kchi wasakwlhanigan", "wasanm8gan", "wasanm8ganihla", "abasand8ganal",
             "kagwejakwitawtigan", "kagwejakw", "tawtigan", "nebi moskojoak", "abazi", "kchi 8bagawatahigan", "pemlodigan", "klh8gan", "pit8lo", "kwigwigem",
             "alipen", "adbaskedon", "tasakwabon"];
-        generateQuestionFromAbenakiWordList(dictionary, wordList);
+
+        if ( getRandomInt(5) == 0 )
+        {
+            generateHardQuestionFromAbenakiWordList(dictionary, wordList);
+        }
+        else
+        {
+            generateQuestionFromAbenakiWordList(dictionary, wordList);
+        }
     }
 </script>
 
@@ -47,7 +55,15 @@
     <span id="answer3" hidden=true>answer3</span>            
 </ol>
 
-<input type="button" id="next" value="Suivant" hidden=true onclick="onGenerateNewQuestion()"/>
+<ol>
+    <div id="hardQuestion">
+        <input type="text" id="hardQuestionInput" value="" placeholder="" onchange="validateHard()"/>
+        <button onclick="validateHard()">Vérifier</button>
+        <span id="hardQuestionAnswer" hidden=true></span>
+    </div>
+
+    <input type="button" id="next" value="Suivant" hidden=true onclick="onGenerateNewQuestion()"/>
+</ol>
 
 <script>
     onGenerateNewQuestion();

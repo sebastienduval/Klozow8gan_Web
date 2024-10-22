@@ -30,6 +30,24 @@ function validate(index)
     document.getElementById("next").hidden = false;
 }
 
+function validateHard()
+{
+    const value = document.getElementById("hardQuestionInput").value.toLowerCase();
+    const hardQuestionAnswer = currentDictionary[choiceEntries[answerIndex]].Abenaki.toLowerCase();
+
+    document.getElementById("hardQuestionAnswer").innerHTML = hardQuestionAnswer;
+    document.getElementById("hardQuestionAnswer").hidden = false;
+    if ( value == hardQuestionAnswer )
+    {        
+        document.getElementById("hardQuestionAnswer").style = "color:green";
+    }
+    else
+    {
+        document.getElementById("hardQuestionAnswer").style = "color:red";
+    }
+    document.getElementById("next").hidden = false;
+}
+
 function reset()
 {
     document.getElementById("next").hidden = true;
@@ -38,7 +56,11 @@ function reset()
         var answerElement = document.getElementById("answer"+ i);
         answerElement.style = "color:black";
         document.getElementById("answer" + i).hidden = true;
-    }    
+        document.getElementById("choice" + i).hidden = true;        
+    }
+    document.getElementById("hardQuestion").hidden = true; 
+    document.getElementById("hardQuestionInput").value = "";
+    document.getElementById("hardQuestionAnswer").hidden = true;         
 }
 
 function fillQuestionTypeAbenakiToFrench(document, dictionary)
@@ -75,6 +97,13 @@ function fillQuestionTypeFrenchToAbenaki(document, dictionary)
     fillQuestionTypeFrenchToAbenakiWithAnswerAndChoices(document, dictionary[choiceEntries[answerIndex]].French, choices);
 }
 
+function fillHardQuestionTypeFrenchToAbenaki(document, dictionary)
+{
+    document.getElementById("question").textContent = "Quel mot abénaki correspond le mieux à cette définition: \"" + dictionary[choiceEntries[answerIndex]].French + "\"?";
+    document.getElementById("hardQuestion").hidden = false; 
+    document.getElementById("hardQuestionInput").placeholder = dictionary[choiceEntries[answerIndex]].Abenaki.substring(0,3) + "...";     
+}
+
 function fillQuestionTypeFrenchToAbenakiWithAnswerAndChoices(document, answer, choices)
 {
     document.getElementById("question").textContent = "Quel mot abénaki correspond le mieux à cette définition: \"" + answer + "\"?";
@@ -96,6 +125,11 @@ function fillQuestionTypeFrenchToAbenakiWithAnswerAndChoices(document, answer, c
 function generateQuestionFromAbenakiWordList(dictionary, wordList)
 {
     generateQuestionFromIndices(dictionary, convertAbenakiWordListToIndices(dictionary, wordList));    
+}
+
+function generateHardQuestionFromAbenakiWordList(dictionary, wordList)
+{
+    generateHardQuestionFromIndices(dictionary, convertAbenakiWordListToIndices(dictionary, wordList));    
 }
 
 function generateQuestionFromCategory(dictionary, category)
@@ -125,6 +159,20 @@ function generateQuestionFromIndices(dictionary, indices)
     {
         fillQuestionTypeFrenchToAbenaki(document, dictionary);  
     }
+}
+
+function generateHardQuestionFromIndices(dictionary, indices)
+{    
+    currentDictionary = dictionary;
+    reset();
+
+    choiceEntries = [];
+    const index = indices.splice(getRandomInt(indices.length), 1);
+    choiceEntries.push([index]);
+
+    answerIndex = 0;
+
+    fillHardQuestionTypeFrenchToAbenaki(document, dictionary);  
 }
 
 function onCategoryChanged()
