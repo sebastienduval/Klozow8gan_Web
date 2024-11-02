@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+</head>
+<body>
+
+<script src="Dict.json"></script>
+<script src="dictionary_utils.js"></script>
+<script src="game.js"></script>
+
+<script>
+    function onGenerateNewQuestion()
+    {   
+        const wordList = ["nd'alosa", "n'pmosa", "n'kiosa", "n'wadosa", "n'todosa", "n'pasodosa", "pasojiwi", "n'nopaosa", "nopaiwi",
+            "n'kzosa", "n'mannosa", "n'kz8malh8", "n'al8malh8", "n'mann8malh8", "n'm8ji", "n'pai8", "n'pidiga", "pidhigan", "n'saosa",
+            "nd'azowiga", "nd'azowigabi", "n'sp8zim8ji", "sp8ziwi" ,"sp8zowik", "n'sp8zipi", "k'wlipaï8", "p8jiwi", "alnakaïwi", "nik8niwi",
+            "nik8n8jemow8gan", "nik8nwawizit", "kwelbiwi", "nospiwi", "tapsiwi", "neg8zoak",
+            "neg8ni", "n8neg8ni", "ndodam", "mdawagen", "mdawakwam", "mdawlinno", "mdawilha"];
+
+        if ( getRandomInt(5) == 0 )
+        {
+            generateHardQuestionFromAbenakiWordList(dictionary, wordList);
+        }
+        else
+        {
+            generateQuestionFromAbenakiWordList(dictionary, wordList);
+        }
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) Quiz cours #7 Vocabulaire (2024-09-31)</h1>
+<br> 
+</br>
+<h2>Lieux publiques et les êtres et objets qu'ils contiennent</h2>
+<h4 id="question"></h4>
+<ol>    
+    <input type="button" name="question0" id="choice0" value=0 onclick="validate(0)"/>
+    <span id="answer0" hidden=true>answer0</span>
+</ol>    
+<ol>    
+    <input type="button" name="question0" id="choice1" value=1 onclick="validate(1)"/>
+    <span id="answer1" hidden=true>answer1</span>
+</ol>    
+<ol>    
+    <input type="button" name="question0" id="choice2" value=2 onclick="validate(2)"/>
+    <span id="answer2" hidden=true>answer2</span>
+</ol>    
+<ol>
+    <input type="button" name="question0" id="choice3" value=3 onclick="validate(3)"/>
+    <span id="answer3" hidden=true>answer3</span>            
+</ol>
+
+<ol>
+    <div id="hardQuestion">
+        <input type="text" id="hardQuestionInput" value="" placeholder="" onchange="validateHard()"/>
+        <button onclick="validateHard()">Vérifier</button>
+        <span id="hardQuestionAnswer" hidden=true></span>
+    </div>
+
+    <input type="button" id="next" value="Suivant" hidden=true onclick="onGenerateNewQuestion()"/>
+</ol>
+
+<script>
+    onGenerateNewQuestion();
+</script>
+
+</body>
+</html>
