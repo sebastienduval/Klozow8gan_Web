@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+</head>
+<body>
+
+<script src="Dict.json"></script>
+<script src="dictionary_utils.js"></script>
+<script src="game.js"></script>
+
+<script>
+        const verbDictionary = [{"Abenaki":"alosa","French":"Va (indéterminé)"},
+                                {"Abenaki":"alosada","French":"Allons (indéterminé)"},
+                                {"Abenaki":"alosakw","French":"Allez (indéterminé)"},
+                                {"Abenaki":"pmosa","French":"Va (en suivant un plan)"},
+                                {"Abenaki":"pmosada","French":"Allons (en suivant un plan)"},
+                                {"Abenaki":"pmosakw","French":"Allez (en suivant un plan)"}, 
+                                {"Abenaki":"kiosa","French":"Promène-toi"},
+                                {"Abenaki":"kiosada","French":"Promenons-nous"},
+                                {"Abenaki":"kiosakw","French":"Promenez-vous"},
+                                {"Abenaki":"todosa","French":"Passes (sans t'arrêter)"},
+                                {"Abenaki":"todosada","French":"Passons (sans nous arrêter)"},
+                                {"Abenaki":"todosakw","French":"Passez (sans vous arrêter)"}
+                        ];    
+    function onGenerateNewQuestion()
+    {   
+        var wordList = [];
+        for ( var definition of verbDictionary )
+        {
+            wordList.push(definition.Abenaki);
+        }        
+        if ( getRandomInt(5) == 0 )
+        {
+            generateHardQuestionFromAbenakiWordList(verbDictionary, wordList);
+        }
+        else
+        {
+            generateQuestionFromAbenakiWordList(verbDictionary, wordList);
+        }        
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) Quiz cours #7 Conjugaison (2024-09-31)</h1>
+<h2>Conjugaison de verbes à l'impératif</h2>
+<br> 
+</br>
+<h4 id="question"></h4>
+<ol>    
+    <input type="button" name="question0" id="choice0" value=0 onclick="validate(0)"/>
+    <span id="answer0" hidden=true>answer0</span>
+</ol>    
+<ol>    
+    <input type="button" name="question0" id="choice1" value=1 onclick="validate(1)"/>
+    <span id="answer1" hidden=true>answer1</span>
+</ol>    
+<ol>    
+    <input type="button" name="question0" id="choice2" value=2 onclick="validate(2)"/>
+    <span id="answer2" hidden=true>answer2</span>
+</ol>    
+<ol>
+    <input type="button" name="question0" id="choice3" value=3 onclick="validate(3)"/>
+    <span id="answer3" hidden=true>answer3</span>            
+</ol>
+
+<ol>
+    <div id="hardQuestion">
+        <input type="text" id="hardQuestionInput" value="" placeholder="" onchange="validateHard()"/>
+        <button onclick="validateHard()">Vérifier</button>
+        <span id="hardQuestionAnswer" hidden=true></span>
+    </div>
+
+    <input type="button" id="next" value="Suivant" hidden=true onclick="onGenerateNewQuestion()"/>
+</ol>
+
+<script>
+    onGenerateNewQuestion();
+</script>
+
+</body>
+</html>
