@@ -119,15 +119,25 @@ function Conjugate(VerbRoot, VerbTense)
         VerbRoot = VerbRoot.slice(3);
     }    
 
-    const LastChar = VerbRoot.substr(VerbRoot.length - 1);   
+    const LastChar = VerbRoot.substr(VerbRoot.length - 1);
+    const LastTwoChar = VerbRoot.substr(VerbRoot.length - 2);
     const Endings = GetVerbEndings(VerbTense, LastChar);
-    const Indices = GetConjugationIndices(VerbTense);
     const ExtraTenseVerbEnding = GetExtraTenseVerbEndings(VerbTense);
+
+    const Indices = GetConjugationIndices(VerbTense);
 
     Indices.forEach(i => 
     {
         var Pronoun = GetPronoun(i, VerbRoot, false, VerbTense);
-        const Conjugation = GetFirstLetterUpperCase(GetIntro(VerbTense) + Pronoun + SliceVerbRootEnding(i, VerbRoot, VerbTense) + Endings[i] + ExtraTenseVerbEnding);
+
+
+        var Conjugation = GetIntro(VerbTense) + Pronoun + SliceVerbRootEnding(i, VerbRoot, VerbTense) + Endings[i];
+        if ( VerbTense == "Impératif" && i == 1 && LastTwoChar == "am" )
+        {
+            Conjugation += "a";
+        }
+
+        Conjugation = GetFirstLetterUpperCase(Conjugation + ExtraTenseVerbEnding);
 
         Conjugations.push(Conjugation);
     } 
