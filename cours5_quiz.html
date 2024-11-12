@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nadodemow8ganal</title>
     <link rel="stylesheet" href="klozow8gan.css">
+    <a href="index.html">Acceuil</a>      
 </head>
-<body>
+<body id="body">
 
 <script src="Dict.json"></script>
 <script src="dictionary_utils.js"></script>
@@ -24,30 +25,10 @@
 </script>
 
 <h1>Nadodemow8ganal (Questions) Quiz cours #5 (2024-10-10)</h1>
-<br> 
-</br>
 <h2>Lieux publiques</h2>
-<h4 id="question"></h4>
-<ol>    
-    <input type="button" name="question0" id="choice0" value=0 onclick="validate(0)"/>
-    <span id="answer0" hidden=true>answer0</span>
-</ol>    
-<ol>    
-    <input type="button" name="question0" id="choice1" value=1 onclick="validate(1)"/>
-    <span id="answer1" hidden=true>answer1</span>
-</ol>    
-<ol>    
-    <input type="button" name="question0" id="choice2" value=2 onclick="validate(2)"/>
-    <span id="answer2" hidden=true>answer2</span>
-</ol>    
-<ol>
-    <input type="button" name="question0" id="choice3" value=3 onclick="validate(3)"/>
-    <span id="answer3" hidden=true>answer3</span>            
-</ol>
-
-<input type="button" id="next" value="Suivant" hidden=true onclick="onGenerateNewQuestion()"/>
-
 <script>
+    addGameHtmlTo("body", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
     onGenerateNewQuestion();
 </script>
 

@@ -51,7 +51,7 @@ function validateHard()
 function reset()
 {
     document.getElementById("next").hidden = true;
-    for ( var i = 0; i <= 3; i ++ )
+    for ( var i = 0; i <= 5; i ++ )
     {
         var answerElement = document.getElementById("answer"+ i);
         answerElement.style = "color:black";
@@ -72,7 +72,7 @@ function fillQuestionTypeAbenakiToFrench(document, dictionary)
 {
     document.getElementById("question").textContent = "Quel est la meilleur définition pour \"" + dictionary[choiceEntries[answerIndex]].Abenaki + "\"?";
 
-    for ( var i = 0; i <= 3; i ++ )
+    for ( var i = 0; i <= 5; i ++ )
     {
         if ( i < choiceEntries.length )
         {
@@ -91,7 +91,7 @@ function fillQuestionTypeFrenchToAbenaki(document, dictionary)
     document.getElementById("question").textContent = "Quel mot abénaki correspond le mieux à cette définition: \"" + dictionary[choiceEntries[answerIndex]].French + "\"?";
 
     var choices = [];
-    for ( var i = 0; i <= 3; i ++ )
+    for ( var i = 0; i <= 5; i ++ )
     {     
         if ( i < choiceEntries.length )
         {            
@@ -102,18 +102,25 @@ function fillQuestionTypeFrenchToAbenaki(document, dictionary)
     fillQuestionTypeFrenchToAbenakiWithAnswerAndChoices(document, dictionary[choiceEntries[answerIndex]].French, choices);
 }
 
-function fillHardQuestionTypeFrenchToAbenaki(document, dictionary)
+function fillHardQuestionTypeFrenchToAbenaki(document, dictionary, hintLettersCount)
 {
     document.getElementById("question").textContent = "Quel mot abénaki correspond le mieux à cette définition: \"" + dictionary[choiceEntries[answerIndex]].French + "\"?";
-    document.getElementById("hardQuestion").hidden = false; 
-    document.getElementById("hardQuestionInput").placeholder = dictionary[choiceEntries[answerIndex]].Abenaki.substring(0,3) + "...";     
+    document.getElementById("hardQuestion").hidden = false;
+    if ( hintLettersCount > 0 )
+    { 
+        document.getElementById("hardQuestionInput").placeholder = dictionary[choiceEntries[answerIndex]].Abenaki.substring(0,3) + "...";     
+    }
+    else
+    {
+        document.getElementById("hardQuestionInput").placeholder = '';
+    }
 }
 
 function fillQuestionTypeFrenchToAbenakiWithAnswerAndChoices(document, answer, choices)
 {
     document.getElementById("question").textContent = "Quel mot abénaki correspond le mieux à cette définition: \"" + answer + "\"?";
 
-    for ( var i = 0; i <= 3; i ++ )
+    for ( var i = 0; i <= 5; i ++ )
     {
         if ( i < choices.length )
         {
@@ -147,26 +154,59 @@ function generateQuestionFromIndices(dictionary, indices)
     currentDictionary = dictionary;
     reset();
 
-    choiceEntries = [];
-    for (let i = 0; i < 4 && indices.length > 0; i++) 
+    const difficulty = document.getElementById("difficulties").value;
+
+    var generateMultipleChoiceQuestion = false;
+
+    var choiceCount = 0;
+    var hintLettersCount = 3;
+    if ( difficulty == 'Très facile')
     {
-        const index = indices.splice(getRandomInt(indices.length), 1);
-        choiceEntries.push([index]);
+        choiceCount = 2;
+        generateMultipleChoiceQuestion = true
+    }
+    else if ( difficulty == 'Facile')
+    {
+        choiceCount = 4;
+        generateMultipleChoiceQuestion = true;
+    }     
+    else if ( difficulty == 'Moyen')
+    {
+        choiceCount = 6;
+        generateMultipleChoiceQuestion = true;
+    }   
+    else if ( difficulty == 'Très difficile')
+    {
+        hintLettersCount = 0;
     }
 
-    answerIndex = getRandomInt(choiceEntries.length);
-
-    if ( getRandomInt(2) == 0 )
+    if ( generateMultipleChoiceQuestion )
     {
-        fillQuestionTypeAbenakiToFrench(document, dictionary);   
+        choiceEntries = [];
+        for (let i = 0; i < choiceCount && indices.length > 0; i++) 
+        {
+            const index = indices.splice(getRandomInt(indices.length), 1);
+            choiceEntries.push([index]);
+        }
+
+        answerIndex = getRandomInt(choiceEntries.length);
+
+        if ( getRandomInt(2) == 0 )
+        {
+            fillQuestionTypeAbenakiToFrench(document, dictionary);   
+        }
+        else
+        {
+            fillQuestionTypeFrenchToAbenaki(document, dictionary);  
+        }
     }
     else
     {
-        fillQuestionTypeFrenchToAbenaki(document, dictionary);  
+        generateHardQuestionFromIndices(dictionary, indices, hintLettersCount);
     }
 }
 
-function generateHardQuestionFromIndices(dictionary, indices)
+function generateHardQuestionFromIndices(dictionary, indices, hintLettersCount)
 {    
     currentDictionary = dictionary;
     reset();
@@ -177,10 +217,57 @@ function generateHardQuestionFromIndices(dictionary, indices)
 
     answerIndex = 0;
 
-    fillHardQuestionTypeFrenchToAbenaki(document, dictionary);  
+    fillHardQuestionTypeFrenchToAbenaki(document, dictionary, hintLettersCount);  
 }
 
 function onCategoryChanged()
 {
     generateQuestionFromCategory(dictionary, document.getElementById("categories").value);
+}
+
+function formatDifficulties(data, selectName)
+{
+    const defaultSelected = 'Facile';
+    var select = document.getElementById(selectName);
+    const difficulties = ['Très facile', 'Facile', 'Moyen', 'Difficile', 'Très difficile'];
+    var innerHTML = "";
+    for ( const difficulty of difficulties )
+    {
+        var extra = difficulty == defaultSelected ? 'selected' : '';
+        innerHTML += '<option value="' + difficulty + '" ' + extra + '>' + difficulty + '</option>';
+    }
+    select.innerHTML += innerHTML;
+}
+
+function addGameHtmlTo(elementId, updateQuestion)
+{
+    var element = document.getElementById(elementId);
+
+    var innerHTML = "";
+
+    innerHTML += '<br>';
+    innerHTML += '<select name="difficulties" id="difficulties" onchange="' + updateQuestion + '">'
+    innerHTML += '</select>';
+    innerHTML += '</br>';
+    innerHTML += '<h4 id="question"></h4>';
+
+    for ( let i = 0; i < 6 ; i++ )
+    {
+        innerHTML += '<ol>';
+        innerHTML += '<input type="button" name="question' + i + '" id="choice' + i + '" value=' + i + ' onclick="validate(' + i + ')"/>';
+        innerHTML += '<span id="answer' + i + '" hidden=true>answer' + i + '</span>';
+        innerHTML += '</ol>';
+    }
+
+    innerHTML += '<ol>';
+    innerHTML += '<div id="hardQuestion">';
+    innerHTML += '    <input type="text" id="hardQuestionInput" value="" placeholder="" onchange="validateHard()"/>'
+    innerHTML += '    <button onclick="validateHard()">Vérifier</button>';
+    innerHTML += '    <span id="hardQuestionAnswer" hidden=true></span>'
+    innerHTML += '</div>'
+
+    innerHTML += '<input type="button" id="next" value="Suivant" hidden=true onclick="' + updateQuestion + '"/>';    
+    innerHTML += '</ol>';
+
+    element.innerHTML += innerHTML;
 }

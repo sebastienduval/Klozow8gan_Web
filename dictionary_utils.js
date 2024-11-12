@@ -7,8 +7,7 @@ function doesEntryIncludesCategory(entry, category)
 // Given a dictionary, gathers every category includes and returns a set.
 function gatherCategories(dictionary)
 {
-    var categories = new Set();
-    categories.add("");    
+    var categories = new Set();  
     for (var index in dictionary) 
     {        
         const metas = dictionary[index].Meta.split(';');
@@ -32,7 +31,7 @@ function formatCategories(data, selectName)
     {
         categoryInnerHTML += "<option value=\"" + category + "\">" + category + "</option>";
     }
-    categoriesSelect.innerHTML = categoryInnerHTML;
+    categoriesSelect.innerHTML += categoryInnerHTML;
 }
 
 // Given a dictionary returns an array of indices refering to entries that includes the supplied category.

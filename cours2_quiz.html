@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="klozow8gan.css"> 
     <a href="index.html">Acceuil</a>     
 </head>
-<body>
+<body id="body">
 
 <script src="Dict.json"></script>
 <script src="dictionary_utils.js"></script>
@@ -16,7 +16,7 @@
 <script>
     function onGenerateNewQuestion()
     {   
-        const wordList = ["n'tkasmi", "n'kz8malh8", "n'ligda", "n'pmosa", "n'papi", "nd'aloka", "n'pmakanni", "n'manohiga", 
+        const wordList = ["n'tkasmi", "n'kz8malh8", "nd'aligda", "n'pmosa", "n'papi", "nd'aloka", "n'pmakanni", "n'manohiga", 
                           "nd'alosa", "nd'aï", "nd'agakimzi", "n'michi", "n'kawi", "nd'agizi", "n'wigi", "n'm8ji", "nd'awikhiga",
                           "wigi", "kadi", "achwi", "kizi", "n8ji", "8bchi", "pabajigwejit", "ndodam"];
         generateQuestionFromAbenakiWordList(dictionary, wordList);
@@ -26,27 +26,9 @@
 <h1>Nadodemow8ganal (Questions) Quiz cours #2 (2024-09-19)</h1>
 <br> 
 </br>
-<h4 id="question"></h4>
-<ol>    
-    <input type="button" name="question0" id="choice0" value=0 onclick="validate(0)"/>
-    <span id="answer0" hidden=true>answer0</span>
-</ol>    
-<ol>    
-    <input type="button" name="question0" id="choice1" value=1 onclick="validate(1)"/>
-    <span id="answer1" hidden=true>answer1</span>
-</ol>    
-<ol>    
-    <input type="button" name="question0" id="choice2" value=2 onclick="validate(2)"/>
-    <span id="answer2" hidden=true>answer2</span>
-</ol>    
-<ol>
-    <input type="button" name="question0" id="choice3" value=3 onclick="validate(3)"/>
-    <span id="answer3" hidden=true>answer3</span>            
-</ol>
-
-<input type="button" id="next" value="Suivant" hidden=true onclick="onGenerateNewQuestion()"/>
-
 <script>
+    addGameHtmlTo("body", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
     onGenerateNewQuestion();
 </script>
 
