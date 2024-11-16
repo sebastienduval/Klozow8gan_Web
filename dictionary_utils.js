@@ -1,13 +1,14 @@
 // Given a dictionary entry, tell if it includes the supplied category as part of its meta.
 function doesEntryIncludesCategory(entry, category)
 {
-    return !category || entry.Meta.split(";").includes(category);
+    return !category || category == "Tout" || entry.Meta.split(";").includes(category);
 }
 
 // Given a dictionary, gathers every category includes and returns a set.
 function gatherCategories(dictionary)
 {
-    var categories = new Set();  
+    var categories = new Set();
+    categories.add("Tout");  
     for (var index in dictionary) 
     {        
         const metas = dictionary[index].Meta.split(';');
