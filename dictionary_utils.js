@@ -71,3 +71,16 @@ function convertAbenakiWordListToIndices(dictionary, wordList)
 
     return indices;
 }
+
+// Given a list of words generate a list of indices.
+function findEntry(dictionary, key, value)
+{
+    for ( var entry of dictionary ) 
+    {
+        if ( entry[key].toLowerCase() == value.toLowerCase() )
+        {
+            return entry;
+        }
+    }
+    return null;
+}

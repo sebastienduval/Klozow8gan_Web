@@ -1,6 +1,39 @@
+// Modes
+const imperativeMode = 'Impératif';
+const independantMode = 'Indépendant';
+const conjunctiveMode = 'Conjonctif';
+const modes = [imperativeMode, independantMode, conjunctiveMode];
+
+// Tenses
+const tempsPresent = "Présent";
+const tempsFuture = "Future";
+const tempsConditionnel = "Conditionnel";
+const tempsPasseCompose = "Passé Composé";
+const tempsImparfait = "Imparfait";
+const tempsImperatif = "Impératif";
+const tempsDeConjugaison = [tempsPresent, tempsFuture, tempsConditionnel, tempsPasseCompose, tempsImparfait, tempsImperatif];
+
+const descriptionDeTempsDeConjugaison = new Map()
+descriptionDeTempsDeConjugaison
+    .set(tempsPresent,  "au présent")
+    .set(tempsFuture, "au future")
+    .set(tempsConditionnel, "au conditionnel")
+    .set(tempsPasseCompose, "au passé composé")
+    .set(tempsImparfait, "à l'imparfait")
+    .set(tempsImperatif, "à l'impératif présent");       
+    
+const personsDescription = [
+    "1re personne du singulier", 
+    "2e personne du singulier",
+    "3e personne du singulier",
+    "1re personne du pluriel (ex)",
+    "1re personne du pluriel (in)",
+    "2e personne du pluriel",
+    "3e personne du pluriel"];    
+
 function GetPronoun(Index, Root, Definite, VerbTense)
 {
-    if ( VerbTense == "Impératif" )
+    if ( VerbTense == tempsImperatif )
     {
         return "";
     }
@@ -25,11 +58,11 @@ function GetPronoun(Index, Root, Definite, VerbTense)
 function GetExtraTenseVerbEndings(VerbTense)
 {
     var ExtraTenseEnding = "";
-    if ( VerbTense == "Futur" )
+    if ( VerbTense == tempsFuture )
     {
         ExtraTenseEnding = "ji";
     }
-    else if ( VerbTense == "Conditionnel" )
+    else if ( VerbTense == tempsConditionnel )
     {
         ExtraTenseEnding = "ba";
     }
@@ -38,7 +71,7 @@ function GetExtraTenseVerbEndings(VerbTense)
 
 function GetConjugationIndices(VerbTense, LastChar)
 {
-    if ( VerbTense == "Impératif" )
+    if ( VerbTense == tempsImperatif )
     {
         return [1, 4, 5];
     }
@@ -48,9 +81,9 @@ function GetConjugationIndices(VerbTense, LastChar)
 function GetVerbEndings(VerbTense, LastChar)
 {
     var EffectiveVerbTense = VerbTense;
-    if ( VerbTense == "Passé Composé" || VerbTense == "Futur" || VerbTense == "Conditionnel")
+    if ( VerbTense == tempsPasseCompose || VerbTense == tempsFuture || VerbTense == tempsConditionnel)
     {
-        EffectiveVerbTense = "Présent";
+        EffectiveVerbTense = tempsPresent;
     }
 
     var TenseMap = new Map();
@@ -69,8 +102,8 @@ function GetVerbEndings(VerbTense, LastChar)
     PastMap.set("o", ["ob", "ob", "ob", "obnob", "obnob", "ob8b", "obanik"]);
     PastMap.set("m", ["mob", "mob", "mob", "mobnob", "mobnob", "mob8b", "mobanki"]);  
     
-    TenseMap.set("Présent", PresentMap);
-    TenseMap.set("Imparfait", PastMap);
+    TenseMap.set(tempsPresent, PresentMap);
+    TenseMap.set(tempsImparfait, PastMap);
 
     var ImperativeMap = new Map();    
     ImperativeMap.set("a", ["", "a", "aj", "ada", "ada", "akw", "adij"]);
@@ -78,7 +111,7 @@ function GetVerbEndings(VerbTense, LastChar)
     ImperativeMap.set("8", ["", "a", "8j", "8da", "8da", "okw", "8dij"]);
     ImperativeMap.set("o", ["", "o", "oj", "oda", "oda", "okw", "odij"]);
     ImperativeMap.set("m", ["", "a", "ej", "moda", "moda", "mokw", "moodij"]);
-    TenseMap.set("Impératif", ImperativeMap);
+    TenseMap.set(tempsImperatif, ImperativeMap);
 
     const EndingMap = TenseMap.get(EffectiveVerbTense);
     return EndingMap.get(LastChar);
@@ -89,7 +122,7 @@ function SliceVerbRootEnding(Index, VerbRoot, VerbTense)
 {
     // Special case at the imperative order where K'waj8nem (you own something inanimate) 
     // becomes Waj8na (own something inanimate).
-    if ( VerbTense == "Impératif" && Index == 1 && VerbRoot.endsWith("m") )
+    if ( VerbTense == tempsImperatif && Index == 1 && VerbRoot.endsWith("m") )
     {
         return VerbRoot.slice(0, -2);
     }
@@ -98,7 +131,7 @@ function SliceVerbRootEnding(Index, VerbRoot, VerbTense)
 
 function GetIntro(VerbTense)
 {
-    if ( VerbTense == "Passé Composé" )
+    if ( VerbTense == tempsPasseCompose )
     {
         return "Kizi ";
     }
@@ -132,14 +165,14 @@ function Conjugate(VerbRoot, VerbTense)
 
 
         var Conjugation = GetIntro(VerbTense) + Pronoun + SliceVerbRootEnding(i, VerbRoot, VerbTense) + Endings[i];
-        if ( VerbTense == "Impératif" && i == 1 && LastTwoChar == "am" )
+        if ( VerbTense == tempsImperatif && i == 1 && LastTwoChar == "am" )
         {
             Conjugation += "a";
         }
 
         Conjugation = GetFirstLetterUpperCase(Conjugation + ExtraTenseVerbEnding);
 
-        Conjugations.push(Conjugation);
+        Conjugations.push({ "Spelling" : Conjugation, "Index" : i});
     } 
     ); 
 
@@ -159,7 +192,7 @@ function ConjugateToHtmlElement(elementName)
 
     Conjugations.forEach(Conjugation => 
     {
-        document.getElementById(elementName).innerHTML += Conjugation + "<br>";
+        document.getElementById(elementName).innerHTML += Conjugation.Spelling + "<br>";
     } 
     ); 
 }

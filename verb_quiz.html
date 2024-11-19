@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+    <a href="index.html">Acceuil</a>    
+</head>
+<body id="body">
+
+<script src="Dict.json"></script>
+<script src="dictionary_utils.js"></script>
+<script src="game.js"></script>
+<script src="string.js"></script>
+<script src="verb.js"></script>
+
+<script>
+        const verbDictionaryOld = [{"Abenaki":"alosa","French":"Va (indéterminé)"},
+                                {"Abenaki":"alosada","French":"Allons (indéterminé)"},
+                                {"Abenaki":"alosakw","French":"Allez (indéterminé)"},
+                                {"Abenaki":"pmosa","French":"Va (en suivant un plan)"},
+                                {"Abenaki":"pmosada","French":"Allons (en suivant un plan)"},
+                                {"Abenaki":"pmosakw","French":"Allez (en suivant un plan)"}, 
+                                {"Abenaki":"kiosa","French":"Promène-toi"},
+                                {"Abenaki":"kiosada","French":"Promenons-nous"},
+                                {"Abenaki":"kiosakw","French":"Promenez-vous"},
+                                {"Abenaki":"todosa","French":"Passes (sans t'arrêter)"},
+                                {"Abenaki":"todosada","French":"Passons (sans nous arrêter)"},
+                                {"Abenaki":"todosakw","French":"Passez (sans vous arrêter)"},
+                                {"Abenaki":"todosa","French":"Passes (sans t'arrêter)"},
+                                {"Abenaki":"todosada","French":"Passons (sans nous arrêter)"},
+                                {"Abenaki":"todosakw","French":"Passez (sans vous arrêter)"},                                
+                                {"Abenaki":"pasadosa","French":"Approche"},
+                                {"Abenaki":"pasadosada","French":"Approchons"},
+                                {"Abenaki":"pasadosakw","French":"Approchez"},
+                                {"Abenaki":"nopaosa","French":"Éloigne-toi"},
+                                {"Abenaki":"nopaosada","French":"Éloignons-nous"},
+                                {"Abenaki":"nopaosakw","French":"Éloignez-vous"},
+                                {"Abenaki":"kzosa","French":"Marche vite"},
+                                {"Abenaki":"kzosada","French":"Marchons vite"},
+                                {"Abenaki":"kzosakw","French":"Marchez vite"},                                  
+                                {"Abenaki":"mannosa","French":"Marche lentement"},
+                                {"Abenaki":"mannosada","French":"Marchons lentement"},
+                                {"Abenaki":"mannosakw","French":"Marchez lentement"},
+                                {"Abenaki":"kz8malha","French":"Cours vite"},
+                                {"Abenaki":"kz8malh8da","French":"Courons vite"},
+                                {"Abenaki":"kz8malhokw","French":"Courez vite"},
+                                {"Abenaki":"mann8malha","French":"Cours lentement"},
+                                {"Abenaki":"mann8malh8da","French":"Courons lentement"},
+                                {"Abenaki":"mann8malhokw","French":"Courez lentement"},                                
+                                {"Abenaki":"al8malha","French":"Cours (de façon indéterminée)"},
+                                {"Abenaki":"al8malh8da","French":"Courons (de façon indéterminée)"},
+                                {"Abenaki":"al8malhokw","French":"Courez (de façon indéterminée)"},
+                                {"Abenaki":"m8ji","French":"Pars"},
+                                {"Abenaki":"m8jida","French":"Partons"},
+                                {"Abenaki":"m8jikw","French":"Partez"},                                 
+                                {"Abenaki":"païa","French":"Arrive"},
+                                {"Abenaki":"paï8da","French":"Arrivons"},
+                                {"Abenaki":"païokw","French":"Arrivez"},
+                                {"Abenaki":"pidiga","French":"Entre"},
+                                {"Abenaki":"pidigada","French":"Entrons"},
+                                {"Abenaki":"pidigakw","French":"Entrez"},                                 
+                                {"Abenaki":"saosa","French":"Sors"},
+                                {"Abenaki":"saosada","French":"Sortons"},
+                                {"Abenaki":"saosakw","French":"Sortez"},
+                                {"Abenaki":"sp8zim8ji","French":"Pars tôt"},
+                                {"Abenaki":"sp8zim8jida","French":"Partons tôt"},
+                                {"Abenaki":"sp8zim8jikw","French":"Partez tôt"},
+                                {"Abenaki":"azowigabi","French":"Déplace ton camp ailleurs"},
+                                {"Abenaki":"azowigabida","French":"Déplaçons notre camp ailleurs"},
+                                {"Abenaki":"azowigabikw","French":"Déplacez votre camp ailleurs"},                                
+                                {"Abenaki":"michi","French":"Mange"},
+                                {"Abenaki":"michida","French":"Mangeons"},
+                                {"Abenaki":"michikw","French":"Mangez"},
+                                {"Abenaki":"waj8na","French":"Aie"},
+                                {"Abenaki":"waj8nemoda","French":"Ayons"},
+                                {"Abenaki":"waj8nemokw","French":"Ayez"},
+                                {"Abenaki":"wig8da","French":"Réjouis-toi"},
+                                {"Abenaki":"waj8nemoda","French":"Réjouissons-nous"},
+                                {"Abenaki":"waj8nemokw","French":"Réjouissez-vous"},
+                                {"Abenaki":"askawito","French":"Attends"},
+                                {"Abenaki":"askawitoda","French":"Attendons"},
+                                {"Abenaki":"askawitokw","French":"Attendez"},
+                                {"Abenaki":"wlito","French":"Fais quelquechose (I)"},
+                                {"Abenaki":"wlitoda","French":"Faisons quelquechose (I)"},
+                                {"Abenaki":"wlitokw","French":"Faites quelquechose (I)"},
+                                {"Abenaki":"namiha","French":"Observe quelquechose (A) ou quelqu'un"},
+                                {"Abenaki":"namih8da","French":"Observons quelquechose (A) ou quelqu'un"},
+                                {"Abenaki":"namihokw","French":"Observez quelquechose (A) ou quelqu'un"},
+                                {"Abenaki":"namito","French":"Observe quelquechose (I)"},
+                                {"Abenaki":"namitoda","French":"Observons quelquechose (I)"},
+                                {"Abenaki":"namitokw","French":"Observez quelquechose (I)"},
+                                {"Abenaki":"ligda","French":"Saute"},
+                                {"Abenaki":"aligdada","French":"Sautons"},
+                                {"Abenaki":"aligdakw","French":"Sautez"},                                
+                        ];
+                        
+    const verbs = ["nd'alosa", "n'pmosa", "n'kiosa", "n'todosa", "n'pasadosa", , "n'nopaosa"];
+
+    function GenerateVerbDictionary(verbs)
+    {
+        var verbDictionary = [];
+
+        const verbIndex = getRandomInt(verbs.length);
+        const verb = verbs[verbIndex];
+        var entry = findEntry(dictionary, 'Abenaki', verb);
+        if ( entry )
+        {
+            for ( const temps of tempsDeConjugaison )
+            {
+                var conjugations = Conjugate(verb, temps);
+                for ( var conjugation of conjugations )
+                {
+                    verbDictionary.push({"Abenaki":conjugation.Spelling, "French":entry.Infinitive + " (" + personsDescription[conjugation.Index] + " " + descriptionDeTempsDeConjugaison.get(temps) + ")."});
+                }
+            }
+        }
+
+        return verbDictionary;
+    }
+
+
+    function onGenerateNewQuestion()
+    {   
+        verbDictionary = GenerateVerbDictionary(verbs);
+
+        var wordList = [];
+        for ( var definition of verbDictionary )
+        {
+            wordList.push(definition.Abenaki.toLowerCase());
+        }        
+        generateQuestionFromAbenakiWordList(verbDictionary, wordList);
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) Quiz de conjugaison</h1>
+<h2>Conjugaison de verbes à l'impératif</h2>
+
+<script>
+    addGameHtmlTo("body", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+</script>
+
+</body>
+</html>
