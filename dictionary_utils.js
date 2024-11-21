@@ -72,7 +72,7 @@ function convertAbenakiWordListToIndices(dictionary, wordList)
     return indices;
 }
 
-// Given a list of words generate a list of indices.
+// Given dictionary and a key, find the entry matching the key.
 function findEntry(dictionary, key, value)
 {
     for ( var entry of dictionary ) 
