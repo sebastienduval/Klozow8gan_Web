@@ -41,7 +41,7 @@ function GeneratePlural(noun, animate=false)
         {
             plural = noun.slice(0, -1) + "ol";
         }
-        else if (noun.endsWith("ek"))
+        else if (noun.endsWith("k"))
         {
             plural = noun + "il";
         }
