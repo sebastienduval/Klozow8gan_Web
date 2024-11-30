@@ -1,8 +1,58 @@
-function GeneratePlural(noun, animate=false)
+const Pronouns = ["n", "k", "w", "n", "k", "k", "w"];
+
+function GenerateNoun(noun, animate, possessive, dependant)
 {
     // Trim the whitespaces.
     noun = noun.trim();
 
+    var plurals = [];
+    if ( dependant )
+    {
+        plurals = GenerateDependantPlural(noun, animate);
+    }
+    else
+    {        
+        if ( possessive )
+        {
+            plurals = GeneratePossessive(noun, animate);
+        }
+        else
+        {
+            plurals.push(noun);
+        }
+
+        for (var i = 0; i < plurals.length; i ++ )
+        {
+            plurals[i] = GenerateIndependantPlural(plurals[i], animate);
+        }
+    }
+    return plurals;
+}
+
+// Todo: Manage the alienability.
+function GeneratePossessive(noun, animate)
+{
+    var result = [];
+    var finals;
+    if ( animate )
+    {
+        const Finals = ["", "", "a", "na", "na", "w8", "w8"];
+        finals = Finals;
+    }
+    else
+    {
+        const Finals = ["", "", "", "na", "na", "w8", "w8"];
+        finals = Finals;
+    }
+    for ( var i = 0; i < Pronouns.length; i ++ )
+    {
+        result.push(Pronouns[i]+noun+"em"+finals[i]);
+    }
+    return result;
+}
+
+function GenerateIndependantPlural(noun, animate=false)
+{
     var plural = "";
     if (animate)
     {
@@ -52,4 +102,30 @@ function GeneratePlural(noun, animate=false)
     }
 
     return plural;
+}
+
+function GenerateDependantPlural(noun, animate=false)
+{
+    var plurals = [];
+    noun = noun.substring(1);
+
+    if ( animate )
+    {
+        const Finals = ["", "", "a", "na", "na", "w8", "w8"];
+        const Plurals = ["ak", "ak", "", "wak", "wak", "k", ""];
+        for ( var i = 0; i < Pronouns.length; i ++ )
+        {
+            plurals.push(Pronouns[i]+noun+Finals[i]+Plurals[i]);
+        }
+    }
+    else
+    {
+        const Finals = ["", "", "", "na", "na", "w8", "w8"];
+        const Plurals = ["al", "al", "al", "wal", "wal", "al", "al"];
+        for ( var i = 0; i < Pronouns.length; i ++ )
+        {
+            plurals.push(Pronouns[i]+noun+Finals[i]+Plurals[i]);
+        }
+    }
+    return plurals;
 }

@@ -12,24 +12,61 @@
     <script src="plural.js"></script> 
     <h1>Le pluriel des noms</h1>
     <h3>Écris un mot en Abénaki au singulier pour générer le pluriel.</h3>
-    <h4>Exemples de mots animés:</h4>
+    <h4>Exemples de mots indépendants animés:</h4>
     Awasos (Ours), Nid8ba (Mon ami), Skotam (Truite), Mskwamagw (Saumon), Pabaskw (Sangsue), Aasazit (verre)
     <br> 
-    <h4>Exemples de mots inanimés:</h4>
+    <h4>Exemples de mots indépendants inanimés:</h4>
     Klh8gan (Porte), Sata (Bleuet), Wswadagen (Fourrure), Msizekw (Mon oeil), Atalipimek (Restaurant)
-    <br>       
+    <h4>Exemples de mots dépendant animés:</h4>
+    Ndadan (Mon papa), Meljas (Mitaine), Ndodam (Mon totem), Ndoz (Ma fille)
+    <h4>Exemples de mots dépendant inanimés:</h4>    
+    Ndasbaskdon (Ma lèvre), Ndepkwam (Mon cheveu), Ndon (Ma bouche), Mdas(Bas)
     <br>
-    Inanimé: <input type="radio" name="animacy" id="inanimate"> Animé: <input type="radio" name="animacy" id="animate"> 
-    <input type="text" id="input" value="awasos">
+    <br>
+    Inanimé: <input type="radio" name="animacy" id="inanimate" onchange=UpdatePlural()> 
+    Animé: <input type="radio" name="animacy" id="animate" checked onchange=UpdatePlural()>
+    <br>
+    Possesive:
+    <label class="switch">
+        <input type="checkbox" id="possesive" onchange=UpdatePlural() disabled>
+        <span class="slider round"></span>
+      </label> 
+    <br>    
+    Dépendant:
+    <label class="switch">
+        <input type="checkbox" id="dependant" onchange=UpdatePlural()>
+        <span class="slider round"></span>
+      </label> 
+    <br>
+    <input type="text" id="input" value="awasos" onchange=UpdatePlural()>
     <button onclick="UpdatePlural()">Convertis</button>
 
+    <p id="result"></p>
     <script>
         function UpdatePlural()
         {
             var animacy = document.getElementById("animate").checked;
-             document.getElementById("result").innerHTML = GeneratePlural(document.getElementById("input").value, animacy);
+            var dependant = document.getElementById("dependant").checked;
+            /*
+            if ( dependant )
+            {
+                document.getElementById("possesive").checked = true;
+                document.getElementById("possesive").disabled = true;
+            }
+            else
+            {
+                document.getElementById("possesive").disabled = false;
+            }
+            */
+            var possesive = document.getElementById("possesive").checked;            
+
+            document.getElementById("result").innerHTML = "";
+            for ( var plural of GenerateNoun(document.getElementById("input").value, animacy, possesive, dependant) )
+            {
+                document.getElementById("result").innerHTML += plural + "<br>";
+            }
         }
-    </script>
-    <p id="result"></p>
+        UpdatePlural();
+    </script>    
 </body>
 </html>

@@ -1,24 +1,25 @@
 body 
 {
-  background-color: white;
+  background-color: rgb(255, 255, 255);
 }
   
-  h1 {
-    color: black;
-    margin-left: 20px;
-  }
+h1 
+{
+  color: black;
+  margin-left: 20px;
+}
 
-  .abenaki
-  {
-    color: #0000aa;
-    margin-left: 40px;
-  }
+.abenaki
+{
+  color: #0000aa;
+  margin-left: 40px;
+}
 
-  .french
-  {
-    color: gray;
-    margin-left: 40px;    
-  }
+.french
+{
+  color: gray;
+  margin-left: 40px;    
+}
 
 table
 {
@@ -38,3 +39,9 @@ tr:nth-child(even)
 {
   background-color: #dddddd;
 }
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
