@@ -10,8 +10,8 @@
 <body>
     <script src="string.js"></script> 
     <script src="plural.js"></script> 
-    <h1>Le pluriel des noms</h1>
-    <h3>Écris un mot en Abénaki au singulier pour générer le pluriel.</h3>
+    <h1>Le noms</h1>
+    <h3>Écris un mot en Abénaki au singulier pour générer les déclinaisons.</h3>
     <h4>Exemples de mots indépendants animés:</h4>
     Awasos (Ours), Nid8ba (Mon ami), Skotam (Truite), Mskwamagw (Saumon), Pabaskw (Sangsue), Aasazit (verre)
     <br> 
@@ -23,31 +23,37 @@
     Ndasbaskdon (Ma lèvre), Ndepkwam (Mon cheveu), Ndon (Ma bouche), Mdas(Bas)
     <br>
     <br>
-    Inanimé: <input type="radio" name="animacy" id="inanimate" onchange=UpdatePlural()> 
-    Animé: <input type="radio" name="animacy" id="animate" checked onchange=UpdatePlural()>
+    Inanimé: <input type="radio" name="animacy" id="inanimate" onchange=UpdateNoun()> 
+    Animé: <input type="radio" name="animacy" id="animate" checked onchange=UpdateNoun()>
     <br>
-    Possesive:
+    Pluriel:
     <label class="switch">
-        <input type="checkbox" id="possesive" onchange=UpdatePlural() disabled>
+        <input type="checkbox" id="plurial" onchange=UpdateNoun()>
+        <span class="slider round"></span>
+      </label> 
+    <br>  
+    Possessif:
+    <label class="switch">
+        <input type="checkbox" id="possesive" onchange=UpdateNoun() disabled>
         <span class="slider round"></span>
       </label> 
     <br>    
     Dépendant:
     <label class="switch">
-        <input type="checkbox" id="dependant" onchange=UpdatePlural()>
+        <input type="checkbox" id="dependant" onchange=UpdateNoun()>
         <span class="slider round"></span>
       </label> 
     <br>
-    <input type="text" id="input" value="awasos" onchange=UpdatePlural()>
-    <button onclick="UpdatePlural()">Convertis</button>
+    <input type="text" id="input" value="awasos" onchange=UpdateNoun()>
+    <button onclick="UpdateNoun()">Convertis</button>
 
     <p id="result"></p>
     <script>
-        function UpdatePlural()
+        function UpdateNoun()
         {
             var animacy = document.getElementById("animate").checked;
             var dependant = document.getElementById("dependant").checked;
-            /*
+            var pluriel = document.getElementById("plurial").checked;
             if ( dependant )
             {
                 document.getElementById("possesive").checked = true;
@@ -57,16 +63,15 @@
             {
                 document.getElementById("possesive").disabled = false;
             }
-            */
             var possesive = document.getElementById("possesive").checked;            
 
             document.getElementById("result").innerHTML = "";
-            for ( var plural of GenerateNoun(document.getElementById("input").value, animacy, possesive, dependant) )
+            for ( var noun of GenerateNoun(document.getElementById("input").value, animacy, pluriel, possesive, dependant) )
             {
-                document.getElementById("result").innerHTML += plural + "<br>";
+                document.getElementById("result").innerHTML += noun + "<br>";
             }
         }
-        UpdatePlural();
+        UpdateNoun();
     </script>    
 </body>
 </html>
