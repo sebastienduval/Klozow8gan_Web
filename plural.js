@@ -4,6 +4,7 @@ function GenerateNoun(noun, animate, plural, possessive, dependant)
 {
     // Trim the whitespaces.
     noun = noun.trim();
+    noun = noun.toLowerCase();
 
     var nouns = [];
     if ( dependant )
@@ -97,8 +98,6 @@ function GeneratePossessive(noun, animate, plural)
         return finals[index];
     }    
     
-    noun = noun.toLowerCase();
-
     var result = [];
     for ( var i = 0; i < Pronouns.length; i ++ )
     {
