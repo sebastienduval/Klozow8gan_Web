@@ -20,13 +20,22 @@
     <br>
     <p>Note: La forme locative ne change pas selon que le nom est animé ou inanimé contrairement au pluriel.</p>
     <br>
-    <input type="text" id="input" value="awasos">
+    <br>
+    Pluriel:
+    <label class="switch">
+        <input type="checkbox" id="plurial" onchange=UpdateLocative()>
+        <span class="slider round"></span>
+      </label> 
+    <br>      
+    <input type="text" id="input" value="awasos"  onchange=UpdateLocative()>
     <button onclick="UpdateLocative()">Convertis</button>
 
     <script>
         function UpdateLocative()
         {
-            document.getElementById("result").innerHTML = GenerateLocative(document.getElementById("input").value);
+            var noun = document.getElementById("input").value;
+            var plurial = document.getElementById("plurial").checked;            
+            document.getElementById("result").innerHTML = GenerateLocative(noun, plurial);
         }
     </script>
     <p id="result"></p>
