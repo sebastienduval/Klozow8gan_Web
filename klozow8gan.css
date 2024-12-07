@@ -9,6 +9,11 @@ h1
   margin-left: 20px;
 }
 
+.disabled
+{
+  color: rgb(128, 128, 128);
+}
+
 .abenaki
 {
   color: #0000aa;

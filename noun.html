@@ -45,10 +45,9 @@
         <span class="slider round"></span>
       </label> 
     <br>
-    Locatif:
-    <label class="switch">
+    <label class="switch">        
+        <span>Locatif:</span>
         <input type="checkbox" id="locative" onchange=UpdateNoun()>
-        <span class="slider round"></span>
       </label> 
     <br>    
     <input type="text" id="input" value="awasos" onchange=UpdateNoun()>
@@ -67,18 +66,18 @@
                 document.getElementById("possesive").checked = true;
                 document.getElementById("possesive").disabled = true;
                 document.getElementById("locative").checked = false;
-                document.getElementById("locative").disabled = false;
+                document.getElementById("locative").disabled = true;
             }
             else
             {
                 document.getElementById("possesive").disabled = false;
-                document.getElementById("locative").disabled = false                
+                document.getElementById("locative").disabled = false;              
             }
             var possesive = document.getElementById("possesive").checked; 
             if ( possesive )
             {
                 document.getElementById("locative").checked = false;
-                document.getElementById("locative").disabled = false;
+                document.getElementById("locative").disabled = true;
             }
             else
             {
