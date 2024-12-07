@@ -1,6 +1,6 @@
 const Pronouns = ["n", "k", "w", "n", "k", "k", "w"];
 
-function GenerateNoun(noun, animate, plural, possessive, dependant)
+function GenerateNoun(noun, animate, plural, possessive, dependant, locative)
 {
     // Trim the whitespaces.
     noun = noun.trim();
@@ -19,7 +19,11 @@ function GenerateNoun(noun, animate, plural, possessive, dependant)
         }
         else
         {
-            if ( plural )
+            if ( locative )
+            {
+                nouns.push(GenerateLocative(noun, plural));
+            }
+            else if ( plural )
             {
                 nouns.push(GenerateIndependantPlural(noun, animate));
             }

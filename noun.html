@@ -9,7 +9,8 @@
 </head>
 <body>
     <script src="string.js"></script> 
-    <script src="plural.js"></script> 
+    <script src="plural.js"></script>
+    <script src="locative.js"></script> 
     <h1>Le noms</h1>
     <h3>Écris un mot en Abénaki au singulier pour générer les déclinaisons.</h3>
     <h4>Exemples de mots indépendants animés:</h4>
@@ -44,6 +45,12 @@
         <span class="slider round"></span>
       </label> 
     <br>
+    Locatif:
+    <label class="switch">
+        <input type="checkbox" id="locative" onchange=UpdateNoun()>
+        <span class="slider round"></span>
+      </label> 
+    <br>    
     <input type="text" id="input" value="awasos" onchange=UpdateNoun()>
     <button onclick="UpdateNoun()">Convertis</button>
 
@@ -51,22 +58,36 @@
     <script>
         function UpdateNoun()
         {
+            var noun = document.getElementById("input").value;
             var animacy = document.getElementById("animate").checked;
             var dependant = document.getElementById("dependant").checked;
-            var pluriel = document.getElementById("plurial").checked;
+            var pluriel = document.getElementById("plurial").checked;   
             if ( dependant )
             {
                 document.getElementById("possesive").checked = true;
                 document.getElementById("possesive").disabled = true;
+                document.getElementById("locative").checked = false;
+                document.getElementById("locative").disabled = false;
             }
             else
             {
                 document.getElementById("possesive").disabled = false;
+                document.getElementById("locative").disabled = false                
             }
-            var possesive = document.getElementById("possesive").checked;            
+            var possesive = document.getElementById("possesive").checked; 
+            if ( possesive )
+            {
+                document.getElementById("locative").checked = false;
+                document.getElementById("locative").disabled = false;
+            }
+            else
+            {
+                document.getElementById("locative").disabled = false                
+            }
+            var locative = document.getElementById("locative").checked;         
 
             document.getElementById("result").innerHTML = "";
-            for ( var noun of GenerateNoun(document.getElementById("input").value, animacy, pluriel, possesive, dependant) )
+            for ( var noun of GenerateNoun(noun, animacy, pluriel, possesive, dependant, locative) )
             {
                 document.getElementById("result").innerHTML += noun + "<br>";
             }
