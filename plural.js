@@ -119,7 +119,7 @@ function GenerateIndependantPlural(noun, animate=false, possessive=false)
         {
             plural = noun + "k";
         }
-        else if (noun.endsWith("m"))
+        else if (noun.endsWith("em")) // Maybe "am" too or simply "m"...
         {
             plural = noun + "ok";
         }
