@@ -50,7 +50,11 @@ function GeneratePossessive(noun, animate, plural)
 
     function GenerateSingularPossive(noun)
     {
-        if ( noun.endsWith("em") )
+        if ( noun.endsWith("an") )
+        {
+            return noun;
+        }
+        if ( noun.endsWith("em") || noun.endsWith("en") )
         {
             return noun + 'om';
         }
@@ -119,7 +123,7 @@ function GenerateIndependantPlural(noun, animate=false, possessive=false)
         {
             plural = noun + "k";
         }
-        else if (noun.endsWith("em")) // Maybe "am" too or simply "m"...
+        else if (noun.endsWith("em") /*|| noun.endsWith("gen")*/)
         {
             plural = noun + "ok";
         }
