@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+    <a href="index.html">Acceuil</a>    
+</head>
+<body id="body">
+
+<script src="Dict.json"></script>
+<script src="dictionary_utils.js"></script>
+<script src="game.js"></script>
+
+<script>
+    function onGenerateNewQuestion()
+    {   
+        const wordList = ["odana", "aln8ba", "aasazit", "pezo", "mkezen", "sips", "minowis", "amiskwiia", "tmakwa", "tmahigan", "wios", "aplesakwam", "kwaï",
+            "seb8ïwi", "abon", "almos", "kizos", "moz", "aln8baïwi", "wigw8m", "8h8", "ab8n", "n8kskwa", "w8baksigamikw", "tos8n", "pag8n", "pkwazigan",
+            "abazi", "tasakwabon", "aw8sis", "awasos", "awaas", "nidazo", "chamocha", "channa", "nda", "agaskw", "nahama", "n8balha", "ahamo", "nlhoak",
+            "wajo", "awikhigan", "lli", "sogl8nilhasis", "mamaska", "agakimzowinno", "phanem", "san8ba", "tka", "sogl8nbi", "nebi", "wawil8mwa", "wliwni",
+            "8wdi", "pabaskw", "wskinnos", "pots", "kizosoo", "mgezo", "skok", "chegwal", "agbalam", "ab8n", "aw8sis", "tegw", "pabikw", "s8gm8", "m8lsem",
+            "nokamagw", "nodab8nkat", "sigwit", "tawipodi", "sibo", "wigwaol", "wigw8m", "awikhigan", "adbimen", "nbizon", "kik8n", "nebes", "abaznoda",
+            "mdawagen", "wanibagw", "pilaskw", "alilj8mek", "awikhiganigan", "pot8ïa", "mskiko", "pska8tkwen", "sen", "mdas", "amkw8n", "wajapkw", "mag8libo", 
+            "wdab8gan", "seg8gw", "moskwas"
+        ];
+
+
+        generateQuestionFromAbenakiWordList(dictionary, wordList);
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) ABK-1901 #3 Vocabulaire (2025-01-23)</h1>
+<br> 
+</br>
+<h2>Lieux publiques et les êtres et objets qu'ils contiennent</h2>
+<script>
+    addGameHtmlTo("body", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+</script>
+
+</body>
+</html>
