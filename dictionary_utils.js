@@ -84,3 +84,18 @@ function findEntry(dictionary, key, value)
     }
     return null;
 }
+
+function isNoun(entry)
+{
+    return entry.Type[0] == "N";
+}
+
+function isAnimate(entry)
+{
+    return startsWithIgnoreCase(entry.Type, "NA");
+}
+
+function isDependant(entry)
+{
+    return startsWithIgnoreCase(entry.Type, "NAD") || startsWithIgnoreCase(entry.Type, "NID");
+}

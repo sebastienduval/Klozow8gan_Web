@@ -1,6 +1,9 @@
 var choiceEntries = [];
 var answerIndex = 0;
 var currentDictionary;
+var isQuestionPlural = false;
+
+const DIFFICULTY_PLURAL = 'Pluriels';
 
 function getRandomInt(max) 
 {
@@ -30,10 +33,23 @@ function validate(index)
     document.getElementById("next").hidden = false;
 }
 
+function generateHardAnswer()
+{
+    const answerEntry = currentDictionary[choiceEntries[answerIndex]];
+    var answer = answerEntry.Abenaki.toLowerCase();
+    if ( isQuestionPlural )
+    {
+        const animate = isAnimate(answerEntry);
+        // For now, words are all considered independant as it won't affect plural.
+        answer = GenerateNoun(answer, animate, true, false, false, false);
+    }
+    return answer;    
+}
+
 function validateHard()
 {
     const value = document.getElementById("hardQuestionInput").value.toLowerCase();
-    const hardQuestionAnswer = currentDictionary[choiceEntries[answerIndex]].Abenaki.toLowerCase();
+    const hardQuestionAnswer = generateHardAnswer()
 
     document.getElementById("hardQuestionAnswer").innerHTML = hardQuestionAnswer;
     document.getElementById("hardQuestionAnswer").hidden = false;
@@ -50,6 +66,7 @@ function validateHard()
 
 function reset()
 {
+    isQuestionPlural = false;
     document.getElementById("next").hidden = true;
     for ( var i = 0; i <= 5; i ++ )
     {
@@ -104,11 +121,18 @@ function fillQuestionTypeFrenchToAbenaki(document, dictionary)
 
 function fillHardQuestionTypeFrenchToAbenaki(document, dictionary, hintLettersCount)
 {
-    document.getElementById("question").textContent = "Quel mot abénaki correspond le mieux à cette définition: \"" + dictionary[choiceEntries[answerIndex]].French + "\"?";
+    if ( isQuestionPlural )
+    {
+        document.getElementById("question").textContent = "Écrire le mot en abénaki AU PLURIEL qui correspond le mieux à cette définition: \"" + dictionary[choiceEntries[answerIndex]].French + " (Pluriel) \"?";
+    }
+    else
+    {
+        document.getElementById("question").textContent = "Écrire le mot en abénaki qui correspond le mieux à cette définition: \"" + dictionary[choiceEntries[answerIndex]].French + "\"?";
+    }
     document.getElementById("hardQuestion").hidden = false;
     if ( hintLettersCount > 0 )
     { 
-        document.getElementById("hardQuestionInput").placeholder = dictionary[choiceEntries[answerIndex]].Abenaki.substring(0,3) + "...";     
+        document.getElementById("hardQuestionInput").placeholder = generateHardAnswer().substring(0,3) + "...";     
     }
     else
     {
@@ -139,10 +163,6 @@ function generateQuestionFromAbenakiWordList(dictionary, wordList)
     generateQuestionFromIndices(dictionary, convertAbenakiWordListToIndices(dictionary, wordList));    
 }
 
-function generateHardQuestionFromAbenakiWordList(dictionary, wordList)
-{
-    generateHardQuestionFromIndices(dictionary, convertAbenakiWordListToIndices(dictionary, wordList));    
-}
 
 function generateQuestionFromCategory(dictionary, category)
 {    
@@ -157,6 +177,7 @@ function generateQuestionFromIndices(dictionary, indices)
     const difficulty = document.getElementById("difficulties").value;
 
     var generateMultipleChoiceQuestion = false;
+    var generatePluralQuestions = false;
 
     var choiceCount = 0;
     var hintLettersCount = 3;
@@ -178,6 +199,11 @@ function generateQuestionFromIndices(dictionary, indices)
     else if ( difficulty == 'Très difficile')
     {
         hintLettersCount = 0;
+    }
+    else if ( difficulty == DIFFICULTY_PLURAL )
+    {
+        hintLettersCount = 0;
+        generatePluralQuestions = true;
     }
 
     if ( generateMultipleChoiceQuestion )
@@ -201,12 +227,12 @@ function generateQuestionFromIndices(dictionary, indices)
         }
     }
     else
-    {
-        generateHardQuestionFromIndices(dictionary, indices, hintLettersCount);
+    {        
+        generateHardQuestionFromIndices(dictionary, indices, hintLettersCount, generatePluralQuestions);
     }
 }
 
-function generateHardQuestionFromIndices(dictionary, indices, hintLettersCount)
+function generateHardQuestionFromIndices(dictionary, indices, hintLettersCount, generatePluralQuestions=false)
 {    
     currentDictionary = dictionary;
     reset();
@@ -216,7 +242,7 @@ function generateHardQuestionFromIndices(dictionary, indices, hintLettersCount)
     choiceEntries.push([index]);
 
     answerIndex = 0;
-
+    isQuestionPlural = generatePluralQuestions && isNoun(currentDictionary[choiceEntries[answerIndex]]);    
     fillHardQuestionTypeFrenchToAbenaki(document, dictionary, hintLettersCount);  
 }
 
@@ -225,11 +251,15 @@ function onCategoryChanged()
     generateQuestionFromCategory(dictionary, document.getElementById("categories").value);
 }
 
-function formatDifficulties(data, selectName)
+function formatDifficulties(data, selectName, supportPlural = false)
 {
     const defaultSelected = 'Facile';
     var select = document.getElementById(selectName);
     const difficulties = ['Très facile', 'Facile', 'Moyen', 'Difficile', 'Très difficile'];
+    if ( supportPlural )
+    {
+        difficulties.push(DIFFICULTY_PLURAL);
+    }
     var innerHTML = "";
     for ( const difficulty of difficulties )
     {
@@ -239,6 +269,7 @@ function formatDifficulties(data, selectName)
     select.innerHTML += innerHTML;
 }
 
+/// Add the necessary View code to support questions.
 function addGameHtmlTo(elementId, updateQuestion)
 {
     var element = document.getElementById(elementId);
