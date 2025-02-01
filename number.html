@@ -10,7 +10,7 @@
 <body>
     <script src="number.js"></script> 
     <h1>Agizow8ganak (Les nombres)</h1>
-    <h3>Écris un nombre en chiffre pour le traduire en Abénaki.</h3>
+    <h3>Écris un nombre en nombre pour le traduire en Abénaki.</h3>
     <input type="text" id="NumberInput" value="2023">
     <button onclick="UpdateNumber()">Convertis</button>
     <br/>
@@ -19,7 +19,32 @@
         {
             document.getElementById("number").innerHTML = GenerateNumber(document.getElementById("NumberInput").value);
         }
+
+        function GenerateNumberTable()
+        {
+            const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 21, 60, 61, 100, 101, 600, 601, 1000, 1001, 6000, 6001];
+            var element = document.getElementById("number_table");
+
+            var innerHTML = "";
+            innerHTML += '<table>';
+            for ( let i in numbers )
+            {
+                innerHTML += '<tr>';
+                    innerHTML += '<td>' + GenerateNumber(numbers[i]) + '</td>';
+                    innerHTML += '<td>' + numbers[i] + '</td>';
+                innerHTML +=  '</tr>';
+            }
+            innerHTML += '</table>';
+            element.innerHTML += innerHTML;
+        }
+
     </script>
     <p id="number"></p>
+
+    <p id="number_table">
+    </p>  
+    <script>
+        GenerateNumberTable();
+    </script>          
 </body>
 </html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+    <a href="index.html">Acceuil</a>
+    <script type="module" src="game.js"></script>    
+</head>
+<body id="body">
+
+<script src="Dict.json"></script>
+<script src="string.js"></script>
+<script src="dictionary_utils.js"></script>
+<script src="number.js"></script>
+<script src="game.js"></script>
+
+<script>
+    const verbDictionary = GenerateNumberDictionary(75);
+    function onGenerateNewQuestion()
+    {   
+        var wordList = [];
+        for ( var definition of verbDictionary )
+        {
+            wordList.push(definition.Abenaki);
+        }                                         
+        generateQuestionFromAbenakiWordList(verbDictionary, wordList);
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) ABK-1901 #4 Les nombres du bingo (2025-01-30)</h1>
+<br> 
+</br>
+<script>
+    addGameHtmlTo("body", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+</script>
+
+</body>
+</html>

@@ -79,3 +79,14 @@ function GenerateNumber(number, type=NumberType.Neutral)
     }        
     return result;
 }
+
+function GenerateNumberDictionary(maxNumber)
+{
+    var result = [];
+    
+    for (let i = 0; i <= maxNumber; i++) 
+    {
+        result.push({"Abenaki":GenerateNumber(i),"French":i});
+    }    
+    return result;
+}
