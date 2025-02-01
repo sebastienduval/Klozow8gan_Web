@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+    <a href="index.html">Acceuil</a>
+    <script type="module" src="game.js"></script>    
+</head>
+<body id="body">
+
+<script src="Dict.json"></script>
+<script src="string.js"></script>
+<script src="dictionary_utils.js"></script>
+<script src="plural.js"></script>
+<script src="game.js"></script>
+
+<script>
+    function onGenerateNewQuestion()
+    {   
+        const wordList = ["ndakagwi", "pazokw", "nis", "nas", "iaw", "n8lan", "ngwed8s", "t8baw8s", "ns8zek", "noliwi", "mdala", "ngwed8kaw", "nis8kaw", 
+            "nas8kaw", "iaw8kaw", "n8nn8kaw", "ngwed8s kas8kaw", "nisinska", "nisinska taba pazokw", "ngwed8s kasinska", "ngwedatgwa", "ngwed8s kasatgwa", 
+            "ngwed8mkwaki", "ngwed8s kas8mkwaki", "kchi-ngwed8mkwaki", "mdala kasta kchi-ngwed8mkwaki"
+        ];
+
+        generateQuestionFromAbenakiWordList(dictionary, wordList);
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) ABK-1901 #4 Les nombres (2025-01-30)</h1>
+<br> 
+</br>
+<script>
+    addGameHtmlTo("body", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+</script>
+
+</body>
+</html>
