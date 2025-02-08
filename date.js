@@ -12,7 +12,19 @@ function GenerateDate(date)
 function GenerateTime(date)
 {
     const minutes = date.getMinutes();
-    var result = GetFirstLetterUpperCase(GenerateNumber(date.getHours(), NumberType.Inanimate)) + " kas8mkipoda";
+
+    const hours = date.getHours();
+    var result = GetFirstLetterUpperCase(GenerateNumber(date.getHours(), NumberType.Inanimate));
+    if ( hours <= 5 )
+    {
+        const table = ['Ngwed8mkipoda', 'Nis8mkipoda', 'Nas8mkipoda', 'Iaw8mkipoda', 'N8nn8mkipoda'];
+        result = table[hours + 1];
+    }
+    else
+    {
+        result = GetFirstLetterUpperCase(GenerateNumber(date.getHours(), NumberType.Inanimate)) + " kas8mkipoda";
+    }
+    
     if ( minutes > 0 )
     {
         result += " " + GenerateNumber(date.getMinutes(), NumberType.Inanimate) + " ";
