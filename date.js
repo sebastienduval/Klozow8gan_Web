@@ -27,7 +27,7 @@ function GenerateTime(date)
     
     if ( minutes > 0 )
     {
-        result += " " + GenerateNumber(date.getMinutes(), NumberType.Inanimate) + " ";
+        result += " taba " + GenerateNumber(date.getMinutes(), NumberType.Inanimate) + " ";
         if ( minutes == 1 )
         {
             result += "minit"; 
