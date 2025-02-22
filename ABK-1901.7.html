@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+    <a href="index.html">Acceuil</a>
+    <script type="module" src="game.js"></script>    
+</head>
+<body id="body">
+
+<script src="Dict.json"></script>
+<script src="string.js"></script>
+<script src="dictionary_utils.js"></script>
+<script src="plural.js"></script>
+<script src="game.js"></script>
+
+<script>
+    function onGenerateNewQuestion()
+    {   
+        const wordList = ["alamikos","pia8dagos","mozokas","sogalikas","kikas","nokahigas","tmaskikos","tmez8was","skamonkas","pnibagos","mzatanos", 
+            "pbonkas", "sigwan", "niben", "tagw8gw", "pbon", "sanda", "kizsanda", "nisda alokan", "nasda alokan", "iawda alokan", 
+            "skawategwikizgat", "kadawsanda", "wlikizgat", "majikizgat", "asokw", "mnasokw", "kizos", "alakws", "nanib8sat", "p8gwas", "managw8n",
+            "abasand8ganal", "kzel8msen", "pedgwel8msen", "pad8gi", "nebi", "sogl8n", "nebiskat", "pkwami", "pabadekw", "waz8li", "pita", "kzabda",
+            "tka", "kladen", "pakasokwat", "kizosoo", "alakwsoo", "asokwat", "pesgawan", "wdagikizgat", "pakwsatakizgat", "sogl8n", "pad8gioo", "ps8n"
+        ];
+
+        generateQuestionFromAbenakiWordList(dictionary, wordList);
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) ABK-1901 #7 (2025-02-20)</h1>
+<br> 
+</br>
+<script>
+    addGameHtmlTo("body", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+</script>
+
+</body>
+</html>
