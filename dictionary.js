@@ -44,6 +44,7 @@ function formatToTable(data, category="", filter="", filter_language) {
             tableHTML += "<td>" + entry.Type + "</td>";
             tableHTML += "<td>" + entry.Abenaki + "</td>";
             tableHTML += "<td>" + entry.Source + "</td>";
+            tableHTML += "<td>" + Learning.getWordScore(entry.Abenaki) + "</td>";
             tableHTML += "<td id=" + copyId + "></td>";
             tableHTML += "</tr>";
 

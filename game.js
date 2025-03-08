@@ -1,9 +1,30 @@
+
 var choiceEntries = [];
 var answerIndex = 0;
 var currentDictionary;
 var isQuestionPlural = false;
+var validated = false;
 
 const DIFFICULTY_PLURAL = 'Pluriels';
+
+class Game
+{
+    static difficulties = ['Très facile', 'Facile', 'Moyen', 'Difficile', 'Très difficile'];
+    static learningStep = 3;
+    static learnedScore =  Game.learningStep * Game.difficulties.length;   
+    static generateDifficultyFromScore(score)
+    {
+        let learningStep = Game.learningStep;
+        if ( learningStep < 0 )
+        {
+            learningStep = 3;
+        }
+        let difficultyIndex = Math.floor(score / learningStep);
+        difficultyIndex = Math.min(difficultyIndex, Game.difficulties.length-1);
+        let difficulty = Game.difficulties[difficultyIndex];
+        return difficulty;
+    }
+}
 
 function getRandomInt(max) 
 {
@@ -12,25 +33,35 @@ function getRandomInt(max)
 
 function validate(index) 
 {
-    var good = index == answerIndex;
-    if ( !good )
+    if ( !validated )
     {
-        document.getElementById("answer" + index).style = "color:red";
+        const good = index == answerIndex;
+
+        if ( good )
+        {
+            Learning.updateWordScore(currentDictionary[choiceEntries[answerIndex]].Abenaki, 1);
+        }
+
+        if ( !good )
+        {
+            document.getElementById("answer" + index).style = "color:red";
+        }
+
+        document.getElementById("answer"+ answerIndex).style = "color:green";
+
+        for ( var i = 0; i < choiceEntries.length; i ++ )
+        {
+            var answerElement = document.getElementById("answer"+ i);
+            var choiceElement = document.getElementById("choice"+ i);
+
+            choiceElement.hidden = true;        
+            answerElement.innerHTML = currentDictionary[choiceEntries[i]].French + " \"" + currentDictionary[choiceEntries[i]].Abenaki + "\"";
+            answerElement.hidden = false;
+        }
+
+        document.getElementById("next").hidden = false;
+        validated = true;
     }
-
-    document.getElementById("answer"+ answerIndex).style = "color:green";
-
-    for ( var i = 0; i < choiceEntries.length; i ++ )
-    {
-        var answerElement = document.getElementById("answer"+ i);
-        var choiceElement = document.getElementById("choice"+ i);
-
-        choiceElement.hidden = true;        
-        answerElement.innerHTML = currentDictionary[choiceEntries[i]].French + " \"" + currentDictionary[choiceEntries[i]].Abenaki + "\"";
-        answerElement.hidden = false;
-    }
-
-    document.getElementById("next").hidden = false;
 }
 
 function generateHardAnswer()
@@ -48,25 +79,37 @@ function generateHardAnswer()
 
 function validateHard()
 {
-    const value = document.getElementById("hardQuestionInput").value.toLowerCase();
-    const hardQuestionAnswer = generateHardAnswer()
+    if ( !validated )
+    {    
+        console.log('validateHard');
+        const value = document.getElementById("hardQuestionInput").value.toLowerCase();
+        const hardQuestionAnswer = generateHardAnswer()
 
-    document.getElementById("hardQuestionAnswer").innerHTML = hardQuestionAnswer;
-    document.getElementById("hardQuestionAnswer").hidden = false;
-    if ( value == hardQuestionAnswer )
-    {        
-        document.getElementById("hardQuestionAnswer").style = "color:green";
+        const good = value == hardQuestionAnswer;
+        if ( good )
+        {
+            Learning.updateWordScore(currentDictionary[choiceEntries[answerIndex]].Abenaki, 1);
+        }    
+
+        document.getElementById("hardQuestionAnswer").innerHTML = hardQuestionAnswer;
+        document.getElementById("hardQuestionAnswer").hidden = false;
+        if ( good )
+        {        
+            document.getElementById("hardQuestionAnswer").style = "color:green";
+        }
+        else
+        {
+            document.getElementById("hardQuestionAnswer").style = "color:red";
+        }
+        document.getElementById("next").hidden = false;
+        validated = true;
     }
-    else
-    {
-        document.getElementById("hardQuestionAnswer").style = "color:red";
-    }
-    document.getElementById("next").hidden = false;
 }
 
 function reset()
 {
     isQuestionPlural = false;
+    validated = false;
     document.getElementById("next").hidden = true;
     for ( var i = 0; i <= 5; i ++ )
     {
@@ -160,7 +203,35 @@ function fillQuestionTypeFrenchToAbenakiWithAnswerAndChoices(document, answer, c
 
 function generateQuestionFromAbenakiWordList(dictionary, wordList)
 {
-    generateQuestionFromIndices(dictionary, convertAbenakiWordListToIndices(dictionary, wordList));    
+    console.log(wordList);
+
+    // Get the user score for every word.
+    let scoredWords = [];
+    for ( const word of wordList )
+    {
+        scoredWords.push({ word: word, score: Learning.getWordScore(word)});            
+    }
+
+    // Sort them by score.
+    scoredWords.sort((a, b) => { return a.score < b.score; });
+
+    console.log(scoredWords);
+
+    let finalWordList = [];
+    for ( const scoredWord of scoredWords )
+    {
+        if ( finalWordList.length > 10 )
+        {
+            break;
+        }
+        if ( scoredWord.score < Game.learnedScore )
+        {
+            finalWordList.push(scoredWord.word);
+            console.log(scoredWord.word + " " + scoredWord.score);
+        }
+    }
+
+    generateQuestionFromIndices(dictionary, DictionaryUtils.convertAbenakiWordListToIndices(dictionary, finalWordList));    
 }
 
 
@@ -174,12 +245,26 @@ function generateQuestionFromIndices(dictionary, indices)
     currentDictionary = dictionary;
     reset();
 
-    const difficulty = document.getElementById("difficulties").value;
+    choiceEntries = [];
+    for (let i = 0; i < 6 && indices.length > 0; i++) 
+    {
+        const index = indices.splice(getRandomInt(indices.length), 1)[0];
+        choiceEntries.push(index);
+    }
+    console.log('choiceEntries ' + choiceEntries);
+
+    let chosenIndex = choiceEntries[0];
+    let chosenWord = currentDictionary[chosenIndex].Abenaki; 
+    console.log('chosenWord ' + chosenWord);    
+    let chosenWordScore = Learning.getWordScore(chosenWord);
+    console.log('chosenWordScore ' + chosenWordScore);      
+    let difficulty = Game.generateDifficultyFromScore(chosenWordScore);
+    console.log('difficulty ' + difficulty);   
 
     var generateMultipleChoiceQuestion = false;
     var generatePluralQuestions = false;
 
-    var choiceCount = 0;
+    var choiceCount = 1;
     var hintLettersCount = 3;
     if ( difficulty == 'Très facile')
     {
@@ -206,16 +291,15 @@ function generateQuestionFromIndices(dictionary, indices)
         generatePluralQuestions = true;
     }
 
-    if ( generateMultipleChoiceQuestion )
-    {
-        choiceEntries = [];
-        for (let i = 0; i < choiceCount && indices.length > 0; i++) 
-        {
-            const index = indices.splice(getRandomInt(indices.length), 1);
-            choiceEntries.push([index]);
-        }
+    console.log('choiceCount: ' + choiceCount);        
+    choiceEntries = choiceEntries.splice(0, choiceCount);
+    answerIndex = getRandomInt(choiceEntries.length);
 
-        answerIndex = getRandomInt(choiceEntries.length);
+    if ( generateMultipleChoiceQuestion )
+    {        
+        let temp = choiceEntries[0];
+        choiceEntries[0] = choiceEntries[answerIndex];
+        choiceEntries[answerIndex] = temp;
 
         if ( getRandomInt(2) == 0 )
         {
@@ -228,18 +312,16 @@ function generateQuestionFromIndices(dictionary, indices)
     }
     else
     {        
-        generateHardQuestionFromIndices(dictionary, indices, hintLettersCount, generatePluralQuestions);
+        generateHardQuestionFromIndices(dictionary, hintLettersCount, generatePluralQuestions);
     }
+
+    console.log(choiceEntries);
 }
 
-function generateHardQuestionFromIndices(dictionary, indices, hintLettersCount, generatePluralQuestions=false)
+function generateHardQuestionFromIndices(dictionary, hintLettersCount, generatePluralQuestions=false)
 {    
     currentDictionary = dictionary;
     reset();
-
-    choiceEntries = [];
-    const index = indices.splice(getRandomInt(indices.length), 1);
-    choiceEntries.push([index]);
 
     answerIndex = 0;
     isQuestionPlural = generatePluralQuestions && isNoun(currentDictionary[choiceEntries[answerIndex]]);    
@@ -255,10 +337,10 @@ function formatDifficulties(data, selectName, supportPlural = false)
 {
     const defaultSelected = 'Facile';
     var select = document.getElementById(selectName);
-    const difficulties = ['Très facile', 'Facile', 'Moyen', 'Difficile', 'Très difficile'];
+    const difficulties = Game.difficulties;
     if ( supportPlural )
     {
-        difficulties.push(DIFFICULTY_PLURAL);
+        Game.difficulties.push(DIFFICULTY_PLURAL);
     }
     var innerHTML = "";
     for ( const difficulty of difficulties )

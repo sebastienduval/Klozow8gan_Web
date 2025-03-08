@@ -49,27 +49,30 @@ function generateWordIndices(dictionary, category)
     return wordList;
 }
 
-// Given a list of words generate a list of indices.
-function convertAbenakiWordListToIndices(dictionary, wordList)
+class DictionaryUtils
 {
-    var wordListCopy = wordList.slice();
-    var indices = []; 
-    for ( let i = 0; i < dictionary.length; i ++ ) 
-    {                
-        var word = dictionary[i].Abenaki.toLowerCase();
-        if ( wordListCopy.includes(word) )
-        {
-            indices.push(i);
-            wordListCopy = wordListCopy.filter(item => item !== word);
-        }
-    }
-
-    if ( wordListCopy.length > 0 )
+    // Given a list of words generate a list of indices.
+    static convertAbenakiWordListToIndices(dictionary, wordList)
     {
-        console.log(wordListCopy)
-    }
+        var wordListCopy = wordList.slice();
+        var indices = []; 
+        for ( let i = 0; i < dictionary.length; i ++ ) 
+        {                
+            var word = dictionary[i].Abenaki.toLowerCase();
+            if ( wordListCopy.includes(word) )
+            {
+                indices.push(i);
+                wordListCopy = wordListCopy.filter(item => item !== word);
+            }
+        }
 
-    return indices;
+        if ( wordListCopy.length > 0 )
+        {
+            console.log(wordListCopy)
+        }
+
+        return indices;
+    }
 }
 
 // Given dictionary and a key, find the entry matching the key.
