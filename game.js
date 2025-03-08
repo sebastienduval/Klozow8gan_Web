@@ -11,7 +11,8 @@ class Game
 {
     static difficulties = ['Très facile', 'Facile', 'Moyen', 'Difficile', 'Très difficile'];
     static learningStep = 3;
-    static learnedScore =  Game.learningStep * Game.difficulties.length;   
+    static learnedScore =  Game.learningStep * Game.difficulties.length;
+    static wordClusterSize = 16;   
     static generateDifficultyFromScore(score)
     {
         let learningStep = Game.learningStep;
@@ -220,7 +221,7 @@ function generateQuestionFromAbenakiWordList(dictionary, wordList)
     let finalWordList = [];
     for ( const scoredWord of scoredWords )
     {
-        if ( finalWordList.length > 10 )
+        if ( finalWordList.length > Game.wordClusterSize )
         {
             break;
         }
