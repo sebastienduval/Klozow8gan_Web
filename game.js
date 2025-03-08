@@ -359,7 +359,7 @@ function addGameHtmlTo(elementId, updateQuestion)
     var innerHTML = "";
 
     innerHTML += '<br>';
-    innerHTML += '<select name="difficulties" id="difficulties" onchange="' + updateQuestion + '">'
+    innerHTML += '<select name="difficulties" id="difficulties" hidden=true onchange="' + updateQuestion + '">'
     innerHTML += '</select>';
     innerHTML += '</br>';
     innerHTML += '<h4 id="question"></h4>';
