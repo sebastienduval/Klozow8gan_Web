@@ -204,8 +204,6 @@ function fillQuestionTypeFrenchToAbenakiWithAnswerAndChoices(document, answer, c
 
 function generateQuestionFromAbenakiWordList(dictionary, wordList)
 {
-    console.log(wordList);
-
     // Get the user score for every word.
     let scoredWords = [];
     for ( const word of wordList )
@@ -215,8 +213,6 @@ function generateQuestionFromAbenakiWordList(dictionary, wordList)
 
     // Sort them by score.
     scoredWords.sort((a, b) => { return a.score < b.score; });
-
-    console.log(scoredWords);
 
     let finalWordList = [];
     for ( const scoredWord of scoredWords )
@@ -228,7 +224,6 @@ function generateQuestionFromAbenakiWordList(dictionary, wordList)
         if ( scoredWord.score < Game.learnedScore )
         {
             finalWordList.push(scoredWord.word);
-            console.log(scoredWord.word + " " + scoredWord.score);
         }
     }
 
@@ -252,15 +247,11 @@ function generateQuestionFromIndices(dictionary, indices)
         const index = indices.splice(getRandomInt(indices.length), 1)[0];
         choiceEntries.push(index);
     }
-    console.log('choiceEntries ' + choiceEntries);
 
     let chosenIndex = choiceEntries[0];
     let chosenWord = currentDictionary[chosenIndex].Abenaki; 
-    console.log('chosenWord ' + chosenWord);    
     let chosenWordScore = Learning.getWordScore(chosenWord);
-    console.log('chosenWordScore ' + chosenWordScore);      
     let difficulty = Game.generateDifficultyFromScore(chosenWordScore);
-    console.log('difficulty ' + difficulty);   
 
     var generateMultipleChoiceQuestion = false;
     var generatePluralQuestions = false;

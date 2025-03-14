@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+    <a href="index.html">Acceuil</a>
+</head>
+<body id="body">
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>
+<script src="Dict.json"></script>
+<script src="string.js"></script>
+<script src="dictionary_utils.js"></script>
+<script src="plural.js"></script>
+<script src="learning.js"></script>
+<script src="game.js"></script>
+
+<script>
+    function onGenerateNewQuestion()
+    {   
+        const wordList = ["nia", "kia", "agma", "niona", "kiona", "kiow8", "kilw8w8", "agm8w8", "nid8ba", "nigawes", "nmit8gwes", "ndoz",
+            "nnam8n", "nmahom", "nokmes", "noses", "nijakaso", "nijia", "nid8pso", "niswiakw", "nid8basis", "nid8basiskwa", "ndep", "npedin",
+            "nsizekw", "wsizekaïganal", "wpedin8bi", "wdep8bi", "ndepkwan", "nj8l", "ndon", "ntawakw", "nhaga", "nkeskwan", "nejli", "nk8t",
+            "nkedekw", "nzit"
+        ];
+
+        generateQuestionFromAbenakiWordList(dictionary, wordList);
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) ABK-1901 #10 (2025-03-14)</h1>
+<br> 
+</br>
+<script>
+    addGameHtmlTo("body", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+</script>
+
+</body>
+</html>
