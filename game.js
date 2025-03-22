@@ -10,18 +10,29 @@ const DIFFICULTY_PLURAL = 'Pluriels';
 class Game
 {
     static difficulties = ['Très facile', 'Facile', 'Moyen', 'Difficile', 'Très difficile'];
-    static learningStep = 3;
-    static learnedScore =  Game.learningStep * Game.difficulties.length;
-    static wordClusterSize = 16;   
+    static learningSteps = [1, 3, 2, 2, 2];
+    static learnedScore =  Game.learningSteps.reduce((sum, v) => sum + v, 0);
+    static wordClusterSize = 32;   
     static generateDifficultyFromScore(score)
     {
-        let learningStep = Game.learningStep;
+        let learningStep = Game.learningSteps;
         if ( learningStep < 0 )
         {
             learningStep = 3;
         }
-        let difficultyIndex = Math.floor(score / learningStep);
-        difficultyIndex = Math.min(difficultyIndex, Game.difficulties.length-1);
+        
+        let difficultyIndex = 0;
+        let currentDifficulty = 0;
+        for ( let i = 0; i < Game.learningSteps.length; i ++ )
+        {
+            currentDifficulty += Game.learningSteps[i];
+            if ( score < currentDifficulty )
+            {
+                difficultyIndex = i;
+                break;
+            }
+        }
+
         let difficulty = Game.difficulties[difficultyIndex];
         return difficulty;
     }
