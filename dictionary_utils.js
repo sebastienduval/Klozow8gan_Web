@@ -27,8 +27,9 @@ function formatCategories(data, selectName)
 {
     var categoriesSelect = document.getElementById(selectName);
     const categories = gatherCategories(data);
+    const sortedCategories = Array.from(categories).sort((a, b) => a.localeCompare(b))
     var categoryInnerHTML = "";
-    for ( const category of categories )
+    for ( const category of sortedCategories )
     {
         categoryInnerHTML += "<option value=\"" + category + "\">" + category + "</option>";
     }

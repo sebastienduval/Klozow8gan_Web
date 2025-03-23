@@ -3,8 +3,10 @@ function formatCategories(data)
 {
     var categoriesSelect = document.getElementById("categories");
     const categories = gatherCategories(data);
+    const categoryArray = Array.from(categories);
+    const sortedCategories = categoryArray.sort((a, b) => a.localeCompare(b));
     var categoryInnerHTML = "";
-    for ( const category of categories )
+    for ( const category of sortedCategories )
     {
         categoryInnerHTML += "<option value=\"" + category + "\">" + category + "</option>";
     }
