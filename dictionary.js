@@ -6,6 +6,7 @@ function formatCategories(data)
     const categoryArray = Array.from(categories);
     const sortedCategories = categoryArray.sort((a, b) => a.localeCompare(b));
     var categoryInnerHTML = "";
+    categoryInnerHTML += "<option value=\"\">Tout</option>";    
     for ( const category of sortedCategories )
     {
         categoryInnerHTML += "<option value=\"" + category + "\">" + category + "</option>";
