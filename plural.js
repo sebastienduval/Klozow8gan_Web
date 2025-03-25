@@ -178,13 +178,25 @@ function GenerateDependant(noun, animate, plural)
         const Plurals = ["ak", "ak", "", "wak", "wak", "k", ""];
         for ( var i = 0; i < Pronouns.length; i ++ )
         {
-            plurals.push(Pronouns[i]+noun+Finals[i]+(plural?Plurals[i]:''));
+            let temp = Pronouns[i]+noun+Finals[i];
+            if ( plural )
+            {
+                if ( i < 2 )
+                {
+                    if ( temp[temp.length-1] == 'a' )
+                    {
+                        temp = temp.slice(0, -1);
+                    }
+                }
+                temp += Plurals[i];
+            }
+            plurals.push(temp);
         }
     }
     else
     {
         const Finals = ["", "", "", "na", "na", "w8", "w8"];
-        const Plurals = ["al", "al", "al", "wal", "wal", "al", "al"];
+        const Plurals = ["al", "al", "al", "wal", "wal", "l", "l"];
         for ( var i = 0; i < Pronouns.length; i ++ )
         {
             plurals.push(Pronouns[i]+noun+Finals[i]+(plural?Plurals[i]:''));
