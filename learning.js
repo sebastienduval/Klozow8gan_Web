@@ -3,15 +3,23 @@ class Learning
     static cookieDuration = 365;
     static getWordScore(word)
     {
-        word = word.toLowerCase();
-        let value = Cookies.get(word);
-        if( !value )
+        let value = 0;
+        if ( word )
         {
-            value = 0;
+            word = word.toLowerCase();
+            value = Cookies.get(word);
+            if( !value )
+            {
+                value = 0;
+            }
+            else
+            {
+                value = parseInt(value);
+            }
         }
         else
         {
-            value = parseInt(value);
+            console.log(word);
         }
         return value;
     }

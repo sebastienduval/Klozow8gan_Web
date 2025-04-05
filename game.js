@@ -219,7 +219,14 @@ function generateQuestionFromAbenakiWordList(dictionary, wordList)
     let scoredWords = [];
     for ( const word of wordList )
     {
-        scoredWords.push({ word: word, score: Learning.getWordScore(word)});            
+        if ( word )
+        {
+            scoredWords.push({ word: word, score: Learning.getWordScore(word)});
+        }
+        else
+        {
+            console.log("Invalid word!");
+        }
     }
 
     // Sort them by score.
