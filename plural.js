@@ -187,9 +187,14 @@ function GenerateDependant(noun, animate, plural)
                     {
                         temp = temp.slice(0, -1);
                     }
+                    temp = GenerateIndependantPlural(temp, true);
                 }
-                temp += Plurals[i];
+                else
+                {
+                    temp = temp + Plurals[i];
+                }                
             }
+
             plurals.push(temp);
         }
     }
@@ -199,7 +204,17 @@ function GenerateDependant(noun, animate, plural)
         const Plurals = ["al", "al", "al", "wal", "wal", "l", "l"];
         for ( var i = 0; i < Pronouns.length; i ++ )
         {
-            plurals.push(Pronouns[i]+noun+Finals[i]+(plural?Plurals[i]:''));
+            let temp = Pronouns[i]+noun+Finals[i];
+            if ( i < 3 )
+            {
+                temp = GenerateIndependantPlural(temp, false);
+            }
+            else
+            {
+                temp = temp +(plural?Plurals[i]:'');
+            }
+
+            plurals.push(temp);
         }
     }
     return plurals;
