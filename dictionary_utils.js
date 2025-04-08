@@ -114,7 +114,7 @@ function hideTable()
 function generateWordTable(element_id, dictionary, wordList)
 {
     var element = document.getElementById("toggle");
-    element.innerHTML = '<input type="button" name="show_words_name" id="show_words_id" value="Toggle words" onclick="hideTable()"/>'
+    element.innerHTML = '<input type="button" name="show_words_name" id="show_words_id" value="Liste de mots" onclick="hideTable()"/>'
 
     var element = document.getElementById(element_id);
 
