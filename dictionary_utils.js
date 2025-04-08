@@ -104,3 +104,42 @@ function isDependant(entry)
 {
     return startsWithIgnoreCase(entry.Type, "NAD") || startsWithIgnoreCase(entry.Type, "NID");
 }
+
+function hideTable()
+{
+    let element = document.getElementById("word_table");
+    element.hidden = !element.hidden;
+}
+
+function generateWordTable(element_id, dictionary, wordList)
+{
+    var element = document.getElementById("toggle");
+    element.innerHTML = '<input type="button" name="show_words_name" id="show_words_id" value="Toggle words" onclick="hideTable()"/>'
+
+    var element = document.getElementById(element_id);
+
+    var innerHTML = "";
+    innerHTML += '<table>';
+
+    wordList = wordList.map(element => {
+        return normalizeString(element);
+    });
+
+    for ( let word of wordList.sort() )
+    {
+        var entry = findEntry(dictionary, 'Abenaki', word);
+        if ( entry )   
+        {
+            innerHTML += '<tr>';
+                innerHTML += '<td>' + normalizeString(word) + '</td>';
+                innerHTML += '<td>' + entry.French + '</td>';
+            innerHTML +=  '</tr>';
+        }
+        else
+        {
+            console.log(entry);
+        }
+    }
+    innerHTML += '</table>';
+    element.innerHTML += innerHTML;
+}

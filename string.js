@@ -25,4 +25,10 @@ function containsIgnoreCase(string1, string2)
   return string1.toUpperCase().includes(string2.toUpperCase());
 }
 
+function normalizeString(string) 
+{
+  string = string.toLowerCase();
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 

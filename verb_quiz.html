@@ -41,7 +41,7 @@
         {
             for ( const temps of tempsDeConjugaison )
             {
-                var conjugations = Conjugate(verb, temps);
+                var conjugations = Conjugate(verb, temps, "VAI");
                 for ( var conjugation of conjugations )
                 {
                     verbDictionary.push({"Abenaki":conjugation.Spelling, "French":entry.Infinitive + " (" + personsDescription[conjugation.Index] + " " + descriptionDeTempsDeConjugaison.get(temps) + ")."});
@@ -67,8 +67,8 @@
     }
 </script>
 
-<h1>Nadodemow8ganal (Questions) Quiz de conjugaison</h1>
-<h2>Conjugaison de verbes à l'impératif</h2>
+<h1>Nadodemow8ganal (Questions)</h1>
+<h2>Quiz de conjugaison</h2>
 
 <script>
     addGameHtmlTo("body", 'onGenerateNewQuestion()');
