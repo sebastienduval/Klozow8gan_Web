@@ -12,31 +12,40 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>    
 <script src="learning.js"></script>
 <script src="Dict.json"></script>
+<script src="string.js"></script>
 <script src="dictionary_utils.js"></script>
 <script src="game.js"></script>
 
 <script>
-    function onGenerateNewQuestion()
-    {   
+    function getWordList()
+    {
         const wordList = ["odana", "aln8ba", "aasazit", "pezo", "mkezen", "sips", "minowis", "amiskwiia", "tmakwa", "tmahigan", "wios", "aplesakwam", "kwaï",
             "seb8ïwi", "abon", "almos", "kizos", "moz", "aln8baïwi", "wigw8m", "8h8", "ab8n", "n8kskwa", "w8baksigamikw", "tos8n", "pag8n", "pkwazigan",
             "abazi", "tasakwabon", "aw8sis", "awasos", "awaas", "nidazo", "chamocha", "channa", "nda", "agaskw", "nahama", "n8balha", "ahamo", "nlhoak",
             "wajo", "awikhigan", "lli", "sogl8nilhasis", "mamaska", "agakimzowinno", "phanem", "san8ba", "tka", "sogl8nbi", "nebi", "wawil8mwa", "wliwni",
             "8wdi", "pabaskw", "wskinnos"
         ];
-
-
-        generateQuestionFromAbenakiWordList(dictionary, wordList);
+        return wordList; 
+    }    
+    function onGenerateNewQuestion()
+    {   
+        generateQuestionFromAbenakiWordList(dictionary, getWordList());
     }
 </script>
 
 <h1>Nadodemow8ganal (Questions) ABK-1901 #2 Vocabulaire (2025-01-16)</h1>
 <br> 
 </br>
-<script>
-    addGameHtmlTo("body", 'onGenerateNewQuestion()');
+<p id="quiz"></p>
+<br> 
+</br>
+<p id="toggle"></p>
+<p id="word_table" hidden=true></p>
+<script>  
+    addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
     formatDifficulties(dictionary, "difficulties");
     onGenerateNewQuestion();
+    generateWordTable("word_table", dictionary, getWordList());
 </script>
 
 </body>

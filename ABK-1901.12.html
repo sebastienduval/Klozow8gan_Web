@@ -18,8 +18,8 @@
 <script src="game.js"></script>
 
 <script>
-    function onGenerateNewQuestion()
-    {   
+    function getWordList()
+    {
         const wordList = ["ndep", "npedin", "nsizekw", "wsizekaïganal", "wpedin8bi", "wdep8bi", "ndepkwan", "nj8l", "ndon", "ntawakw", "nhaga", "nkeskwan", 
             "nelji", "nk8t", "nkedekw", "nzit", "nd'akwamalsi", "n'madamalsi", "nd'akwamadam", "n'wzig8wzi", "n'kzabzi", "n'kzabzowi", "n'kwaskwaji", "n'sokwamalsi",
             "n'wesgwina", "n'nakhwh8mi", "ndepinaw8gan", "n'wesagagwezi", "n'majilawa", "n'n8n8gipozi", "nd'8psazi", "n'wlitebamalsi",
@@ -28,18 +28,27 @@
             "kwetgwabizon", "plajes", "labizowan", "mdas", "pots", "mkezen", "klh8gan", "tawz8gan", "chebesagahigan", "alsaktak", "nagwiabakw8gan", "abakw8gan",
             "wibgwigen", "w8bigen", "wl8wigen", "wdam8wigen", "wiz8wigen", "mkazawigen", "wasawasigen", "mkwigen", "askaskwigen", "min8bowigen", "wlamanigen"
         ];
-
-        generateQuestionFromAbenakiWordList(dictionary, wordList);
+        return wordList;      
+    }    
+    function onGenerateNewQuestion()
+    {   
+        generateQuestionFromAbenakiWordList(dictionary, getWordList());
     }
 </script>
 
 <h1>Nadodemow8ganal (Questions) ABK-1901 #12 (2025-03-27)</h1>
 <br> 
 </br>
-<script>
-    addGameHtmlTo("body", 'onGenerateNewQuestion()');
+<p id="quiz"></p>
+<br> 
+</br>
+<p id="toggle"></p>
+<p id="word_table" hidden=true></p>
+<script>  
+    addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
     formatDifficulties(dictionary, "difficulties");
     onGenerateNewQuestion();
+    generateWordTable("word_table", dictionary, getWordList());
 </script>
 
 </body>
