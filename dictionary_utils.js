@@ -133,6 +133,7 @@ function generateWordTable(element_id, dictionary, wordList)
             innerHTML += '<tr>';
                 innerHTML += '<td>' + normalizeString(word) + '</td>';
                 innerHTML += '<td>' + entry.French + '</td>';
+                innerHTML += "<td>" + Learning.getWordScore(entry.Abenaki) + "</td>";
             innerHTML +=  '</tr>';
         }
         else
