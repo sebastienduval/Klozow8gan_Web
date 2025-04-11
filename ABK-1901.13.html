@@ -12,6 +12,7 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>
 <script src="Dict.json"></script>
 <script src="string.js"></script>
+<script src="word_list.js"></script>
 <script src="dictionary_utils.js"></script>
 <script src="plural.js"></script>
 <script src="learning.js"></script>
@@ -20,15 +21,15 @@
 <script>
     function getWordList()
     {
-        const wordList = ["ndep", "npedin", "nsizekw", "wsizekaïganal", "wpedin8bi", "wdep8bi", "ndepkwan", "nj8l", "ndon", "ntawakw", "nhaga", "nkeskwan", 
+        const wordList = new WordList(["ndep", "npedin", "nsizekw", "wpedin8bi", "wdep8bi", "ndepkwan", "nj8l", "ndon", "ntawakw", "nhaga", "nkeskwan", 
             "nelji", "nk8t", "nkedekw", "nzit", "n'sawa", "n'katsawa", "n'nasl8", "n'nasto", "n'kadn8", "n'kadnem", "asolkw8n", "antikw",
-            "wsizekwaïganal", "saksahon", "n8pkowan", "meljas", "wpedin8bi", "tbaïkizos8gan", "pit8gan", "w8baks", "pitk8zon", "pbonipitk8zon", "phanemipitk8zon",
+            "wsizekwaïganal", "saksahon", "n8pkowan", "meljas", "tbaïkizos8gan", "pit8gan", "w8baks", "pitk8zon", "pbonipitk8zon", "phanemipitk8zon",
             "kwetgwabizon", "plejes", "labizowan", "mdas", "pots", "mkezen", "klh8gan", "tawz8gan", "chebesagahigan", "alsaktak", "nagwiabakw8gan", "abakw8gan",
             "wibgwigen", "w8bigen", "wl8wigen", "wdam8wigen", "wiz8wigen", "mkazawigen", "wasawasigen", "mkwigen", "askaskwigen", "min8bowigen", "wlamanigen",
             "aï8ba", "aksen", "kaoz", "kaozis", "ases", "sp8nioliases", "kots", "azib", "piks", "n8balha", "ahamo", "nahama", "w8bigilhakw", "matgwas", "minowis", 
             "almos", "kchi w8bikwsos", "namas", "mskwamagw", "kwenoza", "kabasa", "m8lamagws", "mamaska", "chegwal", "skok", "sisikwa", "tolba",
             "sips", "mgezo", "kokokhas", "kwigwigem", "mkazas", "plaz", "wjawas", "pegwes", "mamij8la", "mamselhabika", "moz", "nolka", "mag8libo", "awasos", 
-            "seg8gw", "m8lsem", "pezo", "tmakwa", "matgwas", "mikwa", "agaskw", "nd'agizi", "agizi", "nd'agim8", "agima", "nd'agidam", "agida", "askan", "piaso",
+            "seg8gw", "m8lsem", "pezo", "tmakwa", "mikwa", "agaskw", "nd'agizi", "agizi", "nd'agim8", "agima", "nd'agidam", "agida", "askan", "piaso",
             "wzogna", "migwen", "nd'adboka", "nd'adbokwa", "nd'8ptadboka", "n'kadopi", "n'michi", "n'mow8", "n'miji", "n'kadawesmi", "n'kadosmi", "n'kzalga", 
             "n'kzalm8", "n'kzaldam", "Anasiat", "Wl8gan", "Nsakwakw", "Amkw8n", "Nimatgwahigan", "Kwatsis", "Aasazit", "Napkin", "Nebi", "Nbizonbi", "Todosn8bo", 
             "Labial", "Makwbagak", "Kapi", "Ti", "Aples", "Wasawas", "M8l8gwimen", "Pananas", "Adbimen", "Sata", "Mskwkwimens", "Segweskimen", "Padates", "Kalot", 
@@ -36,12 +37,12 @@
             "Lasop", "Pizilasop", "Ns8b8n", "Lago", "Siwan", "Tipwabel", "Wiz8wipemi", "Pinagel", "Sogal", "Nokhigan", "Min8bo", "Wawil8mwaïmlases", "n'namito", 
             "n'namih8", "Atstaw8gan", "Nidazo", "awaas", "Agizow8gan", "Mijow8gan", "Mink8gan", "Kadosmow8gan", "Wl8ganin8kw", "Wligen", "Majigen", "Taakwigen", 
             "Msagigen", "Mlikigen", "Nojimigen", "Chachakigen", "M8m8ligen", "Oswigen", "Nokigen", "K8wigen", "Kwena", "Piwsa", "S8gla", "Kpaga", "Wazaba"
-        ];
+        ]);
         return wordList;
     }
     function onGenerateNewQuestion()
     {       
-        generateQuestionFromAbenakiWordList(dictionary, getWordList());        
+        generateQuestionFromAbenakiWordList(dictionary, getWordList().words);        
     }
 </script>
 
@@ -57,7 +58,7 @@
     addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
     formatDifficulties(dictionary, "difficulties");
     onGenerateNewQuestion();
-    generateWordTable("word_table", dictionary, getWordList());
+    generateWordTable("word_table", dictionary, getWordList().words);
 </script>
 
 </body>

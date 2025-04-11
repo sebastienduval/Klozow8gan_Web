@@ -31,4 +31,35 @@ function normalizeString(string)
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function removeDuplicates(strings) 
+{
+  return Array.from(new Set(strings));
+}
 
+function findDuplicates(strings) 
+{
+  const map = new Map();
+  const duplicates = [];
+
+  for (const string of strings) 
+  {
+    if (map.has(string)) 
+    {
+      map.set(string, map.get(string) + 1); // Increment count
+    } 
+    else 
+    {
+      map.set(string, 1); // Initialize count
+    }
+  }
+
+  for (const [key, value] of map) 
+  {
+    if (value > 1) 
+    {
+      duplicates.push(key);
+    }
+  }
+
+  return duplicates;
+}

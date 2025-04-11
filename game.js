@@ -217,7 +217,8 @@ function generateQuestionFromAbenakiWordList(dictionary, wordList)
 {
     // Lowercase the input.
     wordList = wordList.map(word => word.toLowerCase());
-
+    wordList = removeDuplicates(wordList);
+ 
     // Get the user score for every word.
     let scoredWords = [];
     for ( const word of wordList )

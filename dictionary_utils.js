@@ -121,6 +121,7 @@ function generateWordTable(element_id, dictionary, wordList)
     var innerHTML = "";
     innerHTML += '<table>';
 
+    wordList = removeDuplicates(wordList);
     wordList = wordList.map(element => {
         return normalizeString(element);
     });
@@ -131,7 +132,7 @@ function generateWordTable(element_id, dictionary, wordList)
         if ( entry )   
         {
             innerHTML += '<tr>';
-                innerHTML += '<td>' + normalizeString(word) + '</td>';
+                innerHTML += '<td>' + word + '</td>';
                 innerHTML += '<td>' + entry.French + '</td>';
                 innerHTML += "<td>" + Learning.getWordScore(entry.Abenaki) + "</td>";
             innerHTML +=  '</tr>';
