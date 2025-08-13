@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal (Questions)</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+    <a href="index.html">Acceuil</a>    
+</head>
+<body id="body">
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>    
+<script src="learning.js"></script>    
+<script src="Dict.json"></script>
+<script src="dictionary_utils.js"></script>
+<script src="game.js"></script>
+
+<h1>Nadodemow8ganal (Oiseaux)</h1>
+<br> 
+</br>
+<p id="quiz"></p>
+<br> 
+</br>
+<p id="toggle"></p>
+<p id="word_table" hidden=true></p>
+<script>
+    function onNewQuestion()
+    {
+        generateQuestionFromCategory(dictionary, "Oiseau");
+    }
+
+    addGameHtmlTo("body", 'onNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onNewQuestion();
+</script>
+
+</body>
+</html>
