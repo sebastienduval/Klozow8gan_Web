@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="..\klozow8gan.css">
+    <a href="..\index.html">Acceuil</a>
+</head>
+<body id="body">
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>
+<script src="..\Dict.json"></script>
+<script src="..\string.js"></script>
+<script src="..\word_list.js"></script>
+<script src="..\dictionary_utils.js"></script>
+<script src="..\plural.js"></script>
+<script src="..\learning.js"></script>
+<script src="..\game.js"></script>
+
+<script>
+    function getWordList()
+    {
+        const wordList = new WordList(["sigwan", "niben", "tagw8gw", "pbon", "sigwana", "nibena", "tagw8gwa", "pbona",
+            "sigwaga", "nibega", "tagw8gwiga", "pboga", "tagw8gwoo"
+        ]);
+        return wordList;
+    }
+    function onGenerateNewQuestion()
+    {       
+        generateQuestionFromAbenakiWordList(dictionary, getWordList().words);        
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) Odanak Automne #1 (2025-09-15)</h1>
+<br> 
+</br>
+<p id="quiz"></p>
+<br> 
+</br>
+<p id="toggle"></p>
+<p id="word_table" hidden=true></p>
+<script>  
+    addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+    generateWordTable("word_table", dictionary, getWordList().words);
+</script>
+
+</body>
+</html>
