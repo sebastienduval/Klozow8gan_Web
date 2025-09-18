@@ -139,7 +139,7 @@ function generateWordTable(element_id, dictionary, wordList)
         }
         else
         {
-            console.log(entry);
+            console.log(word);
         }
     }
     innerHTML += '</table>';
