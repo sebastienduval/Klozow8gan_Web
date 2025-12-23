@@ -51,6 +51,21 @@ function generateWordIndices(dictionary, category)
     return wordList;
 }
 
+// Given a dictionary returns an array of indices refering to entries that includes the supplied category and are of up to max length
+function generateWordIndicesWithLength(dictionary, category, maxLength)
+{
+    var wordList = []; 
+    for ( let i = 0; i < dictionary.length; i ++ ) 
+    {        
+        if ( doesEntryIncludesCategory(dictionary[i], category) 
+            && countLetters(dictionary[i].Abenaki) <= maxLength )
+        {
+            wordList.push(i);
+        }
+    }
+    return wordList;
+}
+
 class DictionaryUtils
 {
     // Given a list of words generate a list of indices.
