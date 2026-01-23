@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="../klozow8gan.css">
+    <a href="quiz_index.html">Retour</a>    
+</head>
+<body id="body">
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>    
+<script src="../learning.js"></script>
+<script src="../Dict.json"></script>
+<script src="../string.js"></script>
+<script src="../dictionary_utils.js"></script>
+<script src="../game.js"></script>
+
+<script>
+    function getWordList()
+    {
+        const wordList = ["nd'alosa", "nd'aï", "nd'aloka", "nd'agakimzi", "n'michi", "n'kawi",
+                          "pamkizgak", "wl8gwa", "saba", "kizokw", "kizgat", "tebokw",
+                          "chakwak", "sp8zowik", "paskwa", "kizi paskwa", "wl8gw", "paml8gwik", "n8witbakat",
+                          "sanda", "kizsanda", "nisda alokan", "nasda alokan", "iawda alokan",
+                          "skawategwikizgat", "kadawsanda", 
+                          "sigwan", "sigwana", "sigwaga", "sigwaniwi",
+                          "niben", "nibena", "nibega", "nibeniwi",
+                          "tagw8gw", "tagw8gwa", "tagw8gwiga", "tagw8gwiwi",
+                          "pbon", "pbona", "pboga", "pboniwi",
+        ];
+        return wordList; 
+    }    
+    function onGenerateNewQuestion()
+    {   
+        generateQuestionFromAbenakiWordList(dictionary, getWordList());
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) ABK-1902 #2 Vocabulaire (2026-01-20)</h1>
+<br> 
+</br>
+<p id="quiz"></p>
+<br> 
+</br>
+<p id="toggle"></p>
+<p id="word_table" hidden=true></p>
+<script>  
+    addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+    generateWordTable("word_table", dictionary, getWordList());
+</script>
+
+</body>
+</html>
