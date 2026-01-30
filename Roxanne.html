@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+    <a href="index.html">Acceuil</a>    
+</head>
+<body id="body">
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>    
+<script src="learning.js"></script>
+<script src="Roxanne.json"></script>
+<script src="string.js"></script>
+<script src="dictionary_utils.js"></script>
+<script src="game.js"></script>
+
+<script>
+    function getWordList()
+    {
+        const wordList = ["ask out",
+            "call back",
+            "call of",
+            "call on",
+            "call up",
+            "come over",
+            "cross out",
+            "do over",
+            "drop in",
+            "drop out",
+            "figure out",
+            "fill in",
+            "fill out",
+            "fill up",
+            "get along",
+            "get back",
+            "get in",
+            "get off",
+            "get on",
+            "get out of",
+            "get over",
+            "get through",
+            "give up",
+            "hand in",
+            "hand out",
+            "hang up",
+            "look up",
+            "make up",
+            "pick up",
+            "put away",
+            "put off",
+            "put on",
+            "put out",
+            "run into",
+            "run out",
+            "start over",
+            "shut off",
+            "take off",
+            "tear down",
+            "tear off",
+            "tear up",
+            "throw away",
+            "throw out",
+            "turn down",
+            "turn off",
+            "turn on",
+            "turn up",
+            "wake up",
+            "write down"
+        ];
+        return wordList; 
+    }    
+    function onGenerateNewQuestion()
+    {   
+        generateQuestionFromAbenakiWordList(dictionary, getWordList());
+    }
+</script>
+
+<h1>Quiz Roxanne 2026/01/30</h1>
+<br> 
+</br>
+<p id="quiz"></p>
+<br> 
+</br>
+<p id="toggle"></p>
+<p id="word_table" hidden=true></p>
+<script>  
+    addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+    generateWordTable("word_table", dictionary, getWordList());
+</script>
+
+</body>
+</html>

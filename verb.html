@@ -9,8 +9,18 @@
 </head>
 <body>
 
+<script src="Dict.json"></script>
+<script src="dictionary_utils.js"></script>
 <script src="string.js"></script> 
 <script src="verb.js"></script> 
+
+<script>
+  function onChange()
+  {
+    ConjugateToHtmlElement('demo');
+  }
+
+</script> 
 
 <h1>Conjugaisons</h1>
 
@@ -29,21 +39,33 @@ N'askawito
 N'waj8nem
 <br>
 <br>
-<input type="text" id="VerbRoot" value="alosa">
+<label for="VerbRoot">Racine du verbe:</label>
+<input type="text" id="VerbRoot" value="alosa" oninput="onChange()">
+<br>
+<label for="Pattern">Choisi un patron:</label>
+<select name="Patron" id="Pattern" onchange="onChange()">
+  <option value="VAI">VAI</option>
+  <option value="VTAi">VTAi</option>
+  <option value="VTIi">VTIi</option>
+  <option value="VTAd">VTAd</option>
+  <option value="VTId">VTId</option>
+</select>
 <br>
 <label for="Tense">Choisi un temps:</label>
-<select name="Temps" id="Tense">
-    <option value="Présent">Présent</option>
-    <option value="Imparfait">Imparfait</option>
-    <option value="Passé Composé">Passé Composé</option>
-    <option value="Future">Future</option>
-    <option value="Conditionnel">Conditionnel</option>
-    <option value="Impératif">Impératif</option>
-  </select>
+<select name="Temps" id="Tense" onchange="onChange()">
+  <option value="Présent">Présent</option>
+  <option value="Imparfait">Imparfait</option>
+  <option value="Passé Composé">Passé Composé</option>
+  <option value="Future">Future</option>
+  <option value="Conditionnel">Conditionnel</option>
+  <option value="Impératif">Impératif</option>
+</select>
 <br>
-<button onclick="ConjugateToHtmlElement('demo')">Conjugue</button>
+<button onclick="onChange()">Conjugue</button>
 
 <p id="demo"></p>
+
+<script>onChange();</script>
 
 </body>
 </html>
