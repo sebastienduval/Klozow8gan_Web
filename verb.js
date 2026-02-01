@@ -78,7 +78,7 @@ function GetConjugationIndices(VerbTense, LastChar)
     return [0, 1, 2, 3,4, 5, 6];
 }
 
-function GetVerbEndings(VerbTense, LastChar)
+function GetVerbEndings(VerbTense, VerbPattern, LastChar)
 {
     var EffectiveVerbTense = VerbTense;
     if ( VerbTense == tempsPasseCompose || VerbTense == tempsFuture || VerbTense == tempsConditionnel)
@@ -94,6 +94,16 @@ function GetVerbEndings(VerbTense, LastChar)
     PresentMap.set("8", ["8", "8", "a", "8bna", "8bna", "8ba", "ak"]);
     PresentMap.set("o", ["o", "o", "o", "obna", "obna", "oba", "oak"]);
     PresentMap.set("m", ["m", "m", "m", "mobna", "mobna", "moba", "mok"]);
+
+    var PresentVTAdMap = new Map();
+    PresentVTAdMap.set("8", ["8", "8", "8", "8nna", "8nna", "8w8", "8w8"]);
+
+    var PresentVTIdMap = new Map();
+    PresentVTAdMap.set("a", ["an", "an", "an", "anana", "anana", "an8", "an8"]);    
+    PresentVTAdMap.set("i", ["in", "in", "in", "inana", "inana", "in8", "in8"]);
+    PresentVTAdMap.set("8", ["8n", "8n", "8n", "8nana", "8nana", "8n8", "8n8"]);
+    PresentVTAdMap.set("o", ["on", "on", "on", "onana", "onana", "on8", "on8"]);
+    PresentVTAdMap.set("m", ["men", "men", "men", "menana", "menana", "men8", "men8"]);    
 
     var PastMap = new Map();
     PastMap.set("a", ["ab", "ab", "ab", "abnob", "abnob", "ab8b", "abanik"]);
@@ -138,7 +148,7 @@ function GetIntro(VerbTense)
     return "";
 }
 
-function Conjugate(VerbRoot, VerbTense) 
+function Conjugate(VerbRoot, VerbTense, VerbPattern) 
 {
     var Conjugations = [];
 
@@ -159,40 +169,47 @@ function Conjugate(VerbRoot, VerbTense)
 
     const Indices = GetConjugationIndices(VerbTense);
 
-    Indices.forEach(i => 
+    if ( Endings )
     {
-        var Pronoun = GetPronoun(i, VerbRoot, false, VerbTense);
-
-
-        var Conjugation = GetIntro(VerbTense) + Pronoun + SliceVerbRootEnding(i, VerbRoot, VerbTense) + Endings[i];
-        if ( VerbTense == tempsImperatif && i == 1 && LastTwoChar == "am" )
+        Indices.forEach(i => 
         {
-            Conjugation += "a";
-        }
+            var Pronoun = GetPronoun(i, VerbRoot, false, VerbTense);
+            var Conjugation = GetIntro(VerbTense) + Pronoun + SliceVerbRootEnding(i, VerbRoot, VerbTense) + Endings[i];
+            if ( VerbTense == tempsImperatif && i == 1 && LastTwoChar == "am" )
+            {
+                Conjugation += "a";
+            }
 
-        Conjugation = GetFirstLetterUpperCase(Conjugation + ExtraTenseVerbEnding);
+            Conjugation = GetFirstLetterUpperCase(Conjugation + ExtraTenseVerbEnding);
 
-        Conjugations.push({ "Spelling" : Conjugation, "Index" : i});
-    } 
-    ); 
+            Conjugations.push({ "Spelling" : Conjugation, "Index" : i});
+        } 
+        ); 
+    }
 
     return Conjugations;
 }
 
 function ConjugateToHtmlElement(elementName) 
 {
-
     var VerbRoot = document.getElementById("VerbRoot").value;
-    var VerbTense = document.getElementById("Tense").value;   
+    var VerbTense = document.getElementById("Tense").value;
+    var VerbPattern = document.getElementById("Pattern").value;     
 
-    const Conjugations = Conjugate(VerbRoot, VerbTense);
+    const Conjugations = Conjugate(VerbRoot, VerbTense, VerbPattern);
 
     document.getElementById("demo").innerHTML = "";
     document.getElementById("demo").innerHTML += VerbTense + "<br><br>";
 
-    Conjugations.forEach(Conjugation => 
+    if ( Conjugations && Conjugations.length > 0 )
     {
-        document.getElementById(elementName).innerHTML += Conjugation.Spelling + "<br>";
-    } 
-    ); 
+        Conjugations.forEach(Conjugation => 
+        {
+            document.getElementById(elementName).innerHTML += Conjugation.Spelling + "<br>";
+        }); 
+    }
+    else
+    {
+        document.getElementById(elementName).innerHTML += "Finale invalide";
+    }
 }
