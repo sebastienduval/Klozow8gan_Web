@@ -63,7 +63,7 @@ function GenerateNumber(number, type=NumberType.Neutral)
     }
     else if (number < 10000)
     {
-        result = Thousands[Math.floor(number / 1000) - 1];
+        result = Thousands[Math.floor(number / 1000)];
         if (number % 1000 != 0)
         {
             result += " taba " + GenerateNumber(number % 1000/*, Type.Neutral*/);
