@@ -76,7 +76,7 @@ function GenerateNumber(number, type=NumberType.Neutral)
         {
             result += " taba " + GenerateNumber(number % 1000/*, Type.Neutral*/);
         }
-    }        
+    }          
     return result;
 }
 
