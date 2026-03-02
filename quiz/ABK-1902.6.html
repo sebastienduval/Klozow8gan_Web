@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="../klozow8gan.css">
+    <a href="quiz_index.html">Retour</a>    
+</head>
+<body id="body">
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>    
+<script src="../learning.js"></script>
+<script src="../Dict.json"></script>
+<script src="../string.js"></script>
+<script src="../dictionary_utils.js"></script>
+<script src="../game.js"></script>
+
+<script>
+    function getWordList()
+    {
+        const wordList = ["Nd'idam", "N'kina", "Nd'abi", "Nd'8mki", "N'pmosa", "N'ligda", "N'pemg8", "N'channa", 
+        "Pbonki", "Nibenaki", "Ali nkilh8t", "Wji nahil8t",
+        "P8jiwi", "Alnakaïwi", "Nik8niwi", "Kwelbiwi", "Nospiwi", "Tapsiwi",
+        "Wskijiwi", "Nagwiwi", "Al8miwi", "Kwajmiwi", "Wiwniwi", "Nsawiwi", 
+        "N'wdn8", "N'wdnem", "N'pon8", "N'ponem", "N'n8zn8", "N'n8znem", "N'mil8", "N'mildo"
+        ];
+        return wordList; 
+    }    
+    function onGenerateNewQuestion()
+    {   
+        generateQuestionFromAbenakiWordList(dictionary, getWordList());
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) ABK-1902 #6 Vocabulaire (2026-02-17)</h1>
+<br> 
+</br>
+<p id="quiz"></p>
+<br> 
+</br>
+<p id="toggle"></p>
+<p id="word_table" hidden=true></p>
+<script>  
+    addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+    generateWordTable("word_table", dictionary, getWordList());
+</script>
+
+</body>
+</html>
