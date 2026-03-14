@@ -10,6 +10,7 @@ export class DegenerationContext
         this.animacy = Animacy.UNKNOWN;
         this.isPlural = false;
         this.isDependent = false;
+        this.entry = null;
     }
 }
 
@@ -28,6 +29,7 @@ export function degeneratePlural(context)
                 {
                     context.animacy = animacy;
                     context.isPlural = true;
+                    context.entry = entry;
                     result = word;
                     break;
                 }
@@ -123,7 +125,6 @@ export function degeneratePlural(context)
         }
     ];     
     
-    let analysisCases = null;
     if ( context.word.endsWith('k') )
     {
         analyzeCases(animateCases, Animacy.ANIMATE);
