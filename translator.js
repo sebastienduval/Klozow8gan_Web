@@ -18,14 +18,14 @@ function Translate()
         context.entry = dict.findEntry(Dictionary.ABENAKI, word);
         if ( context.entry == null )
         {
-            console.log("Try degenerate plural.");
             degeneratePlural(context);
+            console.log("Try degenerate plural (" + (context.entry != null? "success" : "failure") + ")");            
         }
 
         if ( context.entry == null )
         {
-            console.log("Try degenerate locative.");
-            degenerateLocative(context);            
+            degenerateLocative(context);             
+            console.log("Try degenerate locative (" + (context.entry != null? "success" : "failure") + ")");
         }        
 
         let resultMessage = "";
