@@ -1,5 +1,6 @@
 import { Animacy } from "./animacy.js";
 import { Dictionary } from "./dictionary.js";
+import { endsWithVowel } from "./string.js";
 
 export class DegenerationContext
 {
@@ -9,6 +10,7 @@ export class DegenerationContext
         this.word = word;
         this.animacy = Animacy.UNKNOWN;
         this.isPlural = false;
+        this.isLocative = false;
         this.isDependent = false;
         this.entry = null;
     }
@@ -135,4 +137,77 @@ export function degeneratePlural(context)
     }
 
     return result;
+}
+
+export function degenerateLocative(context)
+{
+    let result = context.word;  
+    
+    function analyzeCases(cases, isPlural)
+    {
+        for ( let specificCase of cases )
+        {
+            const [success, word] = specificCase(context.word);
+            if ( success )
+            {
+                let entry = context.dictionary.findEntry(Dictionary.ABENAKI, word);
+                if ( entry != null )
+                {
+                    context.isPlural = isPlural;
+                    context.isLocative = true;
+                    context.entry = entry;
+                    result = word;
+                    break;
+                }
+            }            
+        }
+    }    
+
+    if ( context.word.endsWith('ikok') )
+    {
+        let word = context.word.slice(0, -4);
+
+        let entry = context.dictionary.findEntry(Dictionary.ABENAKI, word);
+        if ( entry != null )
+        {
+            context.isPlural = true;
+            context.isLocative = true;
+            context.word = word;
+            context.entry = entry;
+            return result;
+        }                
+    }
+
+   let singularCases = 
+    [    
+        (word) =>
+        {
+            if ( word.endsWith('k') )
+            {
+                let temp = word.slice(0,-1);
+                return [endsWithVowel(temp), temp];
+            }
+            return [false, null];            
+        },    
+        (word) =>
+        {
+            if (word.endsWith('ok'))
+            {
+                let temp = word.slice(0,-1);
+                let success =  temp.endsWith("em") || temp.endsWith("gen") || temp.endsWith("kw") || temp.endsWith("gw");
+                return [success, temp];
+            }
+            return [false, null];            
+        },
+        (word) =>
+        {
+            if (word.endsWith("ek"))
+            {
+                return [true, word.slice(0,-2)];
+            }
+            return [false, null];
+        }
+    ];
+    analyzeCases(singularCases, false);
+    return result;    
 }

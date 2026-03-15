@@ -9,7 +9,6 @@ export class Dictionary
     {
         for ( var entry of dictionary ) 
         {
-            console.log(entry[key] + " vs " + value);
             if ( entry[key].toLowerCase() == value.toLowerCase() )
             {
                 return entry;
