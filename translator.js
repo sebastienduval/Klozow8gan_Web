@@ -1,5 +1,6 @@
 import { degeneratePlural } from "./modules/degenerator.js";
 import { degenerateLocative } from "./modules/degenerator.js";
+import { degeneratePossessive } from "./modules/degenerator.js";
 import { DegenerationContext } from "./modules/degenerator.js";
 import { Dictionary } from "./modules/dictionary.js";
 
@@ -26,7 +27,13 @@ function Translate()
         {
             degenerateLocative(context);             
             console.log("Try degenerate locative (" + (context.entry != null? "success" : "failure") + ")");
-        }        
+        }
+        
+        if ( context.entry == null )
+        {
+            degeneratePossessive(context);             
+            console.log("Try degenerate possessive (" + (context.entry != null? "success" : "failure") + ")");
+        }            
 
         let resultMessage = "";
         if ( context.entry != null )
