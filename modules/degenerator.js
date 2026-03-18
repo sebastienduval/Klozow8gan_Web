@@ -1,6 +1,7 @@
 import { Animacy } from "./animacy.js";
 import { Dictionary } from "./dictionary.js";
 import { endsWithVowel } from "./string.js";
+import { startsWithVowel } from "./string.js";
 
 export class DegenerationContext
 {
@@ -11,7 +12,8 @@ export class DegenerationContext
         this.animacy = Animacy.UNKNOWN;
         this.isPlural = false;
         this.isLocative = false;
-        this.isDependent = false;
+        this.isPossessive = false;
+        this.person = undefined;
         this.entry = null;
     }
 }
@@ -209,5 +211,154 @@ export function degenerateLocative(context)
         }
     ];
     analyzeCases(singularCases, false);
+    return result;    
+}
+
+export function degeneratePossessive(context)
+{
+    let result = context.word;  
+    
+    let pronounCases = 
+    [    
+        (word) =>
+        {
+            if ( word.startsWith('n') )
+            {
+                let temp = word.slice(1);
+                return [!startsWithVowel(temp), temp, 1];
+            }
+            return [false, null];            
+        },
+        (word) =>
+        {
+            console.log(word);
+            if ( word.startsWith('nd') )
+            {
+                console.log('success');
+                let temp = word.slice(2);
+                return [startsWithVowel(temp), temp, 1];
+            }
+            return [false, null];            
+        },
+        (word) =>
+        {
+            if ( word.startsWith('k') )
+            {
+                let temp = word.slice(1);
+                return [!startsWithVowel(temp), temp, 2];
+            }
+            return [false, null];            
+        },
+        (word) =>
+        {
+            if ( word.startsWith('kd') )
+            {
+                let temp = word.slice(2);
+                return [startsWithVowel(temp), temp, 2];
+            }
+            return [false, null];            
+        },
+        (word) =>
+        {
+            if ( word.startsWith('w') )
+            {
+                let temp = word.slice(1);
+                return [!startsWithVowel(temp), temp, 3];
+            }
+            return [false, null];            
+        },
+        (word) =>
+        {
+            if ( word.startsWith('wd') )
+            {
+                let temp = word.slice(2);
+                return [startsWithVowel(temp), temp, 3];
+            }
+            return [false, null];            
+        }                            
+    ]
+
+    let endCases = 
+    [    
+        (word) =>
+        {
+            if ( word.endsWith('an') )
+            {
+                return [true, word];
+            }
+            return [false, null];            
+        },
+        (word) =>
+        {
+            if ( word.endsWith('om') )
+            {
+                let temp = word.slice(0, -2);                
+                return [temp.endsWith('en')||temp.endsWith('em'), temp];
+            }
+            return [false, null];            
+        },
+        (word) =>
+        {
+            if ( word.endsWith('m') )
+            {
+                let temp = word.slice(0, -1);                
+                return [endsWithVowel(temp) && !temp.endsWith('o'), temp];
+            }
+            return [false, null];            
+        },
+        (word) =>
+        {
+            if ( word.endsWith('agom') || word.endsWith('akom') || word.endsWith('sgom') || word.endsWith('skom') )
+            {
+                let temp = word.slice(0, -2) + "w";                
+                return [true, temp];
+            }
+            return [false, null];            
+        },
+        (word) =>
+        {
+            if ( word.endsWith('em') )
+            {
+                let temp = word.slice(0, -2);                
+                return [true, temp];
+            }
+            return [false, null];            
+        },                                 
+    ];    
+
+    function analyzeCases(cases)
+    {
+        for ( let pronounCase of pronounCases )
+        {
+            const [success, word, person] = pronounCase(context.word);
+            if ( success )
+            {
+                context.person = person;
+                let oldWord = context.word;
+                context.word = word;
+                console.log(word);
+                for ( let endCase of endCases )
+                {                
+                    const [success, word, person] = endCase(context.word);
+                    console.log(word + " (" + success + ")");
+                    if ( success )
+                    {                
+                        let entry = context.dictionary.findEntry(Dictionary.ABENAKI, word);
+                        if ( entry != null )
+                        {
+                            context.isPossessive = true;
+                            context.entry = entry;
+                            result = word;
+                            return;
+                        }
+                    }
+                } 
+                context.word = oldWord;           
+            }
+        }
+    }     
+
+    analyzeCases(pronounCases);
+
     return result;    
 }
