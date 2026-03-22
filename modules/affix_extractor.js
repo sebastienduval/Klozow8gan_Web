@@ -1,7 +1,6 @@
 import { Animacy } from "./animacy.js";
 import { Dictionary } from "./dictionary.js";
-import { endsWithVowel } from "./string.js";
-import { startsWithVowel } from "./string.js";
+import { startsWithVowel, endsWithVowel, startsWithIgnoreCase } from "./string.js";
 
 export class DegenerationContext
 {
@@ -18,7 +17,7 @@ export class DegenerationContext
     }
 }
 
-export function degeneratePlural(context)
+export function extractPluralAffix(context)
 {
     let result = context.word;
     function analyzeCases(cases, animacy)
@@ -141,7 +140,7 @@ export function degeneratePlural(context)
     return result;
 }
 
-export function degenerateLocative(context)
+export function extractLocativeAffix(context)
 {
     let result = context.word;  
     
@@ -168,7 +167,6 @@ export function degenerateLocative(context)
     if ( context.word.endsWith('ikok') )
     {
         let word = context.word.slice(0, -4);
-        console.log(word);
 
         let entry = context.dictionary.findEntry(Dictionary.ABENAKI, word);
         if ( entry != null )
@@ -226,7 +224,7 @@ export function degenerateLocative(context)
     return result;    
 }
 
-export function degeneratePossessive(context)
+export function extractPossessiveAffix(context)
 {
     let result = context.word;  
     
@@ -234,7 +232,7 @@ export function degeneratePossessive(context)
     [    
         (word) =>
         {
-            if ( word.startsWith('n') )
+            if ( startsWithIgnoreCase(word, 'n') )
             {
                 let temp = word.slice(1);
                 return [!startsWithVowel(temp), temp, 1];
@@ -244,7 +242,7 @@ export function degeneratePossessive(context)
         (word) =>
         {
             console.log(word);
-            if ( word.startsWith('nd') )
+            if ( startsWithIgnoreCase(word, 'nd') )
             {
                 let temp = word.slice(2);
                 return [startsWithVowel(temp), temp, 1];
@@ -253,7 +251,7 @@ export function degeneratePossessive(context)
         },
         (word) =>
         {
-            if ( word.startsWith('k') )
+            if ( startsWithIgnoreCase(word,'k') )
             {
                 let temp = word.slice(1);
                 return [!startsWithVowel(temp), temp, 2];
@@ -262,7 +260,7 @@ export function degeneratePossessive(context)
         },
         (word) =>
         {
-            if ( word.startsWith('kd') )
+            if ( startsWithIgnoreCase(word,'kd') )
             {
                 let temp = word.slice(2);
                 return [startsWithVowel(temp), temp, 2];
@@ -271,7 +269,7 @@ export function degeneratePossessive(context)
         },
         (word) =>
         {
-            if ( word.startsWith('w') )
+            if ( startsWithIgnoreCase(word,'w') )
             {
                 let temp = word.slice(1);
                 return [!startsWithVowel(temp), temp, 3];
@@ -280,7 +278,7 @@ export function degeneratePossessive(context)
         },
         (word) =>
         {
-            if ( word.startsWith('wd') )
+            if ( startsWithIgnoreCase(word,'wd') )
             {
                 let temp = word.slice(2);
                 return [startsWithVowel(temp), temp, 3];
@@ -342,6 +340,7 @@ export function degeneratePossessive(context)
         for ( let pronounCase of pronounCases )
         {
             const [success, word, person] = pronounCase(context.word);
+            console.log("pronounCase: " + success + " -> " + word + " (person: " + person + ")");
             if ( success )
             {
                 context.person = person;
@@ -360,6 +359,7 @@ export function degeneratePossessive(context)
                             context.isPossessive = true;
                             context.entry = entry;
                             result = word;
+                            console.log(word + " SUCCESS");
                             return;
                         }
                     }
