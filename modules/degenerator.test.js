@@ -20,42 +20,42 @@ describe("Le pluriel du nom", () => {
     {"French":"Restaurant","Type":"NA","Abenaki":"Atalipimek","Meta":"Nom;Objet"},      
   ]);
   describe("Animé", () => {
-    it("Awasosak -> Awasos + isPlural", () => {
+    it("Awasosak -> Awasos + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Awasosak');      
       assert.equal(degeneratePlural(context), "Awasos");
       assert.equal(context.isPlural, true);
       assert.equal(context.animacy, Animacy.ANIMATE);
     });
 
-    it("Phanemok -> Phanem + isPlural", () => {
+    it("Phanemok -> Phanem + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Phanemok');      
       assert.equal(degeneratePlural(context), "Phanem");
       assert.equal(context.isPlural, true);
       assert.equal(context.animacy, Animacy.ANIMATE);      
     });
 
-    it("Alaskanak -> Alaskana + isPlural", () => {
+    it("Alaskanak -> Alaskana + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Alaskanak');      
       assert.equal(degeneratePlural(context), "Alaskana");
       assert.equal(context.isPlural, true);
       assert.equal(context.animacy, Animacy.ANIMATE);      
     });
     
-    it("Mskwamagok -> Mskwamagw + isPlural", () => {
+    it("Mskwamagok -> Mskwamagw + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Mskwamagok');      
       assert.equal(degeneratePlural(context), "Mskwamagw");
       assert.equal(context.isPlural, true);
       assert.equal(context.animacy, Animacy.ANIMATE);      
     });
 
-    it("Pabaskok -> Pabaskw + isPlural", () => {
+    it("Pabaskok -> Pabaskw + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Pabaskok');      
       assert.equal(degeneratePlural(context), "Pabaskw");
       assert.equal(context.isPlural, true);
       assert.equal(context.animacy, Animacy.ANIMATE);      
     });
 
-    it("Aasazijik -> Aasazit + isPlural", () => {
+    it("Aasazijik -> Aasazit + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Aasazijik');      
       assert.equal(degeneratePlural(context), "Aasazit");
       assert.equal(context.isPlural, true);
@@ -63,31 +63,31 @@ describe("Le pluriel du nom", () => {
     });
   });
   describe("Inanimé", () => {
-    it("Klh8ganal -> Klh8gan + isPlural", () => {
+    it("Klh8ganal -> Klh8gan + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Klh8ganal');      
       assert.equal(degeneratePlural(context), "Klh8gan");
       assert.equal(context.isPlural, true);
       assert.equal(context.animacy, Animacy.INANIMATE);      
     });   
-    it("Satal -> Sata + isPlural", () => {
+    it("Satal -> Sata + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Satal');      
       assert.equal(degeneratePlural(context), "Sata");
       assert.equal(context.isPlural, true);
       assert.equal(context.animacy, Animacy.INANIMATE);      
     }); 
-    it("Wswadagenal -> Wswadagen + isPlural", () => {
+    it("Wswadagenal -> Wswadagen + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Wswadagenal');      
       assert.equal(degeneratePlural(context), "Wswadagen");
       assert.equal(context.isPlural, true);
       assert.equal(context.animacy, Animacy.INANIMATE);      
     });
-    it("8kolhaïgamikol -> 8kolhaïgamikw + isPlural", () => {
+    it("8kolhaïgamikol -> 8kolhaïgamikw + [Pluriel]", () => {
       let context = new DegenerationContext(dict, '8kolhaïgamikol');      
       assert.equal(degeneratePlural(context), "8kolhaïgamikw");
       assert.equal(context.isPlural, true);
       assert.equal(context.animacy, Animacy.INANIMATE);      
     }); 
-    it("Atalipimekil -> Atalipimek + isPlural", () => {
+    it("Atalipimekil -> Atalipimek + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Atalipimekil');      
       assert.equal(degeneratePlural(context), "Atalipimek");
       assert.equal(context.isPlural, true);
@@ -109,28 +109,28 @@ describe("Le locatif du nom", () =>
     {"French":"Wanibagok","Type":"NA","Abenaki":"Wanibagw","Meta":"Nom;Objet"}    
   ]);    
   describe("Singulier", () => {
-    it("Sibok -> Sibo + isLocative", () => {
+    it("Sibok -> Sibo + [Locatif]", () => {
       let context = new DegenerationContext(dict, 'Sibok');      
       assert.equal(degenerateLocative(context), "Sibo");
       //assert.equal(context.isPlural, false);      
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.INANIMATE);
     });
-    it("Abazik -> Abazi + isLocative", () => {
+    it("Abazik -> Abazi + [Locatif]", () => {
       let context = new DegenerationContext(dict, 'Abazik');      
       assert.equal(degenerateLocative(context), "Abazi");
       //assert.equal(context.isPlural, false);      
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.INANIMATE);
     });    
-    it("Ndozek -> Ndoz + isLocative", () => {
+    it("Ndozek -> Ndoz + [Locatif]", () => {
       let context = new DegenerationContext(dict, 'Ndozek');      
       assert.equal(degenerateLocative(context), "Ndoz");
       //assert.equal(context.isPlural, false);
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.ANIMATE);
     }); 
-    it("Phanemok -> Phanem + isLocative", () => {
+    it("Phanemok -> Phanem + [Locatif]", () => {
       let context = new DegenerationContext(dict, 'Phanemok');  
       degenerateLocative(context);
       console.log(context);            
@@ -139,21 +139,21 @@ describe("Le locatif du nom", () =>
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.ANIMATE);    
     });  
-    it("Mdawagenok -> Mdawagen + isLocative", () => {
+    it("Mdawagenok -> Mdawagen + [Locatif]", () => {
       let context = new DegenerationContext(dict, 'Mdawagenok');      
       assert.equal(degenerateLocative(context), "Mdawagen");
       //assert.equal(context.isPlural, false);
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.ANIMATE);      
     });
-    it("Agaskok -> Agaskw + isLocative", () => {
+    it("Agaskok -> Agaskw + [Locatif]", () => {
       let context = new DegenerationContext(dict, 'Agaskok');      
       assert.equal(degenerateLocative(context), "Agaskw");
       //assert.equal(context.isPlural, false);
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.ANIMATE);      
     });
-    it("Wanibagok -> Wanibagw + isLocative", () => {
+    it("Wanibagok -> Wanibagw + [Locatif]", () => {
       let context = new DegenerationContext(dict, 'Wanibagok');      
       assert.equal(degenerateLocative(context), "Wanibagw");  
       //assert.equal(context.isPlural, false);
@@ -162,28 +162,28 @@ describe("Le locatif du nom", () =>
     });
   });
   describe("Pluriel", () => {
-    it("Siboikok -> Sibo + isLocative + isPLural", () => {
+    it("Siboikok -> Sibo + [Locatif] + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Siboikok');   
       assert.equal(degenerateLocative(context), "Sibo");
       assert.equal(context.isPlural, true);      
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.INANIMATE);
     });
-    it("Abaziikok -> Abazi + isLocative + isPLural", () => {
+    it("Abaziikok -> Abazi + [Locatif] + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Abaziikok');      
       assert.equal(degenerateLocative(context), "Abazi");
       //assert.equal(context.isPlural, false);      
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.INANIMATE);
     });    
-    it("Ndozikok -> Ndoz + isLocative + isPLural", () => {
+    it("Ndozikok -> Ndoz + [Locatif] + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Ndozikok');      
       assert.equal(degenerateLocative(context), "Ndoz");
       assert.equal(context.isPlural, true);
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.ANIMATE);
     }); 
-    it("Phanemikok -> Phanem + isLocative + isPLural", () => {
+    it("Phanemikok -> Phanem + [Locatif] + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Phanemikok');  
       degenerateLocative(context);
       console.log(context);            
@@ -192,21 +192,21 @@ describe("Le locatif du nom", () =>
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.ANIMATE);    
     });  
-    it("Mdawagenikok -> Mdawagen + isLocative + isPLural", () => {
+    it("Mdawagenikok -> Mdawagen + [Locatif] + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Mdawagenikok');      
       assert.equal(degenerateLocative(context), "Mdawagen");
       assert.equal(context.isPlural, true);
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.ANIMATE);      
     });
-    it("Agaskwikok -> Agaskw + isLocative + isPLural", () => {
+    it("Agaskwikok -> Agaskw + [Locatif] + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Agaskwikok');      
       assert.equal(degenerateLocative(context), "Agaskw");
       assert.equal(context.isPlural, true);
       assert.equal(context.isLocative, true);
       //assert.equal(context.animacy, Animacy.ANIMATE);      
     });
-    it("Wanibagwikok -> Wanibagw + isLocative + isPLural", () => {
+    it("Wanibagwikok -> Wanibagw + [Locatif] + [Pluriel]", () => {
       let context = new DegenerationContext(dict, 'Wanibagwikok');      
       assert.equal(degenerateLocative(context), "Wanibagw");  
       assert.equal(context.isPlural, true);
