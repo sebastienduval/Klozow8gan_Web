@@ -168,6 +168,7 @@ export function degenerateLocative(context)
     if ( context.word.endsWith('ikok') )
     {
         let word = context.word.slice(0, -4);
+        console.log(word);
 
         let entry = context.dictionary.findEntry(Dictionary.ABENAKI, word);
         if ( entry != null )
@@ -176,6 +177,7 @@ export function degenerateLocative(context)
             context.isLocative = true;
             context.word = word;
             context.entry = entry;
+            result = word;            
             return result;
         }                
     }
@@ -195,12 +197,22 @@ export function degenerateLocative(context)
         {
             if (word.endsWith('ok'))
             {
-                let temp = word.slice(0,-1);
-                let success =  temp.endsWith("em") || temp.endsWith("gen") || temp.endsWith("kw") || temp.endsWith("gw");
+                let temp = word.slice(0,-2);
+                let success =  temp.endsWith("em") || temp.endsWith("gen");
                 return [success, temp];
             }
             return [false, null];            
         },
+        (word) =>
+        {
+            if (word.endsWith('ok'))
+            {
+                let temp = word.slice(0,-2) + "w";
+                let success =  temp.endsWith("kw") || temp.endsWith("gw");
+                return [success, temp];
+            }
+            return [false, null];            
+        },        
         (word) =>
         {
             if (word.endsWith("ek"))
@@ -234,7 +246,6 @@ export function degeneratePossessive(context)
             console.log(word);
             if ( word.startsWith('nd') )
             {
-                console.log('success');
                 let temp = word.slice(2);
                 return [startsWithVowel(temp), temp, 1];
             }

@@ -7,7 +7,7 @@ export class Dictionary
 
     findEntry(key, value)
     {
-        for ( var entry of dictionary ) 
+        for ( var entry of this.dictionary ) 
         {
             if ( entry[key].toLowerCase() == value.toLowerCase() )
             {
