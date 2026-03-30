@@ -20,6 +20,11 @@ export function startsWithIgnoreCase(string1, string2)
   return string1.toUpperCase().startsWith(string2.toUpperCase());
 }
 
+export function endsWithIgnoreCase(string1, string2)
+{
+  return string1.toUpperCase().endsWith(string2.toUpperCase());
+}
+
 export function containsIgnoreCase(string1, string2)
 {
   return string1.toUpperCase().includes(string2.toUpperCase());
@@ -29,6 +34,15 @@ export function normalizeString(string)
 {
   string = string.toLowerCase();
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function sliceEnd(string, length) 
+{
+  if ( length > 0)
+  {
+    return string.slice(0, -length);
+  }
+  return string;
 }
 
 export function removeDuplicates(strings) 

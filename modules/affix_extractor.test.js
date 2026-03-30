@@ -1,6 +1,7 @@
 import { extractPluralAffix, extractLocativeAffix, extractPossessiveAffix, DegenerationContext } from "./affix_extractor.js";
 import { generatePossessiveAffix } from "./affix_generator.js";
 import { Animacy } from "./animacy.js";
+import { Person } from "./person.js";
 import { Dictionary } from "./dictionary.js";
 
 var assert = chai.assert;
@@ -242,7 +243,12 @@ describe("Extraction d'affixes", () =>
             {
               it(results[i] + " -> " + word + " + [Possessif]", () => {
                 let context = new DegenerationContext(dict, results[i]);      
-                assert.equal(extractPossessiveAffix(context), word); 
+                assert.equal(extractPossessiveAffix(context), word);
+                if ( (context.person != Person.ThirdSingular) 
+                  && (context.person != Person.ThirdPlural) )
+                {
+                  assert.equal(context.isPlural, false);
+                }
                 assert.equal(context.isPossessive, true);
                 assert.equal(context.person, i+1);  
               });
@@ -284,6 +290,7 @@ describe("Extraction d'affixes", () =>
               it(results[i] + " -> " + word + " + [Possessif]", () => {
                 let context = new DegenerationContext(dict, results[i]);      
                 assert.equal(extractPossessiveAffix(context), word); 
+                //assert.equal(context.animacy, Animacy.INANIMATE);
                 assert.equal(context.isPossessive, true);
                 assert.equal(context.person, i+1);  
               });
@@ -291,12 +298,13 @@ describe("Extraction d'affixes", () =>
           });
           describe(word + " pluriel", () => 
           {
-            let results = generatePossessiveAffix(word, false, false);
+            let results = generatePossessiveAffix(word, false, true);
             for ( let i = 0; i < results.length; i++ )
             {
               it(results[i] + " -> " + word + " + [Possessif] + [Plural]", () => {
                 let context = new DegenerationContext(dict, results[i]);      
                 assert.equal(extractPossessiveAffix(context), word); 
+                //assert.equal(context.animacy, Animacy.INANIMATE);                
                 assert.equal(context.isPossessive, true);
                 assert.equal(context.isPlural, true);                
                 assert.equal(context.person, i+1);  

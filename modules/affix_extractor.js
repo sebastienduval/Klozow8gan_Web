@@ -1,6 +1,7 @@
 import { Animacy } from "./animacy.js";
+import { Person } from "./person.js";
 import { Dictionary } from "./dictionary.js";
-import { startsWithVowel, endsWithVowel, startsWithIgnoreCase } from "./string.js";
+import { startsWithVowel, endsWithVowel, startsWithIgnoreCase, endsWithIgnoreCase, sliceEnd } from "./string.js";
 
 export class DegenerationContext
 {
@@ -14,6 +15,23 @@ export class DegenerationContext
         this.isPossessive = false;
         this.person = undefined;
         this.entry = null;
+    }
+
+    clone()
+    {
+        let clone = new DegenerationContext(this.dictionary, this.word);
+        clone.animacy = this.animacy;
+        clone.isPlural = this.isPlural;
+        clone.isLocative = this.isLocative
+        clone.isPossessive = this.isPossessive;
+        clone.person = this.person;
+        clone.entry = this.entry;    
+        return clone;    
+    }
+
+    log()
+    {
+        console.log("Word " + this.word + " isPlural " + this.isPlural + " isPossessive " + this.isPossessive + " person " + this.person);        
     }
 }
 
@@ -226,66 +244,86 @@ export function extractLocativeAffix(context)
 
 export function extractPossessiveAffix(context)
 {
-    let result = context.word;  
-    
-    let pronounCases = 
-    [    
-        (word) =>
+    const Pronouns = ["n", "k", "w", "n", "k", "k", "w"];
+    const AnimateFinals = ["", "", "a", "na", "na", "w8", "w8"];
+    const InanimateFinals = ["", "", "", "na", "na", "w8", "w8"];
+    const AnimatePluralFinals = ["ak", "ak", "", "wak", "wak", "k", ""];
+    const InanimatePluralFinals = ["al", "al", "al", "wal", "wal", "l", "l"];
+
+    let extractFinal = (context, word, i) =>
+    {
+        let possibleContexts = [];
+        if ( endsWithIgnoreCase(word, AnimateFinals[i] + AnimatePluralFinals[i]) )
         {
-            if ( startsWithIgnoreCase(word, 'n') )
-            {
-                let temp = word.slice(1);
-                return [!startsWithVowel(temp), temp, 1];
-            }
-            return [false, null];            
-        },
-        (word) =>
+            let newContext = context.clone();
+            newContext.isPlural = true;
+            newContext.animacy = Animacy.ANIMATE;
+            newContext.word = sliceEnd(word, (AnimateFinals[i] + AnimatePluralFinals[i]).length);
+            newContext.person = i+1;
+            newContext.log();
+            possibleContexts.push(newContext);
+        }
+        if ( endsWithIgnoreCase(word, AnimateFinals[i]) )
         {
-            console.log(word);
-            if ( startsWithIgnoreCase(word, 'nd') )
-            {
-                let temp = word.slice(2);
-                return [startsWithVowel(temp), temp, 1];
-            }
-            return [false, null];            
-        },
-        (word) =>
+            let newContext = context.clone();            
+            newContext.word = sliceEnd(word, (AnimateFinals[i]).length);            
+            newContext.isPlural = false;
+            newContext.animacy = Animacy.ANIMATE;
+            newContext.person = i+1;   
+            newContext.log();                     
+            possibleContexts.push(newContext);           
+        }
+        if ( endsWithIgnoreCase(word, InanimateFinals[i] + InanimatePluralFinals[i]) )
         {
-            if ( startsWithIgnoreCase(word,'k') )
-            {
-                let temp = word.slice(1);
-                return [!startsWithVowel(temp), temp, 2];
-            }
-            return [false, null];            
-        },
-        (word) =>
+            let newContext = context.clone();             
+            newContext.word = sliceEnd(word, (InanimateFinals[i] + InanimatePluralFinals[i]).length);
+            newContext.isPlural = true;
+            newContext.animacy = Animacy.INANIMATE;
+            newContext.person = i+1; 
+            newContext.log();                       
+            possibleContexts.push(newContext);                        
+        }
+        if ( endsWithIgnoreCase(word, InanimateFinals[i]) )
         {
-            if ( startsWithIgnoreCase(word,'kd') )
-            {
-                let temp = word.slice(2);
-                return [startsWithVowel(temp), temp, 2];
-            }
-            return [false, null];            
-        },
-        (word) =>
+            let newContext = context.clone();             
+            newContext.word = sliceEnd(word, (InanimateFinals[i]).length);            
+            newContext.isPlural = false;
+            newContext.animacy = Animacy.INANIMATE;
+            newContext.person = i+1;
+            newContext.log();            
+            possibleContexts.push(newContext);                     
+        } 
+        return possibleContexts;
+    };
+
+    let extractPronoun = (context) =>        
+    {
+        let possibleContexts = [];
+        for (let i = 0; i < Pronouns.length; i++) 
         {
-            if ( startsWithIgnoreCase(word,'w') )
+            if ( startsWithIgnoreCase(context.word, Pronouns[i] + 'd') )
             {
-                let temp = word.slice(1);
-                return [!startsWithVowel(temp), temp, 3];
+                let temp = context.word.slice(2);
+                if ( startsWithVowel(temp) )
+                {             
+                    let newContext = context.clone();
+                    newContext.word = temp;
+                    possibleContexts = possibleContexts.concat(extractFinal(newContext, temp, i));
+                }
             }
-            return [false, null];            
-        },
-        (word) =>
-        {
-            if ( startsWithIgnoreCase(word,'wd') )
+            if (startsWithIgnoreCase(context.word, Pronouns[i]) )
             {
-                let temp = word.slice(2);
-                return [startsWithVowel(temp), temp, 3];
+                let temp = context.word.slice(1);
+                if ( !startsWithVowel(temp) )
+                {                
+                    let newContext = context.clone();
+                    newContext.word = temp;              
+                    possibleContexts = possibleContexts.concat(extractFinal(newContext, temp, i));
+                }
             }
-            return [false, null];            
-        }                            
-    ]
+        }
+        return possibleContexts;
+    }
 
     let endCases = 
     [    
@@ -335,41 +373,35 @@ export function extractPossessiveAffix(context)
         },                                 
     ];    
 
-    function analyzeCases(cases)
+    let result = context.word;
+    function analyzeCases()
     {
-        for ( let pronounCase of pronounCases )
+        let possibleContexts = extractPronoun(context);
+        console.log(possibleContexts.length);
+        for ( let possibleContext of possibleContexts )
         {
-            const [success, word, person] = pronounCase(context.word);
-            console.log("pronounCase: " + success + " -> " + word + " (person: " + person + ")");
-            if ( success )
-            {
-                context.person = person;
-                let oldWord = context.word;
-                context.word = word;
-                console.log(word);
-                for ( let endCase of endCases )
+            for ( let endCase of endCases )
+            {                
+                const [success, word, person] = endCase(possibleContext.word);
+                if ( success )
                 {                
-                    const [success, word, person] = endCase(context.word);
-                    console.log(word + " (" + success + ")");
-                    if ( success )
-                    {                
-                        let entry = context.dictionary.findEntry(Dictionary.ABENAKI, word);
-                        if ( entry != null )
-                        {
-                            context.isPossessive = true;
-                            context.entry = entry;
-                            result = word;
-                            console.log(word + " SUCCESS");
-                            return;
-                        }
+                    let entry = context.dictionary.findEntry(Dictionary.ABENAKI, word);
+                    if ( entry != null )
+                    {
+                        //context = possibleContext;
+                        context.Animacy = possibleContext.Animacy;
+                        context.isPlural = possibleContext.isPlural;
+                        context.isLocative = possibleContext.isLocative;
+                        context.person = possibleContext.person;
+                        context.word = word;
+                        context.isPossessive = true;
+                        context.entry = entry;
+                        return word;
                     }
-                } 
-                context.word = oldWord;           
+                }       
             }
         }
     }     
 
-    analyzeCases(pronounCases);
-
-    return result;    
+    return analyzeCases();
 }
