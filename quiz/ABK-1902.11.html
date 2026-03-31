@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="../klozow8gan.css">
+    <a href="quiz_index.html">Retour</a>    
+</head>
+<body id="body">
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>    
+<script src="../learning.js"></script>
+<script src="../Dict.json"></script>
+<script src="../string.js"></script>
+<script src="../dictionary_utils.js"></script>
+<script src="../game.js"></script>
+
+<script>
+    function getWordList()
+    {
+        const wordList = ["N'pmosa", "N'kiosa", "N'wadosa", "N'todosa", "N'pasodosa", "N'nopaosa",
+        "Wskijiwi", "Nagwiwi", "Al8miwi", "kwajmiwi", "Wiwniwi", "Nsawiwi", "P8jiwi", "Alnakaïwi", 
+        "Nik8niwi", "Kwelbiwi", "Nospiwi", "Tapsiwi", "Ataladbokwamek", "Nodadbokwat", 
+        "Pkwazigan", "Alnab8n", "Lagalat", "Lejagenigan", "Skamoniab8n", "Nokhigan", "Siwan", "Nebi",
+        "Pasosakhigan", "Wl8gan", "Nsakwakw", "Amkw8n", "Nimatgwahigan", "Kwatsis", "Abapskweda",
+        "Nd'adboka", "Nd'adbokwa", "Nd'ab8nka", "N'lejageniga", "N'pon8", "N'ponem", "Nd'8ptadboka",
+        "N'kotlen8", "N'kotlenem", "N'kadopi", "N'kadawesmi", "N'kadosmi", "N'sp8zipi", "N'paskwaïpi",
+        "N'wl8gwipi", "N'kzalga", "N'kzalm8", "N'kzaldam", "N'pazw8", "N'pado", "N'kagaln8", "N'kagalnem",
+        "N'megen8", "N'megenem"
+        ];
+        return wordList; 
+    }    
+    function onGenerateNewQuestion()
+    {   
+        generateQuestionFromAbenakiWordList(dictionary, getWordList());
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) ABK-1902 #11 Vocabulaire (2026-03-31)</h1>
+<br> 
+</br>
+<p id="quiz"></p>
+<br> 
+</br>
+<p id="toggle"></p>
+<p id="word_table" hidden=true></p>
+<script>  
+    addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+    generateWordTable("word_table", dictionary, getWordList());
+</script>
+
+</body>
+</html>
