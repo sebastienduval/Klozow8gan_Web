@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="../klozow8gan.css">
+    <a href="quiz_index.html">Retour</a>    
+</head>
+<body id="body">
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>    
+<script src="../learning.js"></script>
+<script src="../Dict.json"></script>
+<script src="../string.js"></script>
+<script src="../dictionary_utils.js"></script>
+<script src="../game.js"></script>
+
+<script>
+    function getWordList()
+    {
+        const wordList = ["Nd'adboka", "Nd'adbokwa", "Nd'8ptadboka", "N'kadopi", "N'michi", "N'miji", "N'mow8", "N'kadawesmi", "N'kadosmi",
+            "N'sp8zipi", "N'paskwaïpi", "N'wl8gwipi", "N'kzalga", "N'kzalm8", "N'kzaldam", "N'pazw8", "N'pado", "N'kagaln8", "N'kagalnem",
+            "N'megen8", "N'megenem", "Nd'awakam8", "Nd'awakato", "N'kwilawah8", "N'kwilawato", "N'nimskaw8", "N'nimskam",
+            "N'psanbahal8", "N'psanbahado", "N'sigwan8", "N'sigwanem", "N'poskwez8", "N'psokwezem", "Nd'achwaldam",
+            "Wl8gan", "Nsakwakw", "Amkw8n", "Nimatgwahigan", "Kwatsis", "Napkin", "Aasazit", "Mijow8gan", "Kadosmow8gan",
+            "M8jimijow8gan", "Kasilawahosow8gan", "Nebi", "Ti", "Nbizonbi", "Todosn8bo", "Labial", "Makwbagak", "Kapi",
+            "Aples", "Wasawas", "M8l8gwimen", "Pananas", "Adbimen", "Sata", "Mskikwimens", "Segweskimen",
+            "Padates", "Kalot", "Winos", "Atbakwa", "Piz", "Skamon", "Askitamek", "Kabij"
+
+        ];
+        return wordList; 
+    }    
+    function onGenerateNewQuestion()
+    {   
+        generateQuestionFromAbenakiWordList(dictionary, getWordList());
+    }
+</script>
+
+<h1>Nadodemow8ganal (Questions) ABK-1902 #12 Vocabulaire (2026-03-31)</h1>
+<br> 
+</br>
+<p id="quiz"></p>
+<br> 
+</br>
+<p id="toggle"></p>
+<p id="word_table" hidden=true></p>
+<script>  
+    addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+    generateWordTable("word_table", dictionary, getWordList());
+</script>
+
+</body>
+</html>
