@@ -132,7 +132,6 @@ function generateWordTable(element_id, dictionary, wordList)
     element.innerHTML = '<input type="button" name="show_words_name" id="show_words_id" value="Liste de mots" onclick="hideTable()"/>'
 
     var element = document.getElementById(element_id);
-
     var innerHTML = "";
     innerHTML += '<table>';
 
@@ -158,5 +157,5 @@ function generateWordTable(element_id, dictionary, wordList)
         }
     }
     innerHTML += '</table>';
-    element.innerHTML += innerHTML;
+    element.innerHTML = innerHTML;
 }

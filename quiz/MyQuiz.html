@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="../klozow8gan.css">
+    <a href="quiz_index.html">Retour</a>    
+</head>
+<body id="body">
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>    
+<script src="../learning.js"></script>
+<script src="../Dict.json"></script>
+<script src="../string.js"></script>
+<script src="../dictionary_utils.js"></script>
+<script src="../game.js"></script>
+
+<h1>Mon quiz</h1>
+<br> 
+</br>
+
+<p>Écris tous les mots que tu veux apprendre séparés d'une virgule.</p>
+<textarea id="words" rows="4" cols="50">Awasos, Minowis, Sata, Pananas</textarea>
+
+<script>
+    function getWordList()
+    {
+        let words = document.getElementById('words').value;
+        let wordList = words.split(',').map(word => word.trim());
+        return wordList; 
+    }    
+    function onGenerateNewQuestion()
+    {   
+        generateQuestionFromAbenakiWordList(dictionary, getWordList());
+        generateWordTable("word_table", dictionary, getWordList());        
+    }
+</script>
+</br>
+</br>
+<input type="button" id="generate_button" value='Commencer' onclick="onGenerateNewQuestion();"/>
+
+<p id="quiz"></p>
+<br> 
+</br>
+<p id="toggle"></p>
+<p id="word_table" hidden=true></p>
+<script>  
+    addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
+    formatDifficulties(dictionary, "difficulties");
+    onGenerateNewQuestion();
+</script>
+
+</body>
+</html>
