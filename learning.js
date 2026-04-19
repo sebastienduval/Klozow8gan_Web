@@ -26,8 +26,13 @@ class Learning
 
     static updateWordScore(word, scoreDelta)
     {
-        word = word.toLowerCase();
         const score = Learning.getWordScore(word) + scoreDelta;
-        Cookies.set(word, score, { expires: Learning.cookieDuration });
+        Learning.setWordScore(word, score);
     }
+
+    static setWordScore(word, score)
+    {
+        word = word.toLowerCase();
+        Cookies.set(word, score, { expires: Learning.cookieDuration });
+    }    
 }

@@ -12,6 +12,7 @@ class Game
     static difficulties = ['Très facile', 'Facile', 'Moyen', 'Difficile', 'Très difficile'];
     static learningSteps = [1, 3, 2, 2, 2];
     static learnedScore =  Game.learningSteps.reduce((sum, v) => sum + v, 0);
+    static veryHardScore =  Game.learningSteps.slice(0, -1).reduce((sum, v) => sum + v, 0);    
     static wordClusterSize = 32;   
     static generateDifficultyFromScore(score)
     {
@@ -365,6 +366,18 @@ function formatDifficulties(data, selectName, supportPlural = false)
     select.innerHTML += innerHTML;
 }
 
+function revision()
+{
+    for ( let word of getWordList() )
+    {
+        let score = Learning.getWordScore(word);
+        if ( score > Game.veryHardScore )
+        {
+            Learning.setWordScore(word, Game.veryHardScore);
+        }
+    }
+}
+
 /// Add the necessary View code to support questions.
 function addGameHtmlTo(elementId, updateQuestion)
 {
@@ -395,6 +408,8 @@ function addGameHtmlTo(elementId, updateQuestion)
 
     innerHTML += '<input type="button" id="next" value="Suivant" hidden=true onclick="' + updateQuestion + '"/>';    
     innerHTML += '</ol>';
+    innerHTML += '</br>';
+    innerHTML += '<input type="button" name="revision" value="Révision" title="Tous les mots appris seront re-suggérés comme questions difficiles." onclick="revision()"/>';
 
     element.innerHTML += innerHTML;
 }
