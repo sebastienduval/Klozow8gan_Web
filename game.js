@@ -271,66 +271,69 @@ function generateQuestionFromIndices(dictionary, indices)
         choiceEntries.push(index);
     }
 
-    let chosenIndex = choiceEntries[0];
-    let chosenWord = currentDictionary[chosenIndex].Abenaki; 
-    let chosenWordScore = Learning.getWordScore(chosenWord);
-    let difficulty = Game.generateDifficultyFromScore(chosenWordScore);
-
-    var generateMultipleChoiceQuestion = false;
-    var generatePluralQuestions = false;
-
-    var choiceCount = 1;
-    var hintLettersCount = 3;
-    if ( difficulty == 'Très facile')
+    if ( choiceEntries.length > 0 )
     {
-        choiceCount = 2;
-        generateMultipleChoiceQuestion = true
-    }
-    else if ( difficulty == 'Facile')
-    {
-        choiceCount = 4;
-        generateMultipleChoiceQuestion = true;
-    }     
-    else if ( difficulty == 'Moyen')
-    {
-        choiceCount = 6;
-        generateMultipleChoiceQuestion = true;
-    }   
-    else if ( difficulty == 'Très difficile')
-    {
-        hintLettersCount = 0;
-    }
-    else if ( difficulty == DIFFICULTY_PLURAL )
-    {
-        hintLettersCount = 0;
-        generatePluralQuestions = true;
-    }
+        let chosenIndex = choiceEntries[0];
+        let chosenWord = currentDictionary[chosenIndex].Abenaki; 
+        let chosenWordScore = Learning.getWordScore(chosenWord);
+        let difficulty = Game.generateDifficultyFromScore(chosenWordScore);
 
-    console.log('choiceCount: ' + choiceCount);        
-    choiceEntries = choiceEntries.splice(0, choiceCount);
-    answerIndex = getRandomInt(choiceEntries.length);
+        var generateMultipleChoiceQuestion = false;
+        var generatePluralQuestions = false;
 
-    if ( generateMultipleChoiceQuestion )
-    {        
-        let temp = choiceEntries[0];
-        choiceEntries[0] = choiceEntries[answerIndex];
-        choiceEntries[answerIndex] = temp;
-
-        if ( getRandomInt(2) == 0 )
+        var choiceCount = 1;
+        var hintLettersCount = 3;
+        if ( difficulty == 'Très facile')
         {
-            fillQuestionTypeAbenakiToFrench(document, dictionary);   
+            choiceCount = 2;
+            generateMultipleChoiceQuestion = true
+        }
+        else if ( difficulty == 'Facile')
+        {
+            choiceCount = 4;
+            generateMultipleChoiceQuestion = true;
+        }     
+        else if ( difficulty == 'Moyen')
+        {
+            choiceCount = 6;
+            generateMultipleChoiceQuestion = true;
+        }   
+        else if ( difficulty == 'Très difficile')
+        {
+            hintLettersCount = 0;
+        }
+        else if ( difficulty == DIFFICULTY_PLURAL )
+        {
+            hintLettersCount = 0;
+            generatePluralQuestions = true;
+        }
+
+        console.log('choiceCount: ' + choiceCount);        
+        choiceEntries = choiceEntries.splice(0, choiceCount);
+        answerIndex = getRandomInt(choiceEntries.length);
+
+        if ( generateMultipleChoiceQuestion )
+        {        
+            let temp = choiceEntries[0];
+            choiceEntries[0] = choiceEntries[answerIndex];
+            choiceEntries[answerIndex] = temp;
+
+            if ( getRandomInt(2) == 0 )
+            {
+                fillQuestionTypeAbenakiToFrench(document, dictionary);   
+            }
+            else
+            {
+                fillQuestionTypeFrenchToAbenaki(document, dictionary);  
+            }
         }
         else
-        {
-            fillQuestionTypeFrenchToAbenaki(document, dictionary);  
+        {        
+            generateHardQuestionFromIndices(dictionary, hintLettersCount, generatePluralQuestions);
         }
-    }
-    else
-    {        
-        generateHardQuestionFromIndices(dictionary, hintLettersCount, generatePluralQuestions);
-    }
 
-    console.log(choiceEntries);
+        console.log(choiceEntries);
+    }
 }
 
 function generateHardQuestionFromIndices(dictionary, hintLettersCount, generatePluralQuestions=false)
