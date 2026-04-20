@@ -15,15 +15,13 @@
 <script src="../string.js"></script>
 <script src="../dictionary_utils.js"></script>
 <script src="../game.js"></script>
+<script src="../word_list.js"></script>
 
 <script>
     function getWordList()
     {
-        const wordList = ["Agwizit", "Padates", "Kalot", "Winos", "Atbakwa", "Piz", "Skamon", "Askitamek", "Kabij",
-            "Pata", "Sogalab8n", "Kalak8n", "P8goks", "Sigwan", "Tipwabel", "Wiz8wipemi", "Pinagel", "Sogal", "Nokhigan",
-            "Min8bo", "Wawil8mwaïmlases", "W8wan", "Chiz", "Ab8n", "Kz8bo", "Lasop", "Pizilasop", "Ns8b8n", "Lago"
-        ];
-        return wordList; 
+        const wordList = new WordList(["N'nosokaw8", "N'nosokam", "N'mil8", "N'mildo", "Nd'8banka", "Nd'8bankaw8"]);
+        return wordList.words; 
     }    
     function onGenerateNewQuestion()
     {   
@@ -32,7 +30,7 @@
     }
 </script>
 
-<h1>Nadodemow8ganal (Questions) ABK-1902 #13 Vocabulaire (2026-04-06)</h1>
+<h1>Nadodemow8ganal (Questions) ABK-1902 #14 Vocabulaire (2026-04-13)</h1>
 <br> 
 </br>
 <p id="quiz"></p>

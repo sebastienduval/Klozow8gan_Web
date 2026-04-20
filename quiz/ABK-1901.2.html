@@ -30,6 +30,7 @@
     function onGenerateNewQuestion()
     {   
         generateQuestionFromAbenakiWordList(dictionary, getWordList());
+        generateWordTable("word_table", dictionary, getWordList());
     }
 </script>
 
@@ -45,7 +46,6 @@
     addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
     formatDifficulties(dictionary, "difficulties");
     onGenerateNewQuestion();
-    generateWordTable("word_table", dictionary, getWordList());
 </script>
 
 </body>

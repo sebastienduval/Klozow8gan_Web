@@ -38,11 +38,12 @@
             "n'namih8", "Atstaw8gan", "Nidazo", "awaas", "Agizow8gan", "Mijow8gan", "Mink8gan", "Kadosmow8gan", "Wl8ganin8kw", "Wligen", "Majigen", "Taakwigen", 
             "Msagigen", "Mlikigen", "Nojimigen", "Chachakigen", "M8m8ligen", "Oswigen", "Nokigen", "K8wigen", "Kwena", "Piwsa", "S8gla", "Kpaga", "Wazaba"
         ]);
-        return wordList;
+        return wordList.words;
     }
     function onGenerateNewQuestion()
     {       
-        generateQuestionFromAbenakiWordList(dictionary, getWordList().words);        
+        generateQuestionFromAbenakiWordList(dictionary, getWordList());    
+        generateWordTable("word_table", dictionary, getWordList());            
     }
 </script>
 
@@ -58,7 +59,6 @@
     addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
     formatDifficulties(dictionary, "difficulties");
     onGenerateNewQuestion();
-    generateWordTable("word_table", dictionary, getWordList().words);
 </script>
 
 </body>
