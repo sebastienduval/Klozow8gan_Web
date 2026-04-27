@@ -32,6 +32,7 @@ function formatToTable(data, category="", filter="", filter_language) {
     var tableContainer = document.getElementById("word-table");
     var tableHTML = "<table>";
 
+    const tableEntrieStart = performance.now();    
     var tableEntries = [];
     for (var i = 0; i < data.length; i ++ ) 
     {
@@ -54,6 +55,8 @@ function formatToTable(data, category="", filter="", filter_language) {
             tableEntries.push(entry);
         }
     }
+    const tableEntrieEnd = performance.now();  
+    console.log(`Execution time tableEntries: ${tableEntrieEnd - tableEntrieStart} ms`);      
 
     tableHTML += "</table>";
     tableContainer.innerHTML = tableHTML;
@@ -74,5 +77,8 @@ function formatToTable(data, category="", filter="", filter_language) {
 
 function onCategoryChanged() 
 {
+    const start = performance.now();
     formatToTable(dictionary, document.getElementById("categories").value, document.getElementById("filter").value, document.getElementById("filter_language").value);
+    const end = performance.now();
+    console.log(`Execution time: ${end - start} ms`);
 }
