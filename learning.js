@@ -1,13 +1,19 @@
 class Learning
 {
     static cookieDuration = 365;
+    static kvp = new Map();
     static getWordScore(word)
     {
         let value = 0;
         if ( word )
         {
             word = word.toLowerCase();
-            value = Cookies.get(word);
+            if ( this.kvp.has(word) )
+            {
+                return this.kvp.get(word);
+            }
+            
+            let value = Cookies.get(word);
             if( !value )
             {
                 value = 0;
@@ -16,6 +22,7 @@ class Learning
             {
                 value = parseInt(value);
             }
+            this.kvp.set(word, value);
         }
         else
         {
@@ -33,6 +40,7 @@ class Learning
     static setWordScore(word, score)
     {
         word = word.toLowerCase();
+        this.kvp.set(word, score);
         Cookies.set(word, score, { expires: Learning.cookieDuration });
-    }    
+    }
 }
