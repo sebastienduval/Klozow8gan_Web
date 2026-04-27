@@ -32,6 +32,7 @@ function formatToTable(data, category="", filter="", filter_language) {
     var tableContainer = document.getElementById("word-table");
     var tableHTML = "<table>";
 
+    var profiling = document.getElementById("profiling");    
     const tableEntrieStart = performance.now();    
     var tableEntries = [];
     for (var i = 0; i < data.length; i ++ ) 
@@ -56,11 +57,12 @@ function formatToTable(data, category="", filter="", filter_language) {
         }
     }
     const tableEntrieEnd = performance.now();  
-    console.log(`Execution time tableEntries: ${tableEntrieEnd - tableEntrieStart} ms`);      
+    profiling.innerHTML += `Execution time tableEntries: ${tableEntrieEnd - tableEntrieStart} ms <br>`;
 
     tableHTML += "</table>";
     tableContainer.innerHTML = tableHTML;
 
+    const buttonsStart = performance.now();     
     // Create the buttons for the cells.
     for (var i = 0; i < tableEntries.length; i ++ ) 
     {   
@@ -73,12 +75,19 @@ function formatToTable(data, category="", filter="", filter_language) {
         btn.innerHTML = "Copier";
         cell.appendChild(btn);
     }
+
+    const buttonsEnd = performance.now();  
+    profiling.innerHTML += `Execution time buttons: ${buttonsEnd - buttonsStart} ms <br>`;
 }
 
 function onCategoryChanged() 
 {
+    var profiling = document.getElementById("profiling");
+    profiling.innerHTML = "";
+
     const start = performance.now();
     formatToTable(dictionary, document.getElementById("categories").value, document.getElementById("filter").value, document.getElementById("filter_language").value);
     const end = performance.now();
-    console.log(`Execution time: ${end - start} ms`);
+
+    profiling.innerHTML += `Execution time: ${end - start} ms`;
 }
