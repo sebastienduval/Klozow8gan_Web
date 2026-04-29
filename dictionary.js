@@ -39,7 +39,7 @@ function formatToTable(data, category="", filter="", filter_language) {
     const bigTask = (data, startIndex) => 
     {
         let endIndex = startIndex + 20;
-        if ( endIndex > data.length )
+        //if ( endIndex > data.length )
         {
             endIndex = data.length;
         }
