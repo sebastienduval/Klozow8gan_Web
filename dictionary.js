@@ -35,49 +35,61 @@ function formatToTable(data, category="", filter="", filter_language) {
     var profiling = document.getElementById("profiling");    
     const tableEntrieStart = performance.now();    
     var tableEntries = [];
-    for (var i = 0; i < data.length; i ++ ) 
+
+    const bigTask = (data, startIndex) => 
     {
-        const entry = data[i];
-        if ( doesEntryIncludesCategory(entry, category) && 
-            (!filter || containsIgnoreCase(entry[filter_language], filter)) )
-        {         
-            const copyId = "copy" + tableEntries.length;
-            
-            tableHTML += "<tr>";
-            tableHTML += "<td>" + i + "</td>";
-            tableHTML += "<td>" + entry.French + "</td>";
-            tableHTML += "<td>" + entry.Type + "</td>";
-            tableHTML += "<td>" + entry.Abenaki + "</td>";
-            tableHTML += "<td>" + entry.Source + "</td>";
-            tableHTML += "<td>" + Learning.getWordScore(entry.Abenaki) + "</td>";
-            tableHTML += "<td id=" + copyId + "></td>";
-            tableHTML += "</tr>";
-
-            tableEntries.push(entry);
+        let endIndex = startIndex + 20;
+        if ( endIndex > data.length )
+        {
+            endIndex = data.length;
         }
-    }
-    const tableEntrieEnd = performance.now();  
-    profiling.innerHTML += `Execution time tableEntries: ${tableEntrieEnd - tableEntrieStart} ms <br>`;
 
-    tableHTML += "</table>";
-    tableContainer.innerHTML = tableHTML;
+        for (var i = startIndex; i < data.length && i < endIndex; i ++ ) 
+        {
+            const entry = data[i];
+            if ( doesEntryIncludesCategory(entry, category) && 
+                (!filter || containsIgnoreCase(entry[filter_language], filter)) )
+            {         
+                const copyId = "copy" + tableEntries.length;                
+                tableHTML += "<tr>";
+                tableHTML += "<td>" + i + "</td>";
+                tableHTML += "<td>" + entry.French + "</td>";
+                tableHTML += "<td>" + entry.Type + "</td>";
+                tableHTML += "<td>" + entry.Abenaki + "</td>";
+                tableHTML += "<td>" + entry.Source + "</td>";
+                tableHTML += "<td>" + Learning.getWordScore(entry.Abenaki) + "</td>";
+                tableHTML += "<td id=" + copyId + "></td>";
+                tableHTML += "</tr>";
 
-    const buttonsStart = performance.now();     
-    // Create the buttons for the cells.
-    for (var i = 0; i < tableEntries.length; i ++ ) 
-    {   
-        const copyId = "copy" + i;
-        var cell = document.getElementById(copyId); 
-        var btn = document.createElement("button");
-        btn.id = "button" + i;
-        const callback = closureCopyEntryToClipboard(tableEntries[i]);
-        btn.addEventListener("click", callback);
-        btn.innerHTML = "Copier";
-        cell.appendChild(btn);
-    }
+                tableEntries.push(entry);
+            }
+        }
 
-    const buttonsEnd = performance.now();  
-    profiling.innerHTML += `Execution time buttons: ${buttonsEnd - buttonsStart} ms <br>`;
+        tableContainer.innerHTML = tableHTML + "</table>";        
+        console.log(data.length);
+        if (endIndex < data.length) 
+        {
+            setTimeout(() => bigTask(data, endIndex), 0); // Yield to the event loop
+        }
+        else
+        {
+            // Create the buttons for the cells.
+            for (var i = 0; i < tableEntries.length; i ++ ) 
+            {   
+                console.log("Table Entry " + i);
+                const copyId = "copy" + i;
+                var cell = document.getElementById(copyId); 
+                var btn = document.createElement("button");
+                btn.id = "button" + i;
+                const callback = closureCopyEntryToClipboard(tableEntries[i]);
+                btn.addEventListener("click", callback);
+                btn.innerHTML = "Copier";
+                cell.appendChild(btn);
+            }
+        }
+    };
+
+    bigTask(data, 0);
 }
 
 function onCategoryChanged() 
