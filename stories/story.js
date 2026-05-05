@@ -2,11 +2,25 @@ let storyData = null;
 let currentPage = 0;
 let translationVisible = false;
 
-async function loadStory() {
-  const response = await fetch("story.json");
-  storyData = await response.json();
-  document.getElementById("story-title").textContent = storyData.title;
-  showPage(0);
+function getStoryFileFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("story") || "story.json"; // default fallback
+}
+
+async function loadStory() 
+{
+  const storyFile = getStoryFileFromURL();
+  try {
+    const response = await fetch(storyFile);  
+    storyData = await response.json();
+    document.getElementById("story-title").textContent = storyData.title;
+    showPage(0);
+  }
+  catch (error) 
+  {
+    document.getElementById("story-title").textContent = "Error loading story.";
+    console.error("Failed to load story:", error);
+  }  
 }
 
 function showPage(index) {
