@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Story Viewer</title>
+<style>
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: #fafafa;
+  }
+
+  #story-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 1rem;
+  }
+
+  img {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .text {
+    font-size: 1.4rem;
+    margin-top: 1rem;
+  }
+
+  .translation {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 0.5rem;
+    display: none; /* Hidden by default */
+  }
+
+  .title {
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+
+  .nav-buttons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button {
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background: #4a90e2;
+    color: white;
+  }
+
+  button:disabled {
+    background: #ccc;
+  }
+
+  #toggle-translation {
+    margin-top: 1rem;
+    background: #f39c12;
+  }  
+</style>
+</head>
+<body>
+
+<div id="story-container">
+  <h1 id="story-title"></h1>
+  <h2 id="page-title" class="title"></h2>
+  <img id="page-image" src="">
+  <div id="page-text" class="text"></div>
+  <div id="page-translation" class="translation"></div>
+
+  <button id="toggle-translation">Français</button>  
+
+  <div class="nav-buttons">
+    <button id="prev-btn">Previous</button>
+    <button id="next-btn">Next</button>
+  </div>
+</div>
+
+<script src="story.js"></script>
+</body>
+</html>
