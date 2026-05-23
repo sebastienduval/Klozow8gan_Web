@@ -1,4 +1,4 @@
-import { extractPluralAffix, extractLocativeAffix, extractPossessiveAffix, DegenerationContext } from "./modules/affix_extractor.js";
+import { extractPluralAffix, extractLocativeAffix, extractPossessiveAffix, ExtractionContext } from "./modules/affix_extractor.js";
 import { Dictionary } from "./modules/dictionary.js";
 
 function Translate()
@@ -12,7 +12,7 @@ function Translate()
     for ( let word of words )
     {
         console.log(word);
-        let context = new DegenerationContext(dict, word);
+        let context = new ExtractionContext(dict, word);
         context.entry = dict.findEntry(Dictionary.ABENAKI, word);
         if ( context.entry == null )
         {
