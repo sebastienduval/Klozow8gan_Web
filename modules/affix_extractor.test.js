@@ -1,13 +1,14 @@
-import { extractPluralAffix, extractLocativeAffix, extractPossessiveAffix, DegenerationContext } from "./affix_extractor.js";
+import { extractPluralAffix, extractLocativeAffix, extractPossessiveAffix, extract, ExtractionContext } from "./affix_extractor.js";
 import { generatePossessiveAffix } from "./affix_generator.js";
 import { Animacy } from "./animacy.js";
 import { Person } from "./person.js";
 import { Dictionary } from "./dictionary.js";
+import { present_independant } from "./present_independant.js";
 
 var assert = chai.assert;
 
 describe("Extraction d'affixes", () => 
-{
+{  
   describe("Le pluriel du nom", () => {
     let dict = new Dictionary(
     [
@@ -25,42 +26,42 @@ describe("Extraction d'affixes", () =>
     ]);
     describe("Animé", () => {
       it("Awasosak -> Awasos + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Awasosak');      
+        let context = new ExtractionContext(dict, 'Awasosak');      
         assert.equal(extractPluralAffix(context), "Awasos");
         assert.equal(context.isPlural, true);
         assert.equal(context.animacy, Animacy.ANIMATE);
       });
 
       it("Phanemok -> Phanem + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Phanemok');
+        let context = new ExtractionContext(dict, 'Phanemok');
         assert.equal(extractPluralAffix(context), "Phanem");
         assert.equal(context.isPlural, true);
         assert.equal(context.animacy, Animacy.ANIMATE);      
       });
 
       it("Alaskanak -> Alaskana + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Alaskanak');      
+        let context = new ExtractionContext(dict, 'Alaskanak');      
         assert.equal(extractPluralAffix(context), "Alaskana");
         assert.equal(context.isPlural, true);
         assert.equal(context.animacy, Animacy.ANIMATE);      
       });
       
       it("Mskwamagok -> Mskwamagw + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Mskwamagok');      
+        let context = new ExtractionContext(dict, 'Mskwamagok');      
         assert.equal(extractPluralAffix(context), "Mskwamagw");
         assert.equal(context.isPlural, true);
         assert.equal(context.animacy, Animacy.ANIMATE);      
       });
 
       it("Pabaskok -> Pabaskw + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Pabaskok');      
+        let context = new ExtractionContext(dict, 'Pabaskok');      
         assert.equal(extractPluralAffix(context), "Pabaskw");
         assert.equal(context.isPlural, true);
         assert.equal(context.animacy, Animacy.ANIMATE);      
       });
 
       it("Aasazijik -> Aasazit + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Aasazijik');      
+        let context = new ExtractionContext(dict, 'Aasazijik');      
         assert.equal(extractPluralAffix(context), "Aasazit");
         assert.equal(context.isPlural, true);
         assert.equal(context.animacy, Animacy.ANIMATE);
@@ -68,31 +69,31 @@ describe("Extraction d'affixes", () =>
     });
     describe("Inanimé", () => {
       it("Klh8ganal -> Klh8gan + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Klh8ganal');      
+        let context = new ExtractionContext(dict, 'Klh8ganal');      
         assert.equal(extractPluralAffix(context), "Klh8gan");
         assert.equal(context.isPlural, true);
         assert.equal(context.animacy, Animacy.INANIMATE);      
       });   
       it("Satal -> Sata + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Satal');      
+        let context = new ExtractionContext(dict, 'Satal');      
         assert.equal(extractPluralAffix(context), "Sata");
         assert.equal(context.isPlural, true);
         assert.equal(context.animacy, Animacy.INANIMATE);      
       }); 
       it("Wswadagenal -> Wswadagen + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Wswadagenal');      
+        let context = new ExtractionContext(dict, 'Wswadagenal');      
         assert.equal(extractPluralAffix(context), "Wswadagen");
         assert.equal(context.isPlural, true);
         assert.equal(context.animacy, Animacy.INANIMATE);      
       });
       it("8kolhaïgamikol -> 8kolhaïgamikw + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, '8kolhaïgamikol');      
+        let context = new ExtractionContext(dict, '8kolhaïgamikol');      
         assert.equal(extractPluralAffix(context), "8kolhaïgamikw");
         assert.equal(context.isPlural, true);
         assert.equal(context.animacy, Animacy.INANIMATE);      
       }); 
       it("Atalipimekil -> Atalipimek + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Atalipimekil');      
+        let context = new ExtractionContext(dict, 'Atalipimekil');      
         assert.equal(extractPluralAffix(context), "Atalipimek");
         assert.equal(context.isPlural, true);
         assert.equal(context.animacy, Animacy.INANIMATE);
@@ -114,28 +115,28 @@ describe("Extraction d'affixes", () =>
     ]);    
     describe("Singulier", () => {
       it("Sibok -> Sibo + [Locatif]", () => {
-        let context = new DegenerationContext(dict, 'Sibok');      
+        let context = new ExtractionContext(dict, 'Sibok');      
         assert.equal(extractLocativeAffix(context), "Sibo");
         //assert.equal(context.isPlural, false);      
         assert.equal(context.isLocative, true);
         //assert.equal(context.animacy, Animacy.INANIMATE);
       });
       it("Abazik -> Abazi + [Locatif]", () => {
-        let context = new DegenerationContext(dict, 'Abazik');      
+        let context = new ExtractionContext(dict, 'Abazik');      
         assert.equal(extractLocativeAffix(context), "Abazi");
         //assert.equal(context.isPlural, false);      
         assert.equal(context.isLocative, true);
         //assert.equal(context.animacy, Animacy.INANIMATE);
       });    
       it("Ndozek -> Ndoz + [Locatif]", () => {
-        let context = new DegenerationContext(dict, 'Ndozek');      
+        let context = new ExtractionContext(dict, 'Ndozek');      
         assert.equal(extractLocativeAffix(context), "Ndoz");
         //assert.equal(context.isPlural, false);
         assert.equal(context.isLocative, true);
         //assert.equal(context.animacy, Animacy.ANIMATE);
       }); 
       it("Phanemok -> Phanem + [Locatif]", () => {
-        let context = new DegenerationContext(dict, 'Phanemok');  
+        let context = new ExtractionContext(dict, 'Phanemok');  
         extractLocativeAffix(context);
         console.log(context);            
         assert.equal(extractLocativeAffix(context), "Phanem");      
@@ -144,21 +145,21 @@ describe("Extraction d'affixes", () =>
         //assert.equal(context.animacy, Animacy.ANIMATE);    
       });  
       it("Mdawagenok -> Mdawagen + [Locatif]", () => {
-        let context = new DegenerationContext(dict, 'Mdawagenok');      
+        let context = new ExtractionContext(dict, 'Mdawagenok');      
         assert.equal(extractLocativeAffix(context), "Mdawagen");
         //assert.equal(context.isPlural, false);
         assert.equal(context.isLocative, true);
         //assert.equal(context.animacy, Animacy.ANIMATE);      
       });
       it("Agaskok -> Agaskw + [Locatif]", () => {
-        let context = new DegenerationContext(dict, 'Agaskok');      
+        let context = new ExtractionContext(dict, 'Agaskok');      
         assert.equal(extractLocativeAffix(context), "Agaskw");
         //assert.equal(context.isPlural, false);
         assert.equal(context.isLocative, true);
         //assert.equal(context.animacy, Animacy.ANIMATE);      
       });
       it("Wanibagok -> Wanibagw + [Locatif]", () => {
-        let context = new DegenerationContext(dict, 'Wanibagok');      
+        let context = new ExtractionContext(dict, 'Wanibagok');      
         assert.equal(extractLocativeAffix(context), "Wanibagw");  
         //assert.equal(context.isPlural, false);
         assert.equal(context.isLocative, true);
@@ -167,28 +168,28 @@ describe("Extraction d'affixes", () =>
     });
     describe("Pluriel", () => {
       it("Siboikok -> Sibo + [Locatif] + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Siboikok');   
+        let context = new ExtractionContext(dict, 'Siboikok');   
         assert.equal(extractLocativeAffix(context), "Sibo");
         assert.equal(context.isPlural, true);      
         assert.equal(context.isLocative, true);
         //assert.equal(context.animacy, Animacy.INANIMATE);
       });
       it("Abaziikok -> Abazi + [Locatif] + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Abaziikok');      
+        let context = new ExtractionContext(dict, 'Abaziikok');      
         assert.equal(extractLocativeAffix(context), "Abazi");
         //assert.equal(context.isPlural, false);      
         assert.equal(context.isLocative, true);
         //assert.equal(context.animacy, Animacy.INANIMATE);
       });    
       it("Ndozikok -> Ndoz + [Locatif] + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Ndozikok');      
+        let context = new ExtractionContext(dict, 'Ndozikok');      
         assert.equal(extractLocativeAffix(context), "Ndoz");
         assert.equal(context.isPlural, true);
         assert.equal(context.isLocative, true);
         //assert.equal(context.animacy, Animacy.ANIMATE);
       }); 
       it("Phanemikok -> Phanem + [Locatif] + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Phanemikok');  
+        let context = new ExtractionContext(dict, 'Phanemikok');  
         extractLocativeAffix(context);
         console.log(context);            
         assert.equal(extractLocativeAffix(context), "Phanem");      
@@ -197,21 +198,21 @@ describe("Extraction d'affixes", () =>
         //assert.equal(context.animacy, Animacy.ANIMATE);    
       });  
       it("Mdawagenikok -> Mdawagen + [Locatif] + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Mdawagenikok');      
+        let context = new ExtractionContext(dict, 'Mdawagenikok');      
         assert.equal(extractLocativeAffix(context), "Mdawagen");
         assert.equal(context.isPlural, true);
         assert.equal(context.isLocative, true);
         //assert.equal(context.animacy, Animacy.ANIMATE);      
       });
       it("Agaskwikok -> Agaskw + [Locatif] + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Agaskwikok');      
+        let context = new ExtractionContext(dict, 'Agaskwikok');      
         assert.equal(extractLocativeAffix(context), "Agaskw");
         assert.equal(context.isPlural, true);
         assert.equal(context.isLocative, true);
         //assert.equal(context.animacy, Animacy.ANIMATE);      
       });
       it("Wanibagwikok -> Wanibagw + [Locatif] + [Pluriel]", () => {
-        let context = new DegenerationContext(dict, 'Wanibagwikok');      
+        let context = new ExtractionContext(dict, 'Wanibagwikok');      
         assert.equal(extractLocativeAffix(context), "Wanibagw");  
         assert.equal(context.isPlural, true);
         assert.equal(context.isLocative, true);
@@ -220,7 +221,7 @@ describe("Extraction d'affixes", () =>
     });        
   });
 
-  describe("Le posessif du nom", () => 
+  describe("Le possessif du nom", () => 
   {
     describe("Animé", () => 
       {
@@ -242,7 +243,7 @@ describe("Extraction d'affixes", () =>
             for ( let i = 0; i < results.length; i++ )
             {
               it(results[i] + " -> " + word + " + [Possessif]", () => {
-                let context = new DegenerationContext(dict, results[i]);      
+                let context = new ExtractionContext(dict, results[i]);      
                 assert.equal(extractPossessiveAffix(context), word);
                 if ( (context.person != Person.ThirdSingular) 
                   && (context.person != Person.ThirdPlural) )
@@ -260,7 +261,7 @@ describe("Extraction d'affixes", () =>
             for ( let i = 0; i < results.length; i++ )
             {
               it(results[i] + " -> " + word + " + [Possessif] + [Plural]", () => {
-                let context = new DegenerationContext(dict, results[i]);      
+                let context = new ExtractionContext(dict, results[i]);      
                 assert.equal(extractPossessiveAffix(context), word); 
                 assert.equal(context.isPossessive, true);
                 assert.equal(context.isPlural, true);                
@@ -288,7 +289,7 @@ describe("Extraction d'affixes", () =>
             for ( let i = 0; i < results.length; i++ )
             {
               it(results[i] + " -> " + word + " + [Possessif]", () => {
-                let context = new DegenerationContext(dict, results[i]);      
+                let context = new ExtractionContext(dict, results[i]);      
                 assert.equal(extractPossessiveAffix(context), word); 
                 //assert.equal(context.animacy, Animacy.INANIMATE);
                 assert.equal(context.isPossessive, true);
@@ -302,7 +303,7 @@ describe("Extraction d'affixes", () =>
             for ( let i = 0; i < results.length; i++ )
             {
               it(results[i] + " -> " + word + " + [Possessif] + [Plural]", () => {
-                let context = new DegenerationContext(dict, results[i]);      
+                let context = new ExtractionContext(dict, results[i]);      
                 assert.equal(extractPossessiveAffix(context), word); 
                 //assert.equal(context.animacy, Animacy.INANIMATE);                
                 assert.equal(context.isPossessive, true);
@@ -313,5 +314,20 @@ describe("Extraction d'affixes", () =>
           });           
         }                 
     });
-  }); 
+  });
+  describe("Les verbes", () => 
+  {
+    describe("VAI", () => 
+    { 
+      let dict = new Dictionary([
+        {"French":"Je vais quelque part en marchant (de façon indéterminée).","Type":"VAI;1;s;Présent","Abenaki":"Nd'alosa","Meta":"Verbe"}
+      ]);         
+      
+      it ("Nd'alosabna", () => {  
+        let context = new ExtractionContext(dict, "Nd'alosabna");    
+        let results = extract(context, present_independant);
+        assert.equal(results.length, 1); 
+      });
+    });
+  });  
 });

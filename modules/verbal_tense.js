@@ -1,0 +1,7 @@
+export const VerbalTense = {
+  PRESENT: 'PRESENT',
+  PAST: 'PAST',
+  PAST_PERFECT: 'PAST_PERFECT',
+  FUTUR: 'FUTUR',
+  CONDITIONAL: 'CONDITIONAL',
+};

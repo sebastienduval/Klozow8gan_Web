@@ -1,0 +1,5 @@
+export const VerbalOrder = {
+  INDEPENDENT: 'INDEPENDENT',
+  CONJUNCT: 'CONJUNCT',
+  IMPERATIVE: 'IMPERATIVE'
+};

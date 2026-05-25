@@ -3,7 +3,7 @@ import { Person } from "./person.js";
 import { Dictionary } from "./dictionary.js";
 import { startsWithVowel, endsWithVowel, startsWithIgnoreCase, endsWithIgnoreCase, sliceEnd } from "./string.js";
 
-export class DegenerationContext
+export class ExtractionContext
 {
     constructor(dictionary, word)
     {
@@ -13,19 +13,23 @@ export class DegenerationContext
         this.isPlural = false;
         this.isLocative = false;
         this.isPossessive = false;
+        this.isVerb = false;        
         this.person = undefined;
         this.entry = null;
+        this.isDefinite = undefined;
     }
 
     clone()
     {
-        let clone = new DegenerationContext(this.dictionary, this.word);
+        let clone = new ExtractionContext(this.dictionary, this.word);
         clone.animacy = this.animacy;
         clone.isPlural = this.isPlural;
         clone.isLocative = this.isLocative
         clone.isPossessive = this.isPossessive;
+        clone.isVerb = this.isVerb;
         clone.person = this.person;
-        clone.entry = this.entry;    
+        clone.entry = this.entry; 
+        clone.isDefinite = this.isDefinite;           
         return clone;    
     }
 
@@ -404,4 +408,42 @@ export function extractPossessiveAffix(context)
     }     
 
     return analyzeCases();
+}
+
+export function extract(context, config)
+{
+    let results = [];
+
+    console.log("Extract " + context.word);
+    console.log(context);    
+    let word = context.word.toLowerCase();
+    for (const configEntry of config.entries ) 
+    {
+        if (word.startsWith(configEntry.prefix) && word.endsWith(configEntry.suffix)) 
+        {
+            let stripped = word.slice(configEntry.prefix.length, word.length - configEntry.suffix.length);
+            console.log("Stripped " + stripped); 
+            let reconstructed = configEntry.reconstruction.prefix + stripped + configEntry.reconstruction.suffix;
+            console.log("Reconstructed " + reconstructed);  
+            
+            let dictEntry = context.dictionary.findEntry(Dictionary.ABENAKI, reconstructed);
+            if ( dictEntry != null )
+            {
+                let newContext = context.clone();
+                newContext.entry = dictEntry;
+                for ( const annotation in configEntry.annotations )
+                {
+                    newContext[annotation] = configEntry.annotations[annotation];
+                }
+                newContext.word = reconstructed; 
+                console.log(newContext);                
+                results.push(newContext);
+            }   
+        }
+    }
+
+    console.log("Extract Results: " + results);
+    console.log("Extract " + context.word + " End");
+    
+    return results;
 }
