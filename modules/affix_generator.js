@@ -1,4 +1,5 @@
 import { startsWithVowel, endsWithVowel, startsWithIgnoreCase } from "./string.js";
+import { Animacy } from "./animacy.js"
 import { VerbalOrder } from "./verbal_order.js"
 import { VerbalTense } from "./verbal_tense.js"
 
@@ -81,7 +82,7 @@ export function generatePossessiveAffix(noun, animate, plural)
     return result;
 }
 
-export function generateVerbAffix(root, isAnimate, order, tense, plural, isDefinite)
+export function generateVerbAffix(root, animacy, order, tense, plural, isDefinite)
 {
     function GetIntro(tense)
     {
@@ -124,7 +125,7 @@ export function generateVerbAffix(root, isAnimate, order, tense, plural, isDefin
         return [0, 1, 2, 3,4, 5, 6];
     }
     
-    function GenerateEnding(index, tense, isDefinite, lastChar)
+    function GenerateEnding(index, tense, isDefinite, animacy, lastChar)
     {        
         console.log("GenerateEnding:  " + index + " " + tense + " " + isDefinite + " " + lastChar);
 
@@ -156,9 +157,8 @@ export function generateVerbAffix(root, isAnimate, order, tense, plural, isDefin
             tenseMap.set(VerbalTense.CONDITIONAL, presentEndings);
             endings = tenseMap.get(tense);
         }
-        else
+        else if ( animacy == Animacy.ANIMATE )
         {
-            console.log("Here GenerateEnding:  " + index + " " + tense + " " + isDefinite + " " + lastChar);
             var presentEndings = new Map();
             presentEndings.set("8", ["8", "8", "8", "8nna", "8nna", "8w8", "8w8"]);
 
@@ -172,7 +172,31 @@ export function generateVerbAffix(root, isAnimate, order, tense, plural, isDefin
             tenseMap.set(VerbalTense.FUTUR, presentEndings);       
             tenseMap.set(VerbalTense.CONDITIONAL, presentEndings);                       
             endings = tenseMap.get(tense);
-        }        
+        }
+        else if ( animacy == Animacy.INANIMATE )
+        {
+            var presentEndings = new Map();
+            presentEndings.set("a", ["an", "an", "an", "anana", "anana", "an8", "an8"]);    
+            presentEndings.set("i", ["in", "in", "in", "inana", "inana", "in8", "in8"]);
+            presentEndings.set("8", ["8n", "8n", "8n", "8nana", "8nana", "8n8", "8n8"]);
+            presentEndings.set("o", ["on", "on", "on", "onana", "onana", "on8", "on8"]);
+            presentEndings.set("m", ["men", "men", "men", "menana", "menana", "men8", "men8"]); 
+
+            let pastEndings = new Map();
+            pastEndings.set("a", ["anob", "anob", "anob", "ananob", "ananob", "an8b", "an8b"]);    
+            pastEndings.set("i", ["inob", "inob", "inob", "inanob", "inanob", "in8b", "in8b"]);
+            pastEndings.set("8", ["8nob", "8nob", "8nob", "8nanob", "8nanob", "8n8b", "8n8b"]);
+            pastEndings.set("o", ["onob", "onob", "onob", "onanob", "onanob", "on8b", "on8b"]);
+            pastEndings.set("m", ["menob", "menob", "menob", "menanob", "menanob", "men8b", "men8b"]);       
+
+            let tenseMap = new Map();
+            tenseMap.set(VerbalTense.PRESENT, presentEndings);                       
+            tenseMap.set(VerbalTense.PAST, pastEndings);
+            tenseMap.set(VerbalTense.PAST_PERFECT, presentEndings); 
+            tenseMap.set(VerbalTense.FUTUR, presentEndings);       
+            tenseMap.set(VerbalTense.CONDITIONAL, presentEndings);                       
+            endings = tenseMap.get(tense);
+        }
         
         if ( !endings )
         {
@@ -200,7 +224,7 @@ export function generateVerbAffix(root, isAnimate, order, tense, plural, isDefin
     for ( const index of GenerateIndices(order) )
     {
         const strippedRoot = root.slice(0, root.length-1);
-        result.push(GetIntro(tense) + GeneratePronoun(root, index, order, isDefinite) + strippedRoot + GenerateEnding(index, tense, isDefinite, lastChar) + GetExtraTenseVerbEndings(tense));
+        result.push(GetIntro(tense) + GeneratePronoun(root, index, order, isDefinite) + strippedRoot + GenerateEnding(index, tense, isDefinite, animacy, lastChar) + GetExtraTenseVerbEndings(tense));
     }
     return result;
 };
