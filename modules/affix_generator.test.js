@@ -321,70 +321,146 @@ describe("Génération d'affixes", () =>
                     describe("Défini", () => 
                     {    
                         describe("Affirmatif", () => 
-                        {                             
-                            describe("Présent", () =>
+                        {                
+                            describe("Singulier", () =>
                             {
-                                let expected = ["n'namih8","k'namih8","w'namih8","n'namih8nna","k'namih8nna","k'namih8w8", "w'namih8w8"];
-                                let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true);
-                                test(expected, results);
-                            }); 
-                            describe("Passé", () =>
-                            {
-                                let expected = ["n'namih8b","k'namih8b","w'namih8bani","n'namih8nnob","k'namih8nnob","k'namih8w8b", "w'namih8w8bani"];
-                                let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true);
-                                test(expected, results);
+                                describe("Présent", () =>
+                                {
+                                    let expected = ["n'namih8","k'namih8","w'namih8","n'namih8nna","k'namih8nna","k'namih8w8", "w'namih8w8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true);
+                                    test(expected, results);
+                                }); 
+                                describe("Passé", () =>
+                                {
+                                    let expected = ["n'namih8b","k'namih8b","w'namih8bani","n'namih8nnob","k'namih8nnob","k'namih8w8b", "w'namih8w8bani"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true);
+                                    test(expected, results);
+                                });
+                                describe("Passé composé", () =>
+                                {
+                                    let expected = ["kizi n'namih8","kizi k'namih8","kizi w'namih8","kizi n'namih8nna","kizi k'namih8nna","kizi k'namih8w8", "kizi w'namih8w8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true);
+                                    test(expected, results);
+                                });
+                                describe("Future", () =>
+                                {
+                                    let expected = ["n'namih8ji","k'namih8ji","w'namih8ji","n'namih8nnaji","k'namih8nnaji","k'namih8w8ji", "w'namih8w8ji"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true);
+                                    test(expected, results);
+                                });
+                                describe("Conditionnel", () =>
+                                {
+                                    let expected = ["n'namih8ba","k'namih8ba","w'namih8ba","n'namih8nnaba","k'namih8nnaba","k'namih8w8ba", "w'namih8w8ba"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true);
+                                    test(expected, results);
+                                });
                             });
-                            describe("Passé composé", () =>
+                            describe("Pluriel", () =>
                             {
-                                let expected = ["kizi n'namih8","kizi k'namih8","kizi w'namih8","kizi n'namih8nna","kizi k'namih8nna","kizi k'namih8w8", "kizi w'namih8w8"];
-                                let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true);
-                                test(expected, results);
-                            });
-                            describe("Future", () =>
-                            {
-                                let expected = ["n'namih8ji","k'namih8ji","w'namih8ji","n'namih8nnaji","k'namih8nnaji","k'namih8w8ji", "w'namih8w8ji"];
-                                let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true);
-                                test(expected, results);
-                            });
-                            describe("Conditionnel", () =>
-                            {
-                                let expected = ["n'namih8ba","k'namih8ba","w'namih8ba","n'namih8nnaba","k'namih8nnaba","k'namih8w8ba", "w'namih8w8ba"];
-                                let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true);
-                                test(expected, results);
-                            });
+                                describe("Présent", () =>
+                                {
+                                    let expected = ["n'namih8k","k'namih8k","w'namih8","n'namih8nnawak","k'namih8nnawak","k'namih8w8k", "w'namih8w8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, true, true);
+                                    test(expected, results);
+                                });   
+                                /* ??? Need some research.
+                                describe("Passé", () =>
+                                {
+                                    let expected = ["n'namih8b","k'namih8b","w'namih8bani","n'namih8nnob","k'namih8nnob","k'namih8w8b", "w'namih8w8bani"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, true, true);
+                                    test(expected, results);
+                                });
+                                */
+                                describe("Passé composé", () =>
+                                {
+                                    let expected = ["kizi n'namih8k","kizi k'namih8k","kizi w'namih8","kizi n'namih8nnawak","kizi k'namih8nnawak","kizi k'namih8w8k", "kizi w'namih8w8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Future", () =>
+                                {
+                                    let expected = ["n'namih8kji","k'namih8kji","w'namih8ji","n'namih8nnawakji","k'namih8nnawakji","k'namih8w8kji", "w'namih8w8ji"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Conditionnel", () =>
+                                {
+                                    let expected = ["n'namih8kba","k'namih8kba","w'namih8ba","n'namih8nnawakba","k'namih8nnawakba","k'namih8w8kba", "w'namih8w8ba"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, true, true);
+                                    test(expected, results);
+                                });                                                              
+                            });                           
                         });
                         describe("Négatif", () => 
                         {
-                            describe("Présent", () =>
-                            {
-                                let expected = ["nda n'namih8wi","nda k'namih8wi","nda w'namih8wia","nda n'namih8winna","nda k'namih8winna","nda k'namih8wiw8", "nda w'namih8wiw8"];
-                                let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true, true);
-                                test(expected, results);
+                            describe("Singulier", () =>
+                            {                            
+                                describe("Présent", () =>
+                                {
+                                    let expected = ["nda n'namih8wi","nda k'namih8wi","nda w'namih8wia","nda n'namih8winna","nda k'namih8winna","nda k'namih8wiw8", "nda w'namih8wiw8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Passé", () =>
+                                {
+                                    let expected = ["nda n'namih8wib","nda k'namih8wib","nda w'namih8wiabani","nda n'namih8winnob","nda k'namih8winnob","nda k'namih8wiw8b", "nda w'namih8wiw8bani"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Passé composé", () =>
+                                {
+                                    let expected = ["asma n'namih8wi","asma k'namih8wi","asma w'namih8wia","asma n'namih8winna","asma k'namih8winna","asma k'namih8wiw8", "asma w'namih8wiw8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Future", () =>
+                                {
+                                    let expected = ["ndaba n'namih8wi","ndaba k'namih8wi","ndaba w'namih8wia","ndaba n'namih8winna","ndaba k'namih8winna","ndaba k'namih8wiw8", "ndaba w'namih8wiw8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Conditionnel", () =>
+                                {
+                                    let expected = ["ndaba n'namih8wi","ndaba k'namih8wi","ndaba w'namih8wia","ndaba n'namih8winna","ndaba k'namih8winna","ndaba k'namih8wiw8", "ndaba w'namih8wiw8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true, true);
+                                    test(expected, results);
+                                });
                             });
-                            describe("Passé", () =>
+                            describe("Pluriel", () =>
                             {
-                                let expected = ["nda n'namih8wib","nda k'namih8wib","nda w'namih8wiabani","nda n'namih8winnob","nda k'namih8winnob","nda k'namih8wiw8b", "nda w'namih8wiw8bani"];
-                                let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true, true);
-                                test(expected, results);
-                            });
-                            describe("Passé composé", () =>
-                            {
-                                let expected = ["asma n'namih8wi","asma k'namih8wi","asma w'namih8wia","asma n'namih8winna","asma k'namih8winna","asma k'namih8wiw8", "asma w'namih8wiw8"];
-                                let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true, true);
-                                test(expected, results);
-                            });
-                            describe("Future", () =>
-                            {
-                                let expected = ["ndaba n'namih8wi","ndaba k'namih8wi","ndaba w'namih8wia","ndaba n'namih8winna","ndaba k'namih8winna","ndaba k'namih8wiw8", "ndaba w'namih8wiw8"];
-                                let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true, true);
-                                test(expected, results);
-                            });
-                              describe("Conditionnel", () =>
-                            {
-                                let expected = ["ndaba n'namih8wi","ndaba k'namih8wi","ndaba w'namih8wia","ndaba n'namih8winna","ndaba k'namih8winna","ndaba k'namih8wiw8", "ndaba w'namih8wiw8"];
-                                let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true, true);
-                                test(expected, results);
-                            });                                                      
+                                describe("Présent", () =>
+                                {
+                                    let expected = ["nda n'namih8wiak","nda k'namih8wiak","nda w'namih8wia","nda n'namih8winnawak","nda k'namih8winnawak","nda k'namih8wiw8k", "nda w'namih8wiw8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, true, true, true);
+                                    test(expected, results);
+                                });   
+                                /* ??? Need some research.
+                                describe("Passé", () =>
+                                {
+                                    let expected = ["n'namih8b","k'namih8b","w'namih8bani","n'namih8nnob","k'namih8nnob","k'namih8w8b", "w'namih8w8bani"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, true, true, true);
+                                    test(expected, results);
+                                });
+                                */
+                                describe("Passé composé", () =>
+                                {
+                                    let expected = ["asma n'namih8wiak","asma k'namih8wiak","asma w'namih8wia","asma n'namih8winnawak","asma k'namih8winnawak","asma k'namih8wiw8k", "asma w'namih8wiw8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, true, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Future", () =>
+                                {
+                                    let expected = ["ndaba n'namih8wiak","ndaba k'namih8wiak","ndaba w'namih8wia","ndaba n'namih8winnawak","ndaba k'namih8winnawak","ndaba k'namih8wiw8k", "ndaba w'namih8wiw8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, true, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Conditionnel", () =>
+                                {
+                                    let expected = ["ndaba n'namih8wiak","ndaba k'namih8wiak","ndaba w'namih8wia","ndaba n'namih8winnawak","ndaba k'namih8winnawak","ndaba k'namih8wiw8k", "ndaba w'namih8wiw8"];
+                                    let results = generateVerbAffix('namih8', Animacy.ANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, true, true, true);
+                                    test(expected, results);
+                                });                                                              
+                            });                                                                                  
                         });                            
                     });                                          
                 });
@@ -468,70 +544,146 @@ describe("Génération d'affixes", () =>
                     describe("Défini", () => 
                     {
                         describe("Affirmatif", () => 
-                        {                        
-                            describe("Présent", () => 
-                            {   
-                                let expected = ["nd'askawiton","kd'askawiton","wd'askawiton","nd'askawitonana","kd'askawitonana","kd'askawiton8", "wd'askawiton8"];
-                                let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true);
-                                test(expected, results);
+                        {     
+                            describe("Singulier", () => 
+                            {                                              
+                                describe("Présent", () => 
+                                {   
+                                    let expected = ["nd'askawiton","kd'askawiton","wd'askawiton","nd'askawitonana","kd'askawitonana","kd'askawiton8", "wd'askawiton8"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true);
+                                    test(expected, results);
+                                });
+                                describe("Passé", () => 
+                                {   
+                                    let expected = ["nd'askawitonob","kd'askawitonob","wd'askawitonob","nd'askawitonanob","kd'askawitonanob","kd'askawiton8b", "wd'askawiton8b"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true);
+                                    test(expected, results);
+                                });
+                                describe("Passé composé", () => 
+                                {   
+                                    let expected = ["kizi nd'askawiton","kizi kd'askawiton","kizi wd'askawiton","kizi nd'askawitonana","kizi kd'askawitonana","kizi kd'askawiton8", "kizi wd'askawiton8"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true);
+                                    test(expected, results);
+                                });
+                                describe("Future", () => 
+                                {   
+                                    let expected = ["nd'askawitonji","kd'askawitonji","wd'askawitonji","nd'askawitonanaji","kd'askawitonanaji","kd'askawiton8ji", "wd'askawiton8ji"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true);
+                                    test(expected, results);
+                                });
+                                describe("Conditional", () => 
+                                {   
+                                    let expected = ["nd'askawitonba","kd'askawitonba","wd'askawitonba","nd'askawitonanaba","kd'askawitonanaba","kd'askawiton8ba", "wd'askawiton8ba"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true);
+                                    test(expected, results);
+                                });
                             });
-                            describe("Passé", () => 
+                            describe("Pluriel", () => 
                             {   
-                                let expected = ["nd'askawitonob","kd'askawitonob","wd'askawitonob","nd'askawitonanob","kd'askawitonanob","kd'askawiton8b", "wd'askawiton8b"];
-                                let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true);
-                                test(expected, results);
-                            });
-                            describe("Passé composé", () => 
-                            {   
-                                let expected = ["kizi nd'askawiton","kizi kd'askawiton","kizi wd'askawiton","kizi nd'askawitonana","kizi kd'askawitonana","kizi kd'askawiton8", "kizi wd'askawiton8"];
-                                let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true);
-                                test(expected, results);
-                            });
-                            describe("Future", () => 
-                            {   
-                                let expected = ["nd'askawitonji","kd'askawitonji","wd'askawitonji","nd'askawitonanaji","kd'askawitonanaji","kd'askawiton8ji", "wd'askawiton8ji"];
-                                let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true);
-                                test(expected, results);
-                            });
-                            describe("Conditional", () => 
-                            {   
-                                let expected = ["nd'askawitonba","kd'askawitonba","wd'askawitonba","nd'askawitonanaba","kd'askawitonanaba","kd'askawiton8ba", "wd'askawiton8ba"];
-                                let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true);
-                                test(expected, results);
-                            });
+                                describe("Présent", () => 
+                                {   
+                                    let expected = ["nd'askawitonal","kd'askawitonal","wd'askawitonal","nd'askawitonanawal","kd'askawitonanawal","kd'askawiton8l", "wd'askawiton8l"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, true, true, false);
+                                    test(expected, results);
+                                });
+                                /* ??? Need research 
+                                describe("Passé", () => 
+                                {   
+                                    let expected = ["nd'askawitonob","kd'askawitonob","wd'askawitonob","nd'askawitonanob","kd'askawitonanob","kd'askawiton8b", "wd'askawiton8b"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true);
+                                    test(expected, results);
+                                });   
+                                */
+                                describe("Passé composé", () => 
+                                {   
+                                    let expected = ["kizi nd'askawitonal","kizi kd'askawitonal","kizi wd'askawitonal","kizi nd'askawitonanawal","kizi kd'askawitonanawal","kizi kd'askawiton8l", "kizi wd'askawiton8l"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, true, true, false);
+                                    test(expected, results);
+                                });
+                                describe("Future", () => 
+                                {   
+                                    let expected = ["nd'askawitonalji","kd'askawitonalji","wd'askawitonalji","nd'askawitonanawalji","kd'askawitonanawalji","kd'askawiton8lji", "wd'askawiton8lji"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, true, true, false);
+                                    test(expected, results);
+                                });
+                                describe("Conditional", () => 
+                                {   
+                                    let expected = ["nd'askawitonalba","kd'askawitonalba","wd'askawitonalba","nd'askawitonanawalba","kd'askawitonanawalba","kd'askawiton8lba", "wd'askawiton8lba"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, true, true, false);
+                                    test(expected, results);
+                                });                                                               
+                            });                            
                         });
                         describe("Négatif", () => 
                         {
-                            describe("Présent", () => 
-                            {   
-                                let expected = ["nda nd'askawitowen","nda kd'askawitowen","nda wd'askawitowen","nda nd'askawitowenana","nda kd'askawitowenana","nda kd'askawitowen8", "nda wd'askawitowen8"];
-                                let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true, true);
-                                test(expected, results);
+                            describe("Singulier", () => 
+                            {                              
+                                describe("Présent", () => 
+                                {   
+                                    let expected = ["nda nd'askawitowen","nda kd'askawitowen","nda wd'askawitowen","nda nd'askawitowenana","nda kd'askawitowenana","nda kd'askawitowen8", "nda wd'askawitowen8"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Passé", () => 
+                                {   
+                                    let expected = ["nda nd'askawitowen","nda kd'askawitowen","nda wd'askawitowen","nda nd'askawitowenana","nda kd'askawitowenana","nda kd'askawitowen8", "nda wd'askawitowen8"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Passé composé", () => 
+                                {   
+                                    let expected = ["asma nd'askawitowen","asma kd'askawitowen","asma wd'askawitowen","asma nd'askawitowenana", "asma kd'askawitowenana", "asma kd'askawitowen8", "asma wd'askawitowen8"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true, true);
+                                    test(expected, results);
+                                }); 
+                                describe("Future", () => 
+                                {   
+                                    let expected = ["ndaba nd'askawitowen","ndaba kd'askawitowen","ndaba wd'askawitowen","ndaba nd'askawitowenana","ndaba kd'askawitowenana","ndaba kd'askawitowen8", "ndaba wd'askawitowen8"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Conditionnel", () => 
+                                {   
+                                    let expected = ["ndaba nd'askawitowen","ndaba kd'askawitowen","ndaba wd'askawitowen","ndaba nd'askawitowenana","ndaba kd'askawitowenana","ndaba kd'askawitowen8", "ndaba wd'askawitowen8"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true, true);
+                                    test(expected, results);
+                                });
                             });
-                            describe("Passé", () => 
-                            {   
-                                let expected = ["nda nd'askawitowen","nda kd'askawitowen","nda wd'askawitowen","nda nd'askawitowenana","nda kd'askawitowenana","nda kd'askawitowen8", "nda wd'askawitowen8"];
-                                let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true, true);
-                                test(expected, results);
-                            });
-                            describe("Passé composé", () => 
-                            {   
-                                let expected = ["asma nd'askawitowen","asma kd'askawitowen","asma wd'askawitowen","asma nd'askawitowenana", "asma kd'askawitowenana", "asma kd'askawitowen8", "asma wd'askawitowen8"];
-                                let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true, true);
-                                test(expected, results);
-                            }); 
-                            describe("Future", () => 
-                            {   
-                                let expected = ["ndaba nd'askawitowen","ndaba kd'askawitowen","ndaba wd'askawitowen","ndaba nd'askawitowenana","ndaba kd'askawitowenana","ndaba kd'askawitowen8", "ndaba wd'askawitowen8"];
-                                let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true, true);
-                                test(expected, results);
-                            });
-                            describe("Conditionnel", () => 
-                            {   
-                                let expected = ["ndaba nd'askawitowen","ndaba kd'askawitowen","ndaba wd'askawitowen","ndaba nd'askawitowenana","ndaba kd'askawitowenana","ndaba kd'askawitowen8", "ndaba wd'askawitowen8"];
-                                let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true, true);
-                                test(expected, results);
-                            });                            
+                            describe("Pluriel", () => 
+                            {
+                                describe("Présent", () => 
+                                {   
+                                    let expected = ["nda nd'askawitowenal","nda kd'askawitowenal","nda wd'askawitowenal","nda nd'askawitowenanawal","nda kd'askawitowenanawal","nda kd'askawitowen8l", "nda wd'askawitowen8l"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, true, true, true);
+                                    test(expected, results);
+                                });  
+                                /* ??? Needs more research
+                                describe("Passé", () => 
+                                {   
+                                    let expected = ["nda nd'askawitowen","nda kd'askawitowen","nda wd'askawitowen","nda nd'askawitowenana","nda kd'askawitowenana","nda kd'askawitowen8", "nda wd'askawitowen8"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true, true);
+                                    test(expected, results);
+                                });
+                                */
+                                describe("Passé composé", () => 
+                                {   
+                                    let expected = ["asma nd'askawitowenal","asma kd'askawitowenal","asma wd'askawitowenal","asma nd'askawitowenanawal", "asma kd'askawitowenanawal", "asma kd'askawitowen8l", "asma wd'askawitowen8l"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, true, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Future", () => 
+                                {   
+                                    let expected = ["ndaba nd'askawitowenal","ndaba kd'askawitowenal","ndaba wd'askawitowenal","ndaba nd'askawitowenanawal","ndaba kd'askawitowenanawal","ndaba kd'askawitowen8l", "ndaba wd'askawitowen8l"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, true, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Conditionnel", () => 
+                                {   
+                                    let expected = ["ndaba nd'askawitowenal","ndaba kd'askawitowenal","ndaba wd'askawitowenal","ndaba nd'askawitowenanawal","ndaba kd'askawitowenanawal","ndaba kd'askawitowen8l", "ndaba wd'askawitowen8l"];
+                                    let results = generateVerbAffix('askawito', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, true, true, true);
+                                    test(expected, results);
+                                });                                                                                                                         
+                            });                                                    
                         });
                     });   
                 });
@@ -543,7 +695,7 @@ describe("Génération d'affixes", () =>
                     describe("Indéfini", () => 
                     {            
                         describe("Affirmatif", () => 
-                        {                           
+                        {    
                             describe("Présent", () => 
                             {   
                                 let expected = ["n'waj8nem","k'waj8nem","waj8nem","n'waj8nemobna","k'waj8nemobna","k'waj8nemoba", "waj8nemok"];
@@ -613,69 +765,145 @@ describe("Génération d'affixes", () =>
                     {
                         describe("Affirmatif", () => 
                         {
-                            describe("Présent", () => 
-                            {   
-                                let expected = ["n'waj8nemen","k'waj8nemen","w'waj8nemen","n'waj8nemenana","k'waj8nemenana","k'waj8nemen8", "w'waj8nemen8"];
-                                let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true);
-                                test(expected, results);
+                            describe("Singulier", () => 
+                            {                                
+                                describe("Présent", () => 
+                                {   
+                                    let expected = ["n'waj8nemen","k'waj8nemen","w'waj8nemen","n'waj8nemenana","k'waj8nemenana","k'waj8nemen8", "w'waj8nemen8"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true);
+                                    test(expected, results);
+                                });
+                                describe("Passé", () => 
+                                {   
+                                    let expected = ["n'waj8nemenob","k'waj8nemenob","w'waj8nemenob","n'waj8nemenanob","k'waj8nemenanob","k'waj8nemen8b", "w'waj8nemen8b"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true);
+                                    test(expected, results);
+                                });
+                                describe("Passé composé", () => 
+                                {   
+                                    let expected = ["kizi n'waj8nemen","kizi k'waj8nemen","kizi w'waj8nemen","kizi n'waj8nemenana","kizi k'waj8nemenana","kizi k'waj8nemen8", "kizi w'waj8nemen8"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true);
+                                    test(expected, results);
+                                });
+                                describe("Future", () => 
+                                {   
+                                    let expected = ["n'waj8nemenji","k'waj8nemenji","w'waj8nemenji","n'waj8nemenanaji","k'waj8nemenanaji","k'waj8nemen8ji", "w'waj8nemen8ji"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true);
+                                    test(expected, results);
+                                });
+                                describe("Conditional", () => 
+                                {   
+                                    let expected = ["n'waj8nemenba","k'waj8nemenba","w'waj8nemenba","n'waj8nemenanaba","k'waj8nemenanaba","k'waj8nemen8ba", "w'waj8nemen8ba"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true);
+                                    test(expected, results);
+                                });
                             });
-                            describe("Passé", () => 
-                            {   
-                                let expected = ["n'waj8nemenob","k'waj8nemenob","w'waj8nemenob","n'waj8nemenanob","k'waj8nemenanob","k'waj8nemen8b", "w'waj8nemen8b"];
-                                let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true);
-                                test(expected, results);
-                            });
-                            describe("Passé composé", () => 
-                            {   
-                                let expected = ["kizi n'waj8nemen","kizi k'waj8nemen","kizi w'waj8nemen","kizi n'waj8nemenana","kizi k'waj8nemenana","kizi k'waj8nemen8", "kizi w'waj8nemen8"];
-                                let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true);
-                                test(expected, results);
-                            });
-                            describe("Future", () => 
-                            {   
-                                let expected = ["n'waj8nemenji","k'waj8nemenji","w'waj8nemenji","n'waj8nemenanaji","k'waj8nemenanaji","k'waj8nemen8ji", "w'waj8nemen8ji"];
-                                let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true);
-                                test(expected, results);
-                            });
-                            describe("Conditional", () => 
-                            {   
-                                let expected = ["n'waj8nemenba","k'waj8nemenba","w'waj8nemenba","n'waj8nemenanaba","k'waj8nemenanaba","k'waj8nemen8ba", "w'waj8nemen8ba"];
-                                let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true);
-                                test(expected, results);
-                            }); 
+                            describe("Pluriel", () => 
+                            {
+                                describe("Présent", () => 
+                                {   
+                                    let expected = ["n'waj8nemenal","k'waj8nemenal","w'waj8nemenal","n'waj8nemenanawal","k'waj8nemenanawal","k'waj8nemen8l", "w'waj8nemen8l"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, true, true, false);
+                                    test(expected, results);
+                                });
+                                /* Needs more research
+                                describe("Passé", () => 
+                                {   
+                                    let expected = ["n'waj8nemenob","k'waj8nemenob","w'waj8nemenob","n'waj8nemenanob","k'waj8nemenanob","k'waj8nemen8b", "w'waj8nemen8b"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true);
+                                    test(expected, results);
+                                });
+                                */
+                                describe("Passé composé", () => 
+                                {   
+                                    let expected = ["kizi n'waj8nemenal","kizi k'waj8nemenal","kizi w'waj8nemenal","kizi n'waj8nemenanawal","kizi k'waj8nemenanawal","kizi k'waj8nemen8l", "kizi w'waj8nemen8l"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, true, true, false);
+                                    test(expected, results);
+                                }); 
+                                describe("Future", () => 
+                                {   
+                                    let expected = ["n'waj8nemenalji","k'waj8nemenalji","w'waj8nemenalji","n'waj8nemenanawalji","k'waj8nemenanawalji","k'waj8nemen8lji", "w'waj8nemen8lji"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, true, true, false);
+                                    test(expected, results);
+                                });
+                                describe("Conditional", () => 
+                                {   
+                                    let expected = ["n'waj8nemenalba","k'waj8nemenalba","w'waj8nemenalba","n'waj8nemenanawalba","k'waj8nemenanawalba","k'waj8nemen8lba", "w'waj8nemen8lba"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, true, true, false);
+                                    test(expected, results);
+                                });                                                                                                                       
+                            });                             
                         });
                         describe("Négatif", () => 
                         {
-                            describe("Présent", () => 
-                            {   
-                                let expected = ["nda n'waj8nemowen","nda k'waj8nemowen","nda w'waj8nemowen","nda n'waj8nemowenana","nda k'waj8nemowenana","nda k'waj8nemowen8", "nda w'waj8nemowen8"];
-                                let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true, true);
-                                test(expected, results);
+                            describe("Singulier", () => 
+                            {                            
+                                describe("Présent", () => 
+                                {   
+                                    let expected = ["nda n'waj8nemowen","nda k'waj8nemowen","nda w'waj8nemowen","nda n'waj8nemowenana","nda k'waj8nemowenana","nda k'waj8nemowen8", "nda w'waj8nemowen8"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Passé", () => 
+                                {   
+                                    let expected = ["nda n'waj8nemowenob","nda k'waj8nemowenob","nda w'waj8nemowenob","nda n'waj8nemowenanob","nda k'waj8nemowenanob","nda k'waj8nemowen8b", "nda w'waj8nemowen8b"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Passé composé", () => 
+                                {   
+                                    let expected = ["asma n'waj8nemowen","asma k'waj8nemowen","asma w'waj8nemowen","asma n'waj8nemowenana","asma k'waj8nemowenana","asma k'waj8nemowen8", "asma w'waj8nemowen8"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Future", () => 
+                                {   
+                                    let expected = ["ndaba n'waj8nemowen","ndaba k'waj8nemowen","ndaba w'waj8nemowen","ndaba n'waj8nemowenana","ndaba k'waj8nemowenana","ndaba k'waj8nemowen8", "ndaba w'waj8nemowen8"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Conditionnel", () => 
+                                {   
+                                    let expected = ["ndaba n'waj8nemowen","ndaba k'waj8nemowen","ndaba w'waj8nemowen","ndaba n'waj8nemowenana","ndaba k'waj8nemowenana","ndaba k'waj8nemowen8", "ndaba w'waj8nemowen8"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true, true);
+                                    test(expected, results);
+                                });
                             });
-                            describe("Passé", () => 
-                            {   
-                                let expected = ["nda n'waj8nemowenob","nda k'waj8nemowenob","nda w'waj8nemowenob","nda n'waj8nemowenanob","nda k'waj8nemowenanob","nda k'waj8nemowen8b", "nda w'waj8nemowen8b"];
-                                let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true, true);
-                                test(expected, results);
-                            });
-                            describe("Passé composé", () => 
-                            {   
-                                let expected = ["asma n'waj8nemowen","asma k'waj8nemowen","asma w'waj8nemowen","asma n'waj8nemowenana","asma k'waj8nemowenana","asma k'waj8nemowen8", "asma w'waj8nemowen8"];
-                                let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, true, true);
-                                test(expected, results);
-                            });
-                            describe("Future", () => 
-                            {   
-                                let expected = ["ndaba n'waj8nemowen","ndaba k'waj8nemowen","ndaba w'waj8nemowen","ndaba n'waj8nemowenana","ndaba k'waj8nemowenana","ndaba k'waj8nemowen8", "ndaba w'waj8nemowen8"];
-                                let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, true, true);
-                                test(expected, results);
-                            });
-                            describe("Conditionnel", () => 
-                            {   
-                                let expected = ["ndaba n'waj8nemowen","ndaba k'waj8nemowen","ndaba w'waj8nemowen","ndaba n'waj8nemowenana","ndaba k'waj8nemowenana","ndaba k'waj8nemowen8", "ndaba w'waj8nemowen8"];
-                                let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, true, true);
-                                test(expected, results);
-                            });                            
+                            describe("Pluriel", () => 
+                            {
+                                describe("Présent", () => 
+                                {   
+                                    let expected = ["nda n'waj8nemowenal","nda k'waj8nemowenal","nda w'waj8nemowenal","nda n'waj8nemowenanawal","nda k'waj8nemowenanawal","nda k'waj8nemowen8l", "nda w'waj8nemowen8l"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, true, true, true);
+                                    test(expected, results);
+                                });
+                                /* Needs more research
+                                describe("Passé", () => 
+                                {   
+                                    let expected = ["nda n'waj8nemowenob","nda k'waj8nemowenob","nda w'waj8nemowenob","nda n'waj8nemowenanob","nda k'waj8nemowenanob","nda k'waj8nemowen8b", "nda w'waj8nemowen8b"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, true, true);
+                                    test(expected, results);
+                                });
+                                */
+                                describe("Passé composé", () => 
+                                {   
+                                    let expected = ["asma n'waj8nemowenal","asma k'waj8nemowenal","asma w'waj8nemowenal","asma n'waj8nemowenanawal","asma k'waj8nemowenanawal","asma k'waj8nemowen8l", "asma w'waj8nemowen8l"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, true, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Future", () => 
+                                {   
+                                    let expected = ["ndaba n'waj8nemowenal","ndaba k'waj8nemowenal","ndaba w'waj8nemowenal","ndaba n'waj8nemowenanawal","ndaba k'waj8nemowenanawal","ndaba k'waj8nemowen8l", "ndaba w'waj8nemowen8l"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, true, true, true);
+                                    test(expected, results);
+                                });
+                                describe("Conditionnel", () => 
+                                {   
+                                    let expected = ["ndaba n'waj8nemowenal","ndaba k'waj8nemowenal","ndaba w'waj8nemowenal","ndaba n'waj8nemowenanawal","ndaba k'waj8nemowenanawal","ndaba k'waj8nemowen8l", "ndaba w'waj8nemowen8l"];
+                                    let results = generateVerbAffix('waj8nem', Animacy.INANIMATE, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, true, true, true);
+                                    test(expected, results);
+                                });                                                             
+                            });                                                        
                         });
                     });                                             
                 });           

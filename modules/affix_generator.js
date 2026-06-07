@@ -82,7 +82,7 @@ export function generatePossessiveAffix(noun, animate, plural)
     return result;
 }
 
-export function generateVerbAffix(root, animacy, order, tense, plural, isDefinite, isNegative)
+export function generateVerbAffix(root, animacy, order, tense, isPlural, isDefinite, isNegative)
 {
     function GetIntro(tense, isNegative)
     {
@@ -295,6 +295,32 @@ export function generateVerbAffix(root, animacy, order, tense, plural, isDefinit
         }
         return extraTenseEnding;
     }
+    
+    function GetPluralEnding(index, isPlural, animacy, isNegative, lastChar)
+    {
+        if ( isPlural )
+        {
+            if ( animacy == Animacy.ANIMATE )
+            {
+                if ( !isNegative )
+                {
+                    const animateEndings = ["k", "k", "", "wak", "wak", "k", ""];
+                    return animateEndings[index];
+                }
+                else
+                {
+                    const animateEndings = ["ak", "ak", "", "wak", "wak", "k", ""];
+                    return animateEndings[index];                    
+                }
+            }
+            else
+            {
+                    const inanimateEndings = ["al", "al", "al", "wal", "wal", "l", "l"];
+                    return inanimateEndings[index];                   
+            }
+        }
+        return "";
+    }    
 
     var result = [];    
     const lastChar = root.at(-1);
@@ -304,7 +330,8 @@ export function generateVerbAffix(root, animacy, order, tense, plural, isDefinit
         result.push(GetIntro(tense, isNegative) 
         + GeneratePronoun(root, index, order, isDefinite) 
         + strippedRoot 
-        + GenerateEnding(index, tense, isDefinite, animacy, lastChar, isNegative) 
+        + GenerateEnding(index, tense, isDefinite, animacy, lastChar, isNegative)
+        + GetPluralEnding(index, isPlural, animacy, isNegative,lastChar)
         + GetExtraTenseVerbEndings(tense, isNegative));
     }
     return result;
