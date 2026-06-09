@@ -1,9 +1,11 @@
 import { extractPluralAffix, extractLocativeAffix, extractPossessiveAffix, extract, ExtractionContext } from "./affix_extractor.js";
-import { generatePossessiveAffix } from "./affix_generator.js";
+import { generatePossessiveAffix, generateVerbAffix, generateEveryVerbAffix } from "./affix_generator.js";
 import { Animacy } from "./animacy.js";
 import { Person } from "./person.js";
 import { Dictionary } from "./dictionary.js";
 import { present_independant } from "./present_independant.js";
+import { VerbalOrder } from "./verbal_order.js"
+import { VerbalTense } from "./verbal_tense.js";
 
 var assert = chai.assert;
 
@@ -100,7 +102,6 @@ describe("Extraction d'affixes", () =>
       });
     });  
   });
-
 
   describe("Le locatif du nom", () => 
   {
@@ -315,19 +316,337 @@ describe("Extraction d'affixes", () =>
         }                 
     });
   });
+
   describe("Les verbes", () => 
   {
+    function DoTest(dict, root, animacy, order, tense, isPlural, isDefinite, isNegative)
+    {
+      for ( let test of generateEveryVerbAffix(root, animacy, order, tense, isPlural, isDefinite, isNegative) )
+      {        
+        it (test, () => 
+        {  
+          let context = new ExtractionContext(dict, test);    
+          let results = extract(context, present_independant);
+          assert.equal(results.length, 1);
+          assert.equal(results[0].word, 
+            generateVerbAffix(root, 0, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false));
+        });
+      }        
+    }
+
     describe("VAI", () => 
     { 
-      let dict = new Dictionary([
-        {"French":"Je vais quelque part en marchant (de façon indéterminée).","Type":"VAI;1;s;Présent","Abenaki":"Nd'alosa","Meta":"Verbe"}
-      ]);         
-      
-      it ("Nd'alosabna", () => {  
-        let context = new ExtractionContext(dict, "Nd'alosabna");    
-        let results = extract(context, present_independant);
-        assert.equal(results.length, 1); 
+      describe("Patron en A", () => 
+      {
+        describe("Ordre indépendant", () => 
+        {   
+          let dict = new Dictionary([
+            {"French":"Je travaille","Type":"VAI;1;s;Présent","Abenaki":"Nd'aloka","Meta":"Verbe"}
+          ]);
+          
+          let root = 'aloka';          
+          describe("Affirmatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, false);
+          });
+          describe("Négatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, true);     
+          });
+        });
+      });
+      describe("Patron en I", () => 
+      {        
+        describe("Ordre indépendant", () => 
+        {               
+          let dict = new Dictionary([
+            {"French":"Je mange","Type":"VAI;1;s;Présent","Abenaki":"N'michi","Meta":"Verbe"}
+          ]);       
+          
+          let root = 'michi';
+          describe("Affirmatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, false);
+          });
+          describe("Négatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, true);     
+          });
+        });
+      });
+      describe("Patron en Ï", () => 
+      { 
+        describe("Ordre indépendant", () => 
+        {               
+          let dict = new Dictionary([
+            {"French":"	Je suis ","Type":"VAI;1;s;Présent","Abenaki":"Nd'aï","Meta":"Verbe"}
+          ]);       
+          
+          let root = 'aï';
+          describe("Affirmatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, false);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, false);
+          });
+          describe("Négatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, true);
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, true);     
+          });
+        });        
       });
     });
-  });  
+    describe("VTA", () => 
+    {
+      describe("Patron en 8", () => 
+      {
+        describe("Ordre indépendant", () => 
+        {   
+          let dict = new Dictionary([
+            {"French":"	J'observe quelquechose (A) ou quelqu'un","Type":"VTA;1;s;Présent","Abenaki":"N'namih8","Meta":"Verbe"}
+          ]);        
+          let root = 'namih8';
+          let animacy = Animacy.ANIMATE;  
+          describe("Indéfini", () => 
+          {
+            let isDefinite = false;
+            describe("Affirmatif", () => 
+            {
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, isDefinite, false);
+            });
+            describe("Négatif", () => 
+            {
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, isDefinite, true);     
+            });
+          });          
+          describe("Défini", () => 
+          {
+            let isDefinite = true;
+            describe("Singulier", () =>
+            {           
+              let isPlural = false; 
+              describe("Affirmatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, false);
+              });
+              describe("Négatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, true);     
+              });
+            });
+            describe("Pluriel", () =>
+            {            
+              let isPlural = true; 
+              describe("Affirmatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, false);
+              });
+              describe("Négatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, true);     
+              });
+            });            
+          });          
+        });        
+      });      
+    });
+    describe("VTI", () => 
+    {
+        let animacy = Animacy.INANIMATE;       
+      describe("Patron en O", () => 
+      {       
+        describe("Ordre indépendant", () => 
+        {   
+          let dict = new Dictionary([
+            {"French":"J'attends quelquechose (I)","Type":"VTI;1;s;Présent","Abenaki":"nd'askawito","Meta":"Verbe"}
+          ]);        
+          let root = 'askawito';
+          describe("Indéfini", () => 
+          {
+            let isDefinite = false;
+            describe("Affirmatif", () => 
+            {
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, isDefinite, false);
+            });
+            describe("Négatif", () => 
+            {
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, isDefinite, true);     
+            });
+          });          
+          describe("Défini", () => 
+          {
+            let isDefinite = true;
+            describe("Singulier", () =>
+            {           
+              let isPlural = false; 
+              describe("Affirmatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, false);
+              });
+              describe("Négatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, true);     
+              });
+            });
+            describe("Pluriel", () =>
+            {            
+              let isPlural = true; 
+              describe("Affirmatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, false);
+              });
+              describe("Négatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, true);     
+              });
+            });            
+          });          
+        });        
+      });
+      describe("Patron en M", () => 
+      {       
+        describe("Ordre indépendant", () => 
+        {   
+          let dict = new Dictionary([
+            {"French":"	Je possède quelquechose (I).","Type":"VTI;1;s;Présent","Abenaki":"n'waj8nem","Meta":"Verbe"}
+          ]);        
+          let root = 'waj8nem';
+          describe("Indéfini", () => 
+          {
+            let isDefinite = false;
+            describe("Affirmatif", () => 
+            {
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, isDefinite, false);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, isDefinite, false);
+            });
+            describe("Négatif", () => 
+            {
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, isDefinite, true);
+              DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, isDefinite, true);     
+            });
+          });          
+          describe("Défini", () => 
+          {
+            let isDefinite = true;
+            describe("Singulier", () =>
+            {           
+              let isPlural = false; 
+              describe("Affirmatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, false);
+              });
+              describe("Négatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, true);     
+              });
+            });
+            describe("Pluriel", () =>
+            {            
+              let isPlural = true; 
+              describe("Affirmatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, false);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, false);
+              });
+              describe("Négatif", () => 
+              {
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, isPlural, isDefinite, true);
+                DoTest(dict, root, animacy, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, isPlural, isDefinite, true);     
+              });
+            });            
+          });          
+        });        
+      });           
+    });         
+  });
 });

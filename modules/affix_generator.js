@@ -82,7 +82,7 @@ export function generatePossessiveAffix(noun, animate, plural)
     return result;
 }
 
-export function generateVerbAffix(root, animacy, order, tense, isPlural, isDefinite, isNegative)
+export function generateVerbAffix(root, index, animacy, order, tense, isPlural, isDefinite, isNegative)
 {
     function GetIntro(tense, isNegative)
     {
@@ -132,15 +132,6 @@ export function generateVerbAffix(root, animacy, order, tense, isPlural, isDefin
             Pronoun += "'";        
         }
         return Pronoun;        
-    }
-
-    function GenerateIndices(order)
-    {
-        if ( order == VerbalOrder.IMPERATIVE )
-        {
-            return [1, 4, 5];
-        }
-        return [0, 1, 2, 3,4, 5, 6];
     }
     
     function GenerateEnding(index, tense, isDefinite, animacy, lastChar, isNegative)
@@ -263,7 +254,7 @@ export function generateVerbAffix(root, animacy, order, tense, isPlural, isDefin
         {
             console.log("Could not find tense: " + tense);
         }
-        return endings.get(lastChar)[index];;
+        return endings.get(lastChar)[index];
     }
 
     function GenerateNegative(index, isNegative)
@@ -322,17 +313,32 @@ export function generateVerbAffix(root, animacy, order, tense, isPlural, isDefin
         return "";
     }    
 
-    var result = [];    
     const lastChar = root.at(-1);
-    for ( const index of GenerateIndices(order) )
-    {
-        const strippedRoot = root.slice(0, root.length-1);
-        result.push(GetIntro(tense, isNegative) 
+    const strippedRoot = root.slice(0, root.length-1);
+    return GetIntro(tense, isNegative) 
         + GeneratePronoun(root, index, order, isDefinite) 
         + strippedRoot 
         + GenerateEnding(index, tense, isDefinite, animacy, lastChar, isNegative)
         + GetPluralEnding(index, isPlural, animacy, isNegative,lastChar)
-        + GetExtraTenseVerbEndings(tense, isNegative));
+        + GetExtraTenseVerbEndings(tense, isNegative);
+}
+
+export function generateEveryVerbAffix(root, animacy, order, tense, isPlural, isDefinite, isNegative)
+{
+    function GenerateIndices(order)
+    {
+        if ( order == VerbalOrder.IMPERATIVE )
+        {
+            return [1, 4, 5];
+        }
+        return [0, 1, 2, 3,4, 5, 6];
     }
+
+    var result = [];
+    for ( const index of GenerateIndices(order) )
+    {
+        result.push(generateVerbAffix(root, index, animacy, order, tense, isPlural, isDefinite, isNegative));
+    }
+
     return result;
 };
