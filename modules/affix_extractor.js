@@ -1,7 +1,10 @@
 import { Animacy } from "./animacy.js";
+import { VerbalOrder } from "./verbal_order.js";
+import { VerbalTense } from "./verbal_tense.js";
 import { Person } from "./person.js";
 import { Dictionary } from "./dictionary.js";
 import { startsWithVowel, endsWithVowel, startsWithIgnoreCase, endsWithIgnoreCase, sliceEnd } from "./string.js";
+import { generateVerbAffix } from "./affix_generator.js";
 
 export class ExtractionContext
 {
@@ -10,6 +13,8 @@ export class ExtractionContext
         this.dictionary = dictionary;
         this.word = word;
         this.animacy = Animacy.UNKNOWN;
+        this.tense = VerbalTense.UNKNOWN;
+        this.order = VerbalOrder.UNKNOWN;        
         this.isPlural = false;
         this.isLocative = false;
         this.isPossessive = false;
@@ -35,7 +40,7 @@ export class ExtractionContext
 
     log()
     {
-        console.log("Word " + this.word + " isPlural " + this.isPlural + " isPossessive " + this.isPossessive + " person " + this.person);        
+        console.log("Word " + this.word + " isVerb " + this.isVerb + " isPlural " + this.isPlural + " isPossessive " + this.isPossessive + " person " + this.person + " tense " + this.tense);        
     }
 }
 
@@ -414,17 +419,19 @@ export function extract(context, config)
 {
     let results = [];
 
-    console.log("Extract " + context.word);
-    console.log(context);    
+    //console.log("Extract " + context.word);
+    //console.log(context);    
     let word = context.word.toLowerCase();
     for (const configEntry of config.entries ) 
     {
         if (word.startsWith(configEntry.prefix) && word.endsWith(configEntry.suffix)) 
         {
-            let stripped = word.slice(configEntry.prefix.length, word.length - configEntry.suffix.length);
-            console.log("Stripped " + stripped); 
-            let reconstructed = configEntry.reconstruction.prefix + stripped + configEntry.reconstruction.suffix;
-            console.log("Reconstructed " + reconstructed);  
+            let stripped = word.slice(configEntry.prefix.length, word.length - configEntry.suffix.length) + configEntry.reconstruction.suffix;
+            //console.log("Stripped " + stripped); 
+            let reconstructed = generateVerbAffix(stripped, 0, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
+
+            //let reconstructed = configEntry.reconstruction.prefix + stripped + configEntry.reconstruction.suffix;
+            //console.log("Reconstructed " + reconstructed);  
             
             let dictEntry = context.dictionary.findEntry(Dictionary.ABENAKI, reconstructed);
             if ( dictEntry != null )
@@ -435,15 +442,13 @@ export function extract(context, config)
                 {
                     newContext[annotation] = configEntry.annotations[annotation];
                 }
-                newContext.word = reconstructed; 
-                console.log(newContext);                
                 results.push(newContext);
             }   
         }
     }
 
-    console.log("Extract Results: " + results);
-    console.log("Extract " + context.word + " End");
+    //console.log("Extract Results: " + results);
+    //console.log("Extract " + context.word + " End");
     
     return results;
 }

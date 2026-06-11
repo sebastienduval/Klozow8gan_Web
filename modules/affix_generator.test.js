@@ -9,30 +9,32 @@ describe("Génération d'affixes", () =>
 {
     describe("Le possessif du nom", () => 
     {
-        it("Awasos", () =>
+        describe("Awasos", () =>
         {
             let expected = ["ndawasosem","kdawasosem","wdawasosema","ndawasosemna","kdawasosemna","kdawasosemw8", "wdawasosemw8"];
             let results = generatePossessiveAffix("awasos", true, false);
             for ( let i = 0; i < expected.length; i++ )
             {
-                assert.equal(results[i], expected[i]);
+                it(expected[i], () =>
+                {
+                    assert.equal(results[i], expected[i]);
+                });
             }
         });
     });
 
-    function test(expected, results)
-    {
-        for ( let i = 0; i < expected.length; i++ )
-        {                      
-            it(expected[i], () =>
-            {
-                assert.equal(results[i], expected[i]);
-            });
-        }
-    }
-
     describe("Conjugaisons", () => 
     {    
+        function test(expected, results)
+        {
+            for ( let i = 0; i < expected.length; i++ )
+            {                      
+                it(expected[i], () =>
+                {
+                    assert.equal(results[i], expected[i]);
+                });
+            }
+        }
         describe("VAI", () => 
         {
             describe("Patron en A", () => 
@@ -104,7 +106,7 @@ describe("Génération d'affixes", () =>
                                 let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, true);
                                 test(expected, results);
                             });                                                                                                                                         
-                        });                                                      
+                    });                                                      
                 });
             });
             describe("Patron en I et Ï", () => 

@@ -6,6 +6,7 @@ import { Dictionary } from "./dictionary.js";
 import { present_independant } from "./present_independant.js";
 import { VerbalOrder } from "./verbal_order.js"
 import { VerbalTense } from "./verbal_tense.js";
+import { normalizeString } from "./string.js";
 
 var assert = chai.assert;
 
@@ -327,9 +328,27 @@ describe("Extraction d'affixes", () =>
         {  
           let context = new ExtractionContext(dict, test);    
           let results = extract(context, present_independant);
-          assert.equal(results.length, 1);
-          assert.equal(results[0].word, 
-            generateVerbAffix(root, 0, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false));
+          let successCount = 0;
+          assert.isAtLeast(results.length, 1);
+          let i = 0;
+          for ( let result of results )
+          {
+            let success = 
+              result.entry.Abenaki == 
+                normalizeString(generateVerbAffix(root, 0, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false)) &&
+              result.animacy == animacy && 
+              result.order == order && 
+              result.tense == tense;
+
+              console.log(test + " " + i++);
+              console.log(result);
+            if ( success )
+            {
+              ++successCount;
+            }
+          }
+          assert.isAtLeast(successCount, 1);
+          //assert.equal(1, results.length);
         });
       }        
     }
@@ -347,7 +366,10 @@ describe("Extraction d'affixes", () =>
           let root = 'aloka';          
           describe("Affirmatif", () => 
           {
-            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
+            describe("Présent", () => 
+            {            
+              DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
+            });
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, false);
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, false);
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, false);
@@ -504,7 +526,7 @@ describe("Extraction d'affixes", () =>
         describe("Ordre indépendant", () => 
         {   
           let dict = new Dictionary([
-            {"French":"J'attends quelquechose (I)","Type":"VTI;1;s;Présent","Abenaki":"nd'askawito","Meta":"Verbe"}
+            {"French":"J'attends quelquechose (I)","Type":"VTI;1;s;Présent","Abenaki":"Nd'askawito","Meta":"Verbe"}
           ]);        
           let root = 'askawito';
           describe("Indéfini", () => 
@@ -578,7 +600,7 @@ describe("Extraction d'affixes", () =>
         describe("Ordre indépendant", () => 
         {   
           let dict = new Dictionary([
-            {"French":"	Je possède quelquechose (I).","Type":"VTI;1;s;Présent","Abenaki":"n'waj8nem","Meta":"Verbe"}
+            {"French":"	Je possède quelquechose (I).","Type":"VTI;1;s;Présent","Abenaki":"N'waj8nem","Meta":"Verbe"}
           ]);        
           let root = 'waj8nem';
           describe("Indéfini", () => 

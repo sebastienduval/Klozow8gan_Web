@@ -133,10 +133,28 @@ export function generateVerbAffix(root, index, animacy, order, tense, isPlural, 
         }
         return Pronoun;        
     }
+
+    function GeneratePronouns(root, index, order, isDefinite)
+    {
+        if ( order != VerbalOrder.INDEPENDENT )
+        { 
+            return [""]; 
+        }
+
+        var Pronoun = Pronouns[index];
+        if ( !isDefinite && (index == 2 || index ==6) )
+        {
+            return [""];
+        }
+        else
+        {
+            return [Pronoun+"'", Pronoun+"d'"];             
+        }     
+    }    
     
     function GenerateEnding(index, tense, isDefinite, animacy, lastChar, isNegative)
     {        
-        console.log("GenerateEnding:  " + index + " " + tense + " " + isDefinite + " " + lastChar);
+        //console.log("GenerateEnding:  " + index + " " + tense + " " + isDefinite + " " + lastChar);
 
         let endings = undefined;
 
@@ -254,7 +272,14 @@ export function generateVerbAffix(root, index, animacy, order, tense, isPlural, 
         {
             console.log("Could not find tense: " + tense);
         }
-        return endings.get(lastChar)[index];
+        if ( endings )
+        {
+            if ( endings.has(lastChar) )
+            {
+                return endings.get(lastChar)[index];
+            }
+        }
+        return undefined;
     }
 
     function GenerateNegative(index, isNegative)
@@ -315,6 +340,32 @@ export function generateVerbAffix(root, index, animacy, order, tense, isPlural, 
 
     const lastChar = root.at(-1);
     const strippedRoot = root.slice(0, root.length-1);
+
+/*
+    let intro = GetIntro(tense, isNegative);
+    let pronouns = GeneratePronouns(root, index, order, isDefinite);
+    let ending = GenerateEnding(index, tense, isDefinite, animacy, lastChar, isNegative);
+    let pluralEnding = GetPluralEnding(index, isPlural, animacy, isNegative,lastChar);
+    let extra = GetExtraTenseVerbEndings(tense, isNegative);
+
+    let verbalOrder = "VerbalOrder." + order;
+    let verbalTense = "VerbalTense." + tense;
+    let animacyValue = animacy == undefined ? animacy : "Animacy." + animacy;    
+
+    for ( let pronoun of pronouns )
+    {
+        console.log("        " + 
+                    "{ \"prefix\" : \"" + intro + pronoun + "\"" +
+                    ", \"suffix\" : \"" + ending + pluralEnding + extra + "\"" + ", " + 
+                    "\"annotations\" : { \"isVerb\" : true, \"person\" : " + index + ", \"isPlural\" : " +  isPlural + 
+                    ", \"isDefinite\": " + isDefinite + ", \"isNegative\" : " + isNegative + 
+                    ", \"order\" : " + verbalOrder + ", \"tense\" : " + verbalTense + ", \"animacy\" : " + animacyValue + "}" + ", " + 
+                    "\"reconstruction\" : {\"suffix\" : \"" + lastChar + "\"}" + 
+                    "},");
+    }
+*/
+
+
     return GetIntro(tense, isNegative) 
         + GeneratePronoun(root, index, order, isDefinite) 
         + strippedRoot 
