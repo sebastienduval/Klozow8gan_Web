@@ -3,7 +3,7 @@ import { generatePossessiveAffix, generateVerbAffix, generateEveryVerbAffix } fr
 import { Animacy } from "./animacy.js";
 import { Person } from "./person.js";
 import { Dictionary } from "./dictionary.js";
-import { present_independant } from "./present_independant.js";
+import { verbConfig } from "./verb_config.js";
 import { VerbalOrder } from "./verbal_order.js"
 import { VerbalTense } from "./verbal_tense.js";
 import { normalizeString } from "./string.js";
@@ -327,7 +327,7 @@ describe("Extraction d'affixes", () =>
         it (test, () => 
         {  
           let context = new ExtractionContext(dict, test);    
-          let results = extract(context, present_independant);
+          let results = extract(context, verbConfig);
           let successCount = 0;
           assert.isAtLeast(results.length, 1);
           let i = 0;
@@ -366,10 +366,7 @@ describe("Extraction d'affixes", () =>
           let root = 'aloka';          
           describe("Affirmatif", () => 
           {
-            describe("Présent", () => 
-            {            
-              DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
-            });
+            DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, false);
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, false);
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, false);

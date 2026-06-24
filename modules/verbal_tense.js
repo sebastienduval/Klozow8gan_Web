@@ -1,4 +1,5 @@
 export const VerbalTense = {
+  UNKNOWN: 'UNKNOWN',
   PRESENT: 'PRESENT',
   PAST: 'PAST',
   PAST_PERFECT: 'PAST_PERFECT',

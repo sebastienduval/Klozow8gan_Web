@@ -1,5 +1,6 @@
-import { extractPluralAffix, extractLocativeAffix, extractPossessiveAffix, ExtractionContext } from "./modules/affix_extractor.js";
+import { extractPluralAffix, extractLocativeAffix, extractPossessiveAffix, ExtractionContext, extract } from "./modules/affix_extractor.js";
 import { Dictionary } from "./modules/dictionary.js";
+import { verbConfig } from "./modules/verb_config.js";
 
 function Translate()
 {    
@@ -11,36 +12,69 @@ function Translate()
     let dict = new Dictionary(dictionary);
     for ( let word of words )
     {
-        console.log(word);
+        word = word.toLowerCase();
         let context = new ExtractionContext(dict, word);
         context.entry = dict.findEntry(Dictionary.ABENAKI, word);
+        let result = context;
+
         if ( context.entry == null )
         {
             extractPluralAffix(context);
-            console.log("Try extract plural affix(" + (context.entry != null? "success" : "failure") + ")");            
+            result = context;
+            console.log("Try extract plural affix for " + word + "(" + (context.entry != null? "success" : "failure") + ")");            
         }
 
         if ( context.entry == null )
         {
-            extractLocativeAffix(context);             
-            console.log("Try extract locative affix (" + (context.entry != null? "success" : "failure") + ")");
+            extractLocativeAffix(context);
+            result = context;         
+            console.log("Try extract locative affix for " + word + "(" + (context.entry != null? "success" : "failure") + ")");
         }
         
         if ( context.entry == null )
         {
-            extractPossessiveAffix(context);             
-            console.log("Try extract possessive affix (" + (context.entry != null? "success" : "failure") + ")");
-        }            
+            extractPossessiveAffix(context);
+            result = context;            
+            console.log("Try extract possessive affix for " + word + "(" + (context.entry != null? "success" : "failure") + ")");
+        }
+        
+        if ( context.entry == null )
+        {
+            let results = extract(context, verbConfig);             
+            result = results.length > 0 ? results[0] : null;
+            console.log("Try extract verb affixes for " + word + "(" + (results.length > 0? "success" : "failure") + ")");
+        }          
 
         let resultMessage = "";
-        if ( context.entry != null )
+        if ( result != null )
         {
-            let temp = context.entry[Dictionary.FRENCH];
-            resultMessage = temp 
-            + (context.isLocative ? " (locatif)" : "") 
-            + (context.isPlural ? " (pluriel)" : "") 
-            + (context.isPossessive ? " (possessif)" : "") 
-            + (context.person ? " (personne " + context.person + ")" : "");
+            let temp = result.entry[Dictionary.FRENCH];
+            resultMessage = temp;
+            
+            if ( result.isVerb )
+            {
+                resultMessage += "(Ordre " + result.order + ")";
+                resultMessage += "(Temps " + result.tense + ")";
+                resultMessage += "(Personne " + result.person + ")";
+                resultMessage += "(Défini " + result.isDefinite + ")";
+                if ( result.animacy )
+                {
+                    resultMessage += "(Transitif " + result.animacy + ")";
+                }
+                else
+                {
+                    resultMessage += "(Intransitif " + result.animacy + ")";                    
+                }
+                resultMessage += "(Défini " + result.isDefinite + ")";
+            }
+            else
+            {
+                resultMessage +=
+                    (result.isLocative ? " (locatif)" : "") 
+                    + (result.isPlural ? " (pluriel)" : "") 
+                    + (result.isPossessive ? " (possessif)" : "") 
+                    + (result.person ? " (personne " + result.person + ")" : "");
+            }
         }
         else
         {
