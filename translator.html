@@ -5,16 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traducteur</title>
     <link rel="stylesheet" href="klozow8gan.css">
-    <a href="index.html">Acceuil</a>    
+    <a href="index.html">Acceuil</a>
 </head>
 <body>
-    <script src="number.js"></script> 
-    <h1>Traducteur</h1>
-    <h3>Écris un texte en Abénaki pour le traduire en Français.</h3>
-    <input type="text" id="Input" value="Nd'alosa wigw8mek">
-    <button id="translate-button">Traduit</button>
-    <p id="translation"></p>    
-    <script src="Dict.json"></script> 
-    <script type="module" src="./translator.js"></script>
+    <div class="container">
+        <script src="number.js"></script> 
+        <h2>Traducteur</h2>
+        <h3>Écris un texte en Abénaki pour le traduire en Français.</h3>
+
+        <!-- Input Area -->        
+        <div class="form-group">
+            <label for="Input">Input Text:</label>
+            <textarea id="Input" rows="6" placeholder="Type or paste your text here..."></textarea>
+        </div>
+                
+        <!-- Action Button -->
+        <button id="translate-button">Traduit</button>
+        
+        <!-- Output Area -->
+        <div class="form-group">
+            <label for="translation">Output Text:</label>
+            <textarea id="translation" rows="6" readonly placeholder="Your converted text will appear here..."></textarea>
+        </div>        
+        <script src="Dict.json"></script> 
+        <script type="module" src="./translator.js"></script>
+    </div>    
 </body>
 </html>
