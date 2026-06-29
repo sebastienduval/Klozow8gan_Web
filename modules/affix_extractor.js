@@ -449,7 +449,10 @@ export function extract(context, config)
 
     console.log("Extract Results: " + results);
     console.log("Extract " + context.word + " End");
-    results[0].log();
+    if ( results.length > 0 )
+    {
+        results[0].log();
+    }
     console.log("Extract Verb End");  
 
     return results;
