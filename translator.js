@@ -7,7 +7,10 @@ function Translate()
     document.getElementById("translation").innerHTML = "";
 
     let text = document.getElementById("Input").value;
-    let words = text.split(/\s+/);
+    let words = text.split(/([ .,!?])|\s+/)
+                   .filter(Boolean)
+                   .map(t => t.trim())
+                   .filter(t => t !== "");
 
     let dict = new Dictionary(dictionary);
     for ( let word of words )
@@ -43,7 +46,7 @@ function Translate()
             let results = extract(context, verbConfig);             
             result = results.length > 0 ? results[0] : null;
             console.log("Try extract verb affixes for " + word + "(" + (results.length > 0? "success" : "failure") + ")");
-        }          
+        }        
 
         let resultMessage = "";
         if ( result != null )
@@ -82,6 +85,8 @@ function Translate()
         }
         document.getElementById("translation").innerHTML += resultMessage + " | ";
     }
+
+    console.log(words);
 }
     
 document.getElementById('translate-button').addEventListener('click', Translate);
