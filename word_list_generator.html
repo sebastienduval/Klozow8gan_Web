@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de liste de mots</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+    <a href="index.html">Acceuil</a>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Générateur de liste de mots</h2>
+                
+        <!-- Input Area -->
+        <div class="form-group">
+            <label for="input-text">Mots:</label>
+            <textarea id="input-text" rows="6" placeholder="Écris ou copie tes mots..."></textarea>
+        </div>
+        
+        <!-- Action Button -->
+        <button id="convert-btn">Convertir</button>
+        
+        <!-- Output Area -->
+        <div class="form-group">
+            <label for="output-text">Texte de sortie:</label>
+            <textarea id="output-text" rows="6" readonly placeholder="Tes mots vont apparaître ici..."></textarea>
+        </div>
+    </div>
+
+    <script src="Dict.json"></script>
+    <script src="dictionary_utils.js"></script>
+    <script>
+        document.getElementById('convert-btn').addEventListener('click', () => {
+            const inputText = document.getElementById('input-text').value;
+            const outputArea = document.getElementById('output-text');
+            outputArea.value = "";
+            
+            let words = inputText.split(/\r?\n/);
+            console.log(words);
+
+            for ( let word of words )
+            {
+                let entry = findEntry(dictionary, "Abenaki", word);
+                console.log(entry);
+                let str = "";
+                if ( entry )
+                {
+                    str = entry.Abenaki + " [" + entry.Type + "] " + "(" + entry.French + ")";
+                    console.log(str);
+                }
+                else
+                {
+                    str = word + " n'est pas dans le dictionnaire";
+                }
+
+                outputArea.value += str + "\n";
+            }
+        
+        });
+    </script>
+</body>
+</html>
