@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pingo - Jeu de bingo abénaki</title>
+    <link rel="stylesheet" href="../klozow8gan.css">
+    <style>
+        #pingo-game {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        #pingo-board {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(120px, 1fr));
+            gap: 0.35rem;
+            margin: 1rem 0;
+        }
+
+        .board-header-cell,
+        .board-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #333;
+            min-height: 70px;
+            background: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 0.5rem;
+            user-select: none;
+        }
+
+        .board-header-cell {
+            background: #007bff;
+        }
+
+        .board-cell {
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .board-cell:hover {
+            transform: translateY(-1px);
+        }
+
+        .board-cell.selected {
+            background: #d9edf7;
+        }
+
+        .board-cell.correct {
+            background: #d4edda;
+        }
+
+        .board-cell.incorrect,
+        .board-cell.missed {
+            background: #f8d7da;
+        }
+
+        .board-cell.correct.selected {
+            background: #c7f0c7;
+        }
+
+        .board-controls {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .board-controls button {
+            padding: 0.8rem 1.4rem;
+            border: none;
+            background: #1a73e8;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .board-controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pingo-info {
+            display: grid;
+            gap: 0.35rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .pingo-info strong {
+            display: inline-block;
+            min-width: 120px;
+        }
+
+        #summary-panel {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 2px solid #333;
+            background: #f7f7f7;
+        }
+
+        #summary-text {
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body id="body">
+    <a href="quiz_index.html">Retour</a>
+    <div id="pingo-game">
+        <h1>Pingo</h1>
+        <div class="pingo-info">
+            <div><strong>Agizow8gan :</strong> <span id="current-drawn-abenaki">---</span></div>
+            <div><strong>Tirages :</strong> <span id="draw-count">0 / 75</span></div>
+            <div id=history hidden><strong>Historique :</strong> <span id="drawn-list"></span></div>
+            <div id="status-text">Générez une nouvelle partie pour commencer.</div>
+        </div>
+
+        <section id="pingo-board"></section>
+
+        <div class="board-controls">
+            <button id="next-button">Suivant</button>
+            <button id="new-game-button">Nouvelle partie</button>
+        </div>
+
+        <section id="summary-panel" hidden>
+            <div><strong>Validation du bingo :</strong></div>
+            <div id="summary-text"></div>
+            <div>Les cases correctement cliquées sont en vert. Les cases incorrectes ou manquées sont en rouge.</div>
+        </section>
+    </div>
+
+    <script src="../number.js"></script>
+    <script src="./pingo.js"></script>
+</body>
+</html>
