@@ -156,12 +156,17 @@ function checkForBingo() {
     return false;
 }
 
+function getBoardNumberAtIndex(index) {
+    const row = Math.floor(index / 5);
+    const column = index % 5;
+    return boardNumbers[column][row];
+}
+
 function updateCellsAfterValidation() {
-    const flattenedBoard = boardNumbers.flat();
-    for (let index = 0; index < flattenedBoard.length; index++) {
+    for (let index = 0; index < 25; index++) {
         const cell = document.getElementById(`cell-${index}`);
         cell.classList.remove('correct', 'incorrect', 'missed');
-        const number = flattenedBoard[index];
+        const number = getBoardNumberAtIndex(index);
         const isSelected = selectedCells[index];
         const wasDrawn = drawnNumbers.has(number);
 
@@ -176,14 +181,12 @@ function updateCellsAfterValidation() {
 }
 
 function finishGame() {
-    gameOver = true;    
+    gameOver = true;
     updateCellsAfterValidation();
     document.getElementById('next-button').disabled = true;
-    const flattenedBoard = boardNumbers.flat();
-    const lineIsValid = winningLine && winningLine.every(index => drawnNumbers.has(flattenedBoard[index]));
+    const lineIsValid = winningLine && winningLine.every(index => drawnNumbers.has(getBoardNumberAtIndex(index)));
 
     const summary = lineIsValid ? 'Bingo valide !' : 'Bingo invalide.';
-    document.getElementById('history').hidden = false;
     document.getElementById('summary-text').textContent = summary;
     document.getElementById('summary-panel').hidden = false;
 }
