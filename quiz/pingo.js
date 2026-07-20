@@ -205,7 +205,7 @@ function drawNextNumber() {
     drawnNumbers.add(number);
     document.getElementById('current-drawn-abenaki').textContent = GenerateNumber(number);
     updateDrawInfo();
-    updateStatus('Cliquez sur la case correspondant à ce numéro, puis appuyez sur Suivant.');
+    updateStatus('Cliquez sur la case correspondant à ce nombre (si il est présent), puis appuyez sur Suivant.');
 }
 
 function startNewGame() {
