@@ -126,6 +126,7 @@ function generateDrawnList()
     return drawList;
 }
 
+
 function updateDrawInfo() 
 {
     document.getElementById('draw-count').textContent = `${Math.min(drawIndex + 1, drawOrder.length)} / ${drawOrder.length}`;
@@ -187,6 +188,7 @@ function finishGame() {
     const lineIsValid = winningLine && winningLine.every(index => drawnNumbers.has(getBoardNumberAtIndex(index)));
 
     const summary = lineIsValid ? 'Bingo valide !' : 'Bingo invalide.';
+    document.getElementById('history').hidden = false;
     document.getElementById('summary-text').textContent = summary;
     document.getElementById('summary-panel').hidden = false;
 }
