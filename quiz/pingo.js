@@ -193,6 +193,18 @@ function finishGame() {
     document.getElementById('summary-panel').hidden = false;
 }
 
+function getColumn(number)
+{
+    for ( const column of PINGO_COLUMNS )
+    {
+        if ( number >= column.min && number <= column.max )
+        {
+            return column.label;
+        }
+    }
+    return '<Invalid Column';
+}
+
 function drawNextNumber() {
     if (gameOver) {
         return;
@@ -208,7 +220,7 @@ function drawNextNumber() {
 
     const number = drawOrder[drawIndex];
     drawnNumbers.add(number);
-    document.getElementById('current-drawn-abenaki').textContent = GenerateNumber(number);
+    document.getElementById('current-drawn-abenaki').textContent = getColumn(number) + '-' +  GenerateNumber(number);
     updateDrawInfo();
     updateStatus('Cliquez sur la case correspondant à ce nombre (si il est présent), puis appuyez sur Suivant.');
 }
