@@ -39,6 +39,33 @@ class Game
     }
 }
 
+function loadAndGenerateQuestionFromAbenakiWordList(jsonFile)
+{    
+    fetch(jsonFile)
+    .then(response => {
+        if (!response.ok)
+        { 
+            throw new Error('File not found');
+        }
+        return response.text();
+    })
+    .then(jsonText => {
+        let quiz = JSON.parse(jsonText);
+        let title = document.getElementById("title_header");
+        if ( title )
+        { 
+            title.innerText = quiz.title;
+        }
+        else
+        {
+            console.log('Title is null');
+        }
+        generateQuestionFromAbenakiWordList(dictionary, quiz.wordList);
+        generateWordTable("word_table", dictionary, quiz.wordList); 
+    })
+    .catch(error => console.error('Error:', error));  
+}
+
 function getRandomInt(max) 
 {
     return Math.floor(Math.random() * max);
