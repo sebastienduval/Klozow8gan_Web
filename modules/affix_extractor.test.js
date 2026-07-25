@@ -139,8 +139,7 @@ describe("Extraction d'affixes", () =>
       }); 
       it("Phanemok -> Phanem + [Locatif]", () => {
         let context = new ExtractionContext(dict, 'Phanemok');  
-        extractLocativeAffix(context);
-        console.log(context);            
+        extractLocativeAffix(context);      
         assert.equal(extractLocativeAffix(context), "Phanem");      
         //assert.equal(context.isPlural, false);
         assert.equal(context.isLocative, true);
@@ -192,8 +191,7 @@ describe("Extraction d'affixes", () =>
       }); 
       it("Phanemikok -> Phanem + [Locatif] + [Pluriel]", () => {
         let context = new ExtractionContext(dict, 'Phanemikok');  
-        extractLocativeAffix(context);
-        console.log(context);            
+        extractLocativeAffix(context);       
         assert.equal(extractLocativeAffix(context), "Phanem");      
         assert.equal(context.isPlural, true);
         assert.equal(context.isLocative, true);
@@ -247,11 +245,11 @@ describe("Extraction d'affixes", () =>
               it(results[i] + " -> " + word + " + [Possessif]", () => {
                 let context = new ExtractionContext(dict, results[i]);      
                 assert.equal(extractPossessiveAffix(context), word);
-                if ( (context.person != Person.ThirdSingular) 
-                  && (context.person != Person.ThirdPlural) )
+                if ( (context.person != Person.ThirdSingular.value) 
+                  && (context.person != Person.ThirdPlural.value) )
                 {
                   assert.equal(context.isPlural, false);
-                }
+                }                
                 assert.equal(context.isPossessive, true);
                 assert.equal(context.person, i+1);  
               });
@@ -340,8 +338,8 @@ describe("Extraction d'affixes", () =>
               result.order == order && 
               result.tense == tense;
 
-              console.log(test + " " + i++);
-              console.log(result);
+            //console.log(test + " " + i++);
+            //console.log(result);
             if ( success )
             {
               ++successCount;

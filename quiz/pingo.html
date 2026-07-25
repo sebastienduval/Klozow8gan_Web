@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="../klozow8gan.css">
     <style>
         #pingo-game {
-            max-width: 960px;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 1rem;                        
         }
 
         #pingo-board {
             display: grid;
-            grid-template-columns: repeat(5, minmax(120px, 1fr));
-            gap: 0.35rem;
+            grid-template-columns: repeat(5, minmax(120px, 1fr));            
             margin: 1rem 0;
+            border: 2px solid #333;
         }
 
         .board-header-cell,
@@ -36,6 +36,8 @@
 
         .board-header-cell {
             background: #007bff;
+            color: white;   
+            border: 0px solid #333;                     
         }
 
         .board-cell {

@@ -4,6 +4,7 @@ import { VerbalOrder } from "./verbal_order.js"
 import { VerbalTense } from "./verbal_tense.js";
 
 var assert = chai.assert;
+var expect = chai.expect;
 
 describe("Génération d'affixes", () => 
 {
@@ -41,72 +42,87 @@ describe("Génération d'affixes", () =>
             { 
                 describe("Ordre indépendant", () => 
                 {   
-                        describe("Affirmatif", () => 
-                        {         
-                            describe("Présent", () => 
-                            {   
-                                let expected = ["nd'aloka","kd'aloka","aloka","nd'alokabna","kd'alokabna","kd'alokaba", "alokak"];
-                                let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
-                                test(expected, results);
-                            });
-                            describe("Passé", () => 
-                            {                     
-                                let expected = ["nd'alokab","kd'alokab","alokab","nd'alokabnob","kd'alokabnob","kd'alokab8b", "alokabanik"];
-                                let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, false);
-                                test(expected, results);
-                            });
-                            describe("Passé composé", () => 
-                            {                     
-                                let expected = ["kizi nd'aloka","kizi kd'aloka","kizi aloka","kizi nd'alokabna","kizi kd'alokabna","kizi kd'alokaba", "kizi alokak"];
-                                let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, false);
-                                test(expected, results);
-                            });
-                            describe("Future", () => 
-                            {   
-                                let expected = ["nd'alokaji","kd'alokaji","alokaji","nd'alokabnaji","kd'alokabnaji","kd'alokabaji", "alokakji"];
-                                let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, false);
-                                test(expected, results);
-                            });
-                            describe("Conditionnel", () => 
-                            {   
-                                let expected = ["nd'alokaba","kd'alokaba","alokaba","nd'alokabnaba","kd'alokabnaba","kd'alokababa", "alokakba"];
-                                let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, false);
-                                test(expected, results);
-                            });
+                    describe("Affirmatif", () => 
+                    {         
+                        describe("Présent", () => 
+                        {   
+                            let expected = ["nd'aloka","kd'aloka","aloka","nd'alokabna","kd'alokabna","kd'alokaba", "alokak"];
+                            let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
+                            test(expected, results);
                         });
-                        describe("Négatif", () => 
-                        {
-                            describe("Présent", () => 
-                            {   
-                                let expected = ["nda nd'alokaw","nda kd'alokaw","nda alokawi","nda nd'alokawbna","nda kd'alokawbna","nda kd'alokawba", "nda alokawiak"];
-                                let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, true);
-                                test(expected, results);
-                            });
-                            describe("Passé", () => 
-                            {                     
-                                let expected = ["nda nd'alokawb","nda kd'alokawb","nda alokawib","nda nd'alokawbnob","nda kd'alokawbnob","nda kd'alokawb8b", "nda alokawibanik"];
-                                let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, true);
-                                test(expected, results);
-                            }); 
-                            describe("Présent", () => 
-                            {   
-                                let expected = ["asma nd'alokaw","asma kd'alokaw","asma alokawi","asma nd'alokawbna","asma kd'alokawbna","asma kd'alokawba", "asma alokawiak"];
-                                let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, true);
-                                test(expected, results);
-                            });  
-                            describe("Future", () => 
-                            {   
-                                let expected = ["ndaba nd'alokaw","ndaba kd'alokaw","ndaba alokawi","ndaba nd'alokawbna","ndaba kd'alokawbna","ndaba kd'alokawba", "ndaba alokawiak"];
-                                let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, true);
-                                test(expected, results);
-                            });
-                            describe("Conditionnel", () => 
-                            {   
-                                let expected = ["ndaba nd'alokaw","ndaba kd'alokaw","ndaba alokawi","ndaba nd'alokawbna","ndaba kd'alokawbna","ndaba kd'alokawba", "ndaba alokawiak"];
-                                let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, true);
-                                test(expected, results);
-                            });                                                                                                                                         
+                        describe("Passé", () => 
+                        {                     
+                            let expected = ["nd'alokab","kd'alokab","alokab","nd'alokabnob","kd'alokabnob","kd'alokab8b", "alokabanik"];
+                            let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, false);
+                            test(expected, results);
+                        });
+                        describe("Passé composé", () => 
+                        {                     
+                            let expected = ["kizi nd'aloka","kizi kd'aloka","kizi aloka","kizi nd'alokabna","kizi kd'alokabna","kizi kd'alokaba", "kizi alokak"];
+                            let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, false);
+                            test(expected, results);
+                        });
+                        describe("Future", () => 
+                        {   
+                            let expected = ["nd'alokaji","kd'alokaji","alokaji","nd'alokabnaji","kd'alokabnaji","kd'alokabaji", "alokakji"];
+                            let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, false);
+                            test(expected, results);
+                        });
+                        describe("Conditionnel", () => 
+                        {   
+                            let expected = ["nd'alokaba","kd'alokaba","alokaba","nd'alokabnaba","kd'alokabnaba","kd'alokababa", "alokakba"];
+                            let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, false);
+                            test(expected, results);
+                        });
+                    });
+                    describe("Négatif", () => 
+                    {
+                        describe("Présent", () => 
+                        {   
+                            let expected = ["nda nd'alokaw","nda kd'alokaw","nda alokawi","nda nd'alokawbna","nda kd'alokawbna","nda kd'alokawba", "nda alokawiak"];
+                            let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, true);
+                            test(expected, results);
+                        });
+                        describe("Passé", () => 
+                        {                     
+                            let expected = ["nda nd'alokawb","nda kd'alokawb","nda alokawib","nda nd'alokawbnob","nda kd'alokawbnob","nda kd'alokawb8b", "nda alokawibanik"];
+                            let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST, false, false, true);
+                            test(expected, results);
+                        }); 
+                        describe("Présent", () => 
+                        {   
+                            let expected = ["asma nd'alokaw","asma kd'alokaw","asma alokawi","asma nd'alokawbna","asma kd'alokawbna","asma kd'alokawba", "asma alokawiak"];
+                            let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.PAST_PERFECT, false, false, true);
+                            test(expected, results);
+                        });  
+                        describe("Future", () => 
+                        {   
+                            let expected = ["ndaba nd'alokaw","ndaba kd'alokaw","ndaba alokawi","ndaba nd'alokawbna","ndaba kd'alokawbna","ndaba kd'alokawba", "ndaba alokawiak"];
+                            let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, true);
+                            test(expected, results);
+                        });
+                        describe("Conditionnel", () => 
+                        {   
+                            let expected = ["ndaba nd'alokaw","ndaba kd'alokaw","ndaba alokawi","ndaba nd'alokawbna","ndaba kd'alokawbna","ndaba kd'alokawba", "ndaba alokawiak"];
+                            let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, true);
+                            test(expected, results);
+                        });                                                                                                                                         
                     });                                                      
+                });
+                describe("Ordre impératif", () => 
+                {
+                    describe("Affirmatif", () => 
+                    {
+                        let expected = ["","aloka","","alokada","alokada","alokakw", ""];
+                        let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+                        test(expected, results);
+                    });
+                    describe("Négatif", () => 
+                    {
+                        let expected = ["","akwi aloka","","akwi alokada","akwi alokada","akwi alokakw", ""];
+                        let results = generateEveryVerbAffix('aloka', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+                        test(expected, results);                        
+                    });                    
                 });
             });
             describe("Patron en I et Ï", () => 
@@ -239,7 +255,34 @@ describe("Génération d'affixes", () =>
                             test(expected, results);
                         });                                                                                                                                                                                                              
                     });
-                });            
+                });
+                describe("Ordre impératif", () => 
+                {
+                    describe("Affirmatif", () => 
+                    {
+                        let expected = ["","michi","","michida","michida","michikw", ""];
+                        let results = generateEveryVerbAffix('michi', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+                        test(expected, results);
+                    });
+                    describe("Affirmatif", () => 
+                    {
+                        let expected = ["","aï","","aïda","aïda","aïkw", ""];
+                        let results = generateEveryVerbAffix('aï', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+                        test(expected, results);
+                    });                    
+                    describe("Négatif", () => 
+                    {
+                        let expected = ["","akwi michi","","akwi michida","akwi michida","akwi michikw", ""];
+                        let results = generateEveryVerbAffix('michi', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+                        test(expected, results);                        
+                    });
+                    describe("Négatif", () => 
+                    {
+                        let expected = ["","akwi aï","","akwi aïda","akwi aïda","akwi aïkw", ""];
+                        let results = generateEveryVerbAffix('aï', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+                        test(expected, results);                        
+                    });                                        
+                });                            
             });
         });
         describe("VTA", () => 
@@ -463,6 +506,21 @@ describe("Génération d'affixes", () =>
                         });                            
                     });                                          
                 });
+                describe("Ordre impératif", () => 
+                {
+                    describe("Affirmatif", () => 
+                    {
+                        let expected = ["","namiha","","namih8da","namih8da","namihokw", ""];
+                        let results = generateEveryVerbAffix('namih8', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+                        test(expected, results);
+                    });
+                    describe("Négatif", () => 
+                    {
+                        let expected = ["","akwi namiha","","akwi namih8da","akwi namih8da","akwi namihokw", ""];
+                        let results = generateEveryVerbAffix('namih8', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+                        test(expected, results);                        
+                    });                                       
+                });                
             });
         });
         describe("VTI", () => 
@@ -686,6 +744,21 @@ describe("Génération d'affixes", () =>
                         });
                     });   
                 });
+                describe("Ordre impératif", () => 
+                {
+                    describe("Affirmatif", () => 
+                    {
+                        let expected = ["","askawito","","askawitoda","askawitoda","askawitokw", ""];
+                        let results = generateEveryVerbAffix('askawito', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+                        test(expected, results);
+                    });
+                    describe("Négatif", () => 
+                    {
+                        let expected = ["","akwi askawito","","akwi askawitoda","akwi askawitoda","akwi askawitokw", ""];
+                        let results = generateEveryVerbAffix('askawito', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+                        test(expected, results);                        
+                    });                                       
+                });                 
             });
             describe("Patron en M", () => 
             {       
@@ -905,7 +978,34 @@ describe("Génération d'affixes", () =>
                             });                                                        
                         });
                     });                                             
-                });           
+                });
+                describe("Ordre impératif", () => 
+                {
+                    describe("Affirmatif", () => 
+                    {
+                        let expected = ["","waj8na","","waj8nemoda","waj8nemoda","waj8nemokw", ""];
+                        let results = generateEveryVerbAffix('waj8nem', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+                        test(expected, results);
+                    });                        
+                    describe("Affirmatif", () => 
+                    {                        
+                        let expected = ["","ida","","idamoda","idamoda","idamokw", ""];
+                        let results = generateEveryVerbAffix('idam', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+                        test(expected, results);                        
+                    });
+                    describe("Négatif", () => 
+                    {
+                        let expected = ["","akwi waj8na","","akwi waj8nemoda","akwi waj8nemoda","akwi waj8nemokw", ""];
+                        let results = generateEveryVerbAffix('waj8nem', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+                        test(expected, results);
+                    });
+                    describe("Négatif", () => 
+                    {                        
+                        let expected = ["","akwi ida","","akwi idamoda","akwi idamoda","akwi idamokw", ""];
+                        let results = generateEveryVerbAffix('idam', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+                        test(expected, results);                                              
+                    });
+                });                
             });
         });  
     });  

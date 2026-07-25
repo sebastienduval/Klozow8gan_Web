@@ -1,8 +1,8 @@
 export const VerbalTense = {
-  UNKNOWN: 'UNKNOWN',
-  PRESENT: 'PRESENT',
-  PAST: 'PAST',
-  PAST_PERFECT: 'PAST_PERFECT',
-  FUTUR: 'FUTUR',
-  CONDITIONAL: 'CONDITIONAL',
+  UNKNOWN: '<inconnu>',
+  PRESENT: 'présent',
+  PAST: 'passé',
+  PAST_PERFECT: 'passé composé',
+  FUTUR: 'futur',
+  CONDITIONAL: 'conditionnel',
 };

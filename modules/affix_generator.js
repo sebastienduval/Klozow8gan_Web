@@ -84,29 +84,39 @@ export function generatePossessiveAffix(noun, animate, plural)
 
 export function generateVerbAffix(root, index, animacy, order, tense, isPlural, isDefinite, isNegative)
 {
-    function GetIntro(tense, isNegative)
+    function GetIntro(order, tense, isNegative)
     {
-        if ( tense == VerbalTense.PRESENT || tense == VerbalTense.PAST )
-        {
-            if ( isNegative )
+        if ( order == VerbalOrder.IMPERATIVE )
+        {  
+            if ( isNegative )            
             {
-                return "nda ";
-            }
+                return "akwi ";
+            }                 
         }
-        else if ( tense == VerbalTense.PAST_PERFECT )
+        else
         {
-            if ( !isNegative )
+            if ( tense == VerbalTense.PRESENT || tense == VerbalTense.PAST )
             {
-                return "kizi ";
+                if ( isNegative )
+                {
+                    return "nda ";
+                }
             }
-            return "asma ";
-        }
-        else if ( tense == VerbalTense.FUTUR || tense == VerbalTense.CONDITIONAL )
-        {
-            if ( isNegative )
+            else if ( tense == VerbalTense.PAST_PERFECT )
             {
-                return "ndaba ";
-            }            
+                if ( !isNegative )
+                {
+                    return "kizi ";
+                }
+                return "asma ";
+            }
+            else if ( tense == VerbalTense.FUTUR || tense == VerbalTense.CONDITIONAL )
+            {
+                if ( isNegative )
+                {
+                    return "ndaba ";
+                }            
+            }
         }
         return "";
     }
@@ -150,122 +160,136 @@ export function generateVerbAffix(root, index, animacy, order, tense, isPlural, 
         {
             return [Pronoun+"'", Pronoun+"d'"];             
         }     
-    }    
-    
-    function GenerateEnding(index, tense, isDefinite, animacy, lastChar, isNegative)
+    }
+        
+    function GenerateEnding(index, root, order, tense, isDefinite, animacy, isNegative)
     {        
         //console.log("GenerateEnding:  " + index + " " + tense + " " + isDefinite + " " + lastChar);
 
         let endings = undefined;
 
-        if ( !isDefinite )
+        if ( order == VerbalOrder.IMPERATIVE )
         {
-            let presentEndings = new Map(); 
-            let pastEndings = new Map();                       
-            if ( !isNegative )
+            endings = new Map();
+            endings.set("a", ["", "a", "", "ada", "ada", "akw", ""]);
+            endings.set("i", ["", "i", "", "ida", "ida", "ikw", ""]);
+            endings.set("ï", ["", "ï", "", "ïda", "ïda", "ïkw", ""]);                     
+            endings.set("8", ["", "a", "", "8da", "8da", "okw", ""]);
+            endings.set("o", ["", "o", "", "oda", "oda", "okw", ""]);
+            endings.set("em", ["", "a", "", "emoda", "emoda", "emokw", ""]);
+            endings.set("am", ["", "a", "", "amoda", "amoda", "amokw", ""]);
+        }
+        else
+        {
+            if ( !isDefinite )
             {
-                presentEndings.set("a", ["a", "a", "a", "abna", "abna", "aba", "ak"]);
-                presentEndings.set("i", ["i", "i", "o", "ibna", "ibna", "iba", "oak"]);   
-                presentEndings.set("ï", ["ï", "ï", "o", "ïbna", "ïbna", "ïba", "oak"]);
-                presentEndings.set("8", ["8", "8", "a", "8bna", "8bna", "8ba", "ak"]);
-                presentEndings.set("o", ["o", "o", "o", "obna", "obna", "oba", "oak"]);
-                presentEndings.set("m", ["m", "m", "m", "mobna", "mobna", "moba", "mok"]);
+                let presentEndings = new Map(); 
+                let pastEndings = new Map();                       
+                if ( !isNegative )
+                {
+                    presentEndings.set("a", ["a", "a", "a", "abna", "abna", "aba", "ak"]);
+                    presentEndings.set("i", ["i", "i", "o", "ibna", "ibna", "iba", "oak"]);   
+                    presentEndings.set("ï", ["ï", "ï", "o", "ïbna", "ïbna", "ïba", "oak"]);
+                    presentEndings.set("8", ["8", "8", "a", "8bna", "8bna", "8ba", "ak"]);
+                    presentEndings.set("o", ["o", "o", "o", "obna", "obna", "oba", "oak"]);
+                    presentEndings.set("m", ["m", "m", "m", "mobna", "mobna", "moba", "mok"]);
+                    
+                    pastEndings.set("a", ["ab", "ab", "ab", "abnob", "abnob", "ab8b", "abanik"]);
+                    pastEndings.set("i", ["ib", "ib", "ob", "ibnob", "ibnob", "ib8b", "obanik"]);
+                    pastEndings.set("ï", ["ïb", "ïb", "ob", "ïbnob", "ïbnob", "ïb8b", "obanik"]);        
+                    pastEndings.set("8", ["8b", "8b", "ab", "8bnob", "8bnob", "8b8b", "abanik"]);
+                    pastEndings.set("o", ["ob", "ob", "ob", "obnob", "obnob", "ob8b", "obanik"]);
+                    pastEndings.set("m", ["mob", "mob", "mob", "mobnob", "mobnob", "mob8b", "mobanik"]);
+                } 
+                else
+                {
+                    presentEndings.set("a", ["aw", "aw", "awi", "awbna", "awbna", "awba", "awiak"]);
+                    presentEndings.set("i", ["iw", "iw", "owi", "iwbna", "iwbna", "iwba", "owiak"]);   
+                    presentEndings.set("ï", ["ïw", "ïw", "owi", "ïwbna", "ïwbna", "ïwba", "owiak"]);
+                    presentEndings.set("8", ["8w", "8w", "awi", "8wbna", "8wbna", "8wba", "awiak"]);
+                    presentEndings.set("o", ["ow", "ow", "owi", "owbna", "owbna", "owba", "owiak"]);
+                    presentEndings.set("m", ["mow", "mow", "mowi", "mowbna", "mowbna", "mowba", "mowiak"]);
+
+                    pastEndings.set("a", ["awb", "awb", "awib", "awbnob", "awbnob", "awb8b", "awibanik"]);
+                    pastEndings.set("i", ["iwb", "iwb", "owib", "iwbnob", "iwbnob", "iwb8b", "owibanik"]);
+                    pastEndings.set("ï", ["ïwb", "ïwb", "owib", "ïwbnob", "ïwbnob", "ïwb8b", "owibanik"]);        
+                    pastEndings.set("8", ["8wb", "8wb", "awib", "8wbnob", "8wbnob", "8wb8b", "awibanik"]);
+                    pastEndings.set("o", ["owb", "owb", "owib", "owbnob", "owbnob", "owb8b", "owibanik"]);
+                    pastEndings.set("m", ["mowb", "mowb", "mowib", "mowbnob", "mowbnob", "mowb8b", "mowibanik"]);                
+                }        
                 
-                pastEndings.set("a", ["ab", "ab", "ab", "abnob", "abnob", "ab8b", "abanik"]);
-                pastEndings.set("i", ["ib", "ib", "ob", "ibnob", "ibnob", "ib8b", "obanik"]);
-                pastEndings.set("ï", ["ïb", "ïb", "ob", "ïbnob", "ïbnob", "ïb8b", "obanik"]);        
-                pastEndings.set("8", ["8b", "8b", "ab", "8bnob", "8bnob", "8b8b", "abanik"]);
-                pastEndings.set("o", ["ob", "ob", "ob", "obnob", "obnob", "ob8b", "obanik"]);
-                pastEndings.set("m", ["mob", "mob", "mob", "mobnob", "mobnob", "mob8b", "mobanik"]);
-            } 
-            else
-            {
-                presentEndings.set("a", ["aw", "aw", "awi", "awbna", "awbna", "awba", "awiak"]);
-                presentEndings.set("i", ["iw", "iw", "owi", "iwbna", "iwbna", "iwba", "owiak"]);   
-                presentEndings.set("ï", ["ïw", "ïw", "owi", "ïwbna", "ïwbna", "ïwba", "owiak"]);
-                presentEndings.set("8", ["8w", "8w", "awi", "8wbna", "8wbna", "8wba", "awiak"]);
-                presentEndings.set("o", ["ow", "ow", "owi", "owbna", "owbna", "owba", "owiak"]);
-                presentEndings.set("m", ["mow", "mow", "mowi", "mowbna", "mowbna", "mowba", "mowiak"]);
-
-                pastEndings.set("a", ["awb", "awb", "awib", "awbnob", "awbnob", "awb8b", "awibanik"]);
-                pastEndings.set("i", ["iwb", "iwb", "owib", "iwbnob", "iwbnob", "iwb8b", "owibanik"]);
-                pastEndings.set("ï", ["ïwb", "ïwb", "owib", "ïwbnob", "ïwbnob", "ïwb8b", "owibanik"]);        
-                pastEndings.set("8", ["8wb", "8wb", "awib", "8wbnob", "8wbnob", "8wb8b", "awibanik"]);
-                pastEndings.set("o", ["owb", "owb", "owib", "owbnob", "owbnob", "owb8b", "owibanik"]);
-                pastEndings.set("m", ["mowb", "mowb", "mowib", "mowbnob", "mowbnob", "mowb8b", "mowibanik"]);                
-            }        
-            
-            let tenseMap = new Map();        
-            tenseMap.set(VerbalTense.PRESENT, presentEndings);
-            tenseMap.set(VerbalTense.PAST_PERFECT, presentEndings);    
-            tenseMap.set(VerbalTense.PAST, pastEndings);
-            tenseMap.set(VerbalTense.FUTUR, presentEndings);       
-            tenseMap.set(VerbalTense.CONDITIONAL, presentEndings);
-            endings = tenseMap.get(tense);
-        }
-        else if ( animacy == Animacy.ANIMATE )
-        {
-            var presentEndings = new Map();
-            let pastEndings = new Map();
-            if ( !isNegative )
-            {
-                presentEndings.set("8", ["8", "8", "8", "8nna", "8nna", "8w8", "8w8"]);
-                pastEndings.set("8", ["8b", "8b", "8bani", "8nnob", "8nnob", "8w8b", "8w8bani"]);          
+                let tenseMap = new Map();        
+                tenseMap.set(VerbalTense.PRESENT, presentEndings);
+                tenseMap.set(VerbalTense.PAST_PERFECT, presentEndings);    
+                tenseMap.set(VerbalTense.PAST, pastEndings);
+                tenseMap.set(VerbalTense.FUTUR, presentEndings);       
+                tenseMap.set(VerbalTense.CONDITIONAL, presentEndings);
+                endings = tenseMap.get(tense);
             }
-            else
+            else if ( animacy == Animacy.ANIMATE )
             {
-                presentEndings.set("8", ["8wi", "8wi", "8wia", "8winna", "8winna", "8wiw8", "8wiw8"]);
-                pastEndings.set("8", ["8wib", "8wib", "8wiabani", "8winnob", "8winnob", "8wiw8b", "8wiw8bani"]);                    
-            }
+                var presentEndings = new Map();
+                let pastEndings = new Map();
+                if ( !isNegative )
+                {
+                    presentEndings.set("8", ["8", "8", "8", "8nna", "8nna", "8w8", "8w8"]);
+                    pastEndings.set("8", ["8b", "8b", "8bani", "8nnob", "8nnob", "8w8b", "8w8bani"]);          
+                }
+                else
+                {
+                    presentEndings.set("8", ["8wi", "8wi", "8wia", "8winna", "8winna", "8wiw8", "8wiw8"]);
+                    pastEndings.set("8", ["8wib", "8wib", "8wiabani", "8winnob", "8winnob", "8wiw8b", "8wiw8bani"]);                    
+                }
 
-            let tenseMap = new Map();
-            tenseMap.set(VerbalTense.PRESENT, presentEndings);                       
-            tenseMap.set(VerbalTense.PAST, pastEndings);
-            tenseMap.set(VerbalTense.PAST_PERFECT, presentEndings); 
-            tenseMap.set(VerbalTense.FUTUR, presentEndings);       
-            tenseMap.set(VerbalTense.CONDITIONAL, presentEndings);                       
-            endings = tenseMap.get(tense);
-        }
-        else if ( animacy == Animacy.INANIMATE )
-        {
-            var presentEndings = new Map();
-            let pastEndings = new Map();
-            if ( !isNegative )
+                let tenseMap = new Map();
+                tenseMap.set(VerbalTense.PRESENT, presentEndings);                       
+                tenseMap.set(VerbalTense.PAST, pastEndings);
+                tenseMap.set(VerbalTense.PAST_PERFECT, presentEndings); 
+                tenseMap.set(VerbalTense.FUTUR, presentEndings);       
+                tenseMap.set(VerbalTense.CONDITIONAL, presentEndings);                       
+                endings = tenseMap.get(tense);
+            }
+            else if ( animacy == Animacy.INANIMATE )
             {
-                presentEndings.set("a", ["an", "an", "an", "anana", "anana", "an8", "an8"]);    
-                presentEndings.set("i", ["in", "in", "in", "inana", "inana", "in8", "in8"]);
-                presentEndings.set("8", ["8n", "8n", "8n", "8nana", "8nana", "8n8", "8n8"]);
-                presentEndings.set("o", ["on", "on", "on", "onana", "onana", "on8", "on8"]);
-                presentEndings.set("m", ["men", "men", "men", "menana", "menana", "men8", "men8"]); 
+                var presentEndings = new Map();
+                let pastEndings = new Map();
+                if ( !isNegative )
+                {
+                    presentEndings.set("a", ["an", "an", "an", "anana", "anana", "an8", "an8"]);    
+                    presentEndings.set("i", ["in", "in", "in", "inana", "inana", "in8", "in8"]);
+                    presentEndings.set("8", ["8n", "8n", "8n", "8nana", "8nana", "8n8", "8n8"]);
+                    presentEndings.set("o", ["on", "on", "on", "onana", "onana", "on8", "on8"]);
+                    presentEndings.set("m", ["men", "men", "men", "menana", "menana", "men8", "men8"]); 
 
-                pastEndings.set("a", ["anob", "anob", "anob", "ananob", "ananob", "an8b", "an8b"]);    
-                pastEndings.set("i", ["inob", "inob", "inob", "inanob", "inanob", "in8b", "in8b"]);
-                pastEndings.set("8", ["8nob", "8nob", "8nob", "8nanob", "8nanob", "8n8b", "8n8b"]);
-                pastEndings.set("o", ["onob", "onob", "onob", "onanob", "onanob", "on8b", "on8b"]);
-                pastEndings.set("m", ["menob", "menob", "menob", "menanob", "menanob", "men8b", "men8b"]);
+                    pastEndings.set("a", ["anob", "anob", "anob", "ananob", "ananob", "an8b", "an8b"]);    
+                    pastEndings.set("i", ["inob", "inob", "inob", "inanob", "inanob", "in8b", "in8b"]);
+                    pastEndings.set("8", ["8nob", "8nob", "8nob", "8nanob", "8nanob", "8n8b", "8n8b"]);
+                    pastEndings.set("o", ["onob", "onob", "onob", "onanob", "onanob", "on8b", "on8b"]);
+                    pastEndings.set("m", ["menob", "menob", "menob", "menanob", "menanob", "men8b", "men8b"]);
+                }
+                else
+                {
+                    presentEndings.set("a", ["awen", "awen", "awen", "awenana", "awenana", "awen8", "awen8"]);    
+                    presentEndings.set("i", ["iwen", "iwen", "iwen", "iwenana", "iwenana", "iwen8", "iwen8"]);
+                    presentEndings.set("8", ["8wen", "8wen", "8wen", "8wenana", "8wenana", "8wen8", "8wen8"]);
+                    presentEndings.set("o", ["owen", "owen", "owen", "owenana", "owenana", "owen8", "owen8"]);
+                    presentEndings.set("m", ["mowen", "mowen", "mowen", "mowenana", "mowenana", "mowen8", "mowen8"]); 
+
+                    pastEndings.set("a", ["awenob", "awenob", "awenob", "awenanob", "awenanob", "awen8b", "awen8b"]);    
+                    pastEndings.set("i", ["iwenob", "iwenob", "iwenob", "iwenanob", "iwenanob", "iwen8b", "iwen8b"]);
+                    pastEndings.set("8", ["8wenob", "8wenob", "8wenob", "8wenanob", "8wenanob", "8wen8b", "8wen8b"]);
+                    pastEndings.set("o", ["owenob", "owenob", "owenob", "owenanob", "owenanob", "owen8b", "owen8b"]);
+                    pastEndings.set("m", ["mowenob", "mowenob", "mowenob", "mowenanob", "mowenanob", "mowen8b", "mowen8b"]);                
+                }
+
+                let tenseMap = new Map();
+                tenseMap.set(VerbalTense.PRESENT, presentEndings);                       
+                tenseMap.set(VerbalTense.PAST, pastEndings);
+                tenseMap.set(VerbalTense.PAST_PERFECT, presentEndings); 
+                tenseMap.set(VerbalTense.FUTUR, presentEndings);       
+                tenseMap.set(VerbalTense.CONDITIONAL, presentEndings);                       
+                endings = tenseMap.get(tense);
             }
-            else
-            {
-                presentEndings.set("a", ["awen", "awen", "awen", "awenana", "awenana", "awen8", "awen8"]);    
-                presentEndings.set("i", ["iwen", "iwen", "iwen", "iwenana", "iwenana", "iwen8", "iwen8"]);
-                presentEndings.set("8", ["8wen", "8wen", "8wen", "8wenana", "8wenana", "8wen8", "8wen8"]);
-                presentEndings.set("o", ["owen", "owen", "owen", "owenana", "owenana", "owen8", "owen8"]);
-                presentEndings.set("m", ["mowen", "mowen", "mowen", "mowenana", "mowenana", "mowen8", "mowen8"]); 
-
-                pastEndings.set("a", ["awenob", "awenob", "awenob", "awenanob", "awenanob", "awen8b", "awen8b"]);    
-                pastEndings.set("i", ["iwenob", "iwenob", "iwenob", "iwenanob", "iwenanob", "iwen8b", "iwen8b"]);
-                pastEndings.set("8", ["8wenob", "8wenob", "8wenob", "8wenanob", "8wenanob", "8wen8b", "8wen8b"]);
-                pastEndings.set("o", ["owenob", "owenob", "owenob", "owenanob", "owenanob", "owen8b", "owen8b"]);
-                pastEndings.set("m", ["mowenob", "mowenob", "mowenob", "mowenanob", "mowenanob", "mowen8b", "mowen8b"]);                
-            }
-
-            let tenseMap = new Map();
-            tenseMap.set(VerbalTense.PRESENT, presentEndings);                       
-            tenseMap.set(VerbalTense.PAST, pastEndings);
-            tenseMap.set(VerbalTense.PAST_PERFECT, presentEndings); 
-            tenseMap.set(VerbalTense.FUTUR, presentEndings);       
-            tenseMap.set(VerbalTense.CONDITIONAL, presentEndings);                       
-            endings = tenseMap.get(tense);
         }
         
         if ( !endings )
@@ -274,9 +298,12 @@ export function generateVerbAffix(root, index, animacy, order, tense, isPlural, 
         }
         if ( endings )
         {
-            if ( endings.has(lastChar) )
-            {
-                return endings.get(lastChar)[index];
+            for (let [key, value] of  endings.entries()) 
+            {                
+                if ( root.endsWith(key) )
+                {
+                    return [endings.get(key)[index], root.slice(0, root.length-key.length), root.at(-1)];
+                }
             }
         }
         return undefined;
@@ -337,40 +364,14 @@ export function generateVerbAffix(root, index, animacy, order, tense, isPlural, 
         }
         return "";
     }    
+    
+    const [ending, strippedRoot, lastChar] = GenerateEnding(index, root, order, tense, isDefinite, animacy, isNegative)
 
-    const lastChar = root.at(-1);
-    const strippedRoot = root.slice(0, root.length-1);
-
-/*
-    let intro = GetIntro(tense, isNegative);
-    let pronouns = GeneratePronouns(root, index, order, isDefinite);
-    let ending = GenerateEnding(index, tense, isDefinite, animacy, lastChar, isNegative);
-    let pluralEnding = GetPluralEnding(index, isPlural, animacy, isNegative,lastChar);
-    let extra = GetExtraTenseVerbEndings(tense, isNegative);
-
-    let verbalOrder = "VerbalOrder." + order;
-    let verbalTense = "VerbalTense." + tense;
-    let animacyValue = animacy == undefined ? animacy : "Animacy." + animacy;    
-
-    for ( let pronoun of pronouns )
-    {
-        console.log("        " + 
-                    "{ \"prefix\" : \"" + intro + pronoun + "\"" +
-                    ", \"suffix\" : \"" + ending + pluralEnding + extra + "\"" + ", " + 
-                    "\"annotations\" : { \"isVerb\" : true, \"person\" : " + index + ", \"isPlural\" : " +  isPlural + 
-                    ", \"isDefinite\": " + isDefinite + ", \"isNegative\" : " + isNegative + 
-                    ", \"order\" : " + verbalOrder + ", \"tense\" : " + verbalTense + ", \"animacy\" : " + animacyValue + "}" + ", " + 
-                    "\"reconstruction\" : {\"suffix\" : \"" + lastChar + "\"}" + 
-                    "},");
-    }
-*/
-
-
-    return GetIntro(tense, isNegative) 
+    return GetIntro(order, tense, isNegative) 
         + GeneratePronoun(root, index, order, isDefinite) 
         + strippedRoot 
-        + GenerateEnding(index, tense, isDefinite, animacy, lastChar, isNegative)
-        + GetPluralEnding(index, isPlural, animacy, isNegative,lastChar)
+        + ending
+        + GetPluralEnding(index, isPlural, animacy, isNegative, lastChar)
         + GetExtraTenseVerbEndings(tense, isNegative);
 }
 
@@ -380,15 +381,15 @@ export function generateEveryVerbAffix(root, animacy, order, tense, isPlural, is
     {
         if ( order == VerbalOrder.IMPERATIVE )
         {
-            return [1, 4, 5];
+            return [1, 3, 4, 5];
         }
         return [0, 1, 2, 3,4, 5, 6];
     }
 
-    var result = [];
+    var result = ["", "", "", "", "", "", ""];
     for ( const index of GenerateIndices(order) )
     {
-        result.push(generateVerbAffix(root, index, animacy, order, tense, isPlural, isDefinite, isNegative));
+        result[index] = generateVerbAffix(root, index, animacy, order, tense, isPlural, isDefinite, isNegative);
     }
 
     return result;

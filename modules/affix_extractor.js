@@ -40,7 +40,7 @@ export class ExtractionContext
 
     log()
     {
-        console.log("Word " + this.word + " isVerb " + this.isVerb + " isPlural " + this.isPlural + " isPossessive " + this.isPossessive + " person " + this.person + " tense " + this.tense);        
+        //console.log("Word " + this.word + " isVerb " + this.isVerb + " isPlural " + this.isPlural + " isPossessive " + this.isPossessive + " person " + this.person + " tense " + this.tense);        
     }
 }
 
@@ -386,7 +386,7 @@ export function extractPossessiveAffix(context)
     function analyzeCases()
     {
         let possibleContexts = extractPronoun(context);
-        console.log(possibleContexts.length);
+        //console.log(possibleContexts.length);
         for ( let possibleContext of possibleContexts )
         {
             for ( let endCase of endCases )
@@ -417,17 +417,17 @@ export function extractPossessiveAffix(context)
 
 export function extract(context, config)
 {
-    console.log("Extract Verb Start");  
+    //console.log("Extract Verb Start");  
     let results = [];
 
     let word = context.word.toLowerCase();
     for (const configEntry of config.entries ) 
     {
-        console.log("Prefix  " + configEntry.prefix + " Suffix " + configEntry.suffix);         
+        //console.log("Prefix  " + configEntry.prefix + " Suffix " + configEntry.suffix);         
         if (word.startsWith(configEntry.prefix) && word.endsWith(configEntry.suffix)) 
         {
             let stripped = word.slice(configEntry.prefix.length, word.length - configEntry.suffix.length) + configEntry.reconstruction.suffix;
-            console.log("Stripped " + stripped); 
+            //console.log("Stripped " + stripped); 
             let reconstructed = generateVerbAffix(stripped, 0, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
 
             //let reconstructed = configEntry.reconstruction.prefix + stripped + configEntry.reconstruction.suffix;
@@ -447,6 +447,7 @@ export function extract(context, config)
         }
     }
 
+    /*
     console.log("Extract Results: " + results);
     console.log("Extract " + context.word + " End");
     if ( results.length > 0 )
@@ -454,6 +455,7 @@ export function extract(context, config)
         results[0].log();
     }
     console.log("Extract Verb End");  
+    */
 
     return results;
 }
