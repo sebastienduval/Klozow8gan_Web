@@ -28,7 +28,7 @@ function closureCopyEntryToClipboard(entry)
     return copyEntryToClipboard;
 }
 
-function formatToTable(data, category="", filter="", filter_language) {
+function formatToTable(data, category="", filter="", filter_language, type_filter="") {
     var tableContainer = document.getElementById("word-table");
     var tableHTML = "<table>";
 
@@ -44,11 +44,15 @@ function formatToTable(data, category="", filter="", filter_language) {
             endIndex = data.length;
         }
 
+        let filterRegEx = filter? new RegExp(filter, "i") : null;
+        let typeRegEx = type_filter? new RegExp(type_filter, "i") : null;
+
         for (var i = startIndex; i < data.length && i < endIndex; i ++ ) 
-        {
+        {            
             const entry = data[i];
             if ( doesEntryIncludesCategory(entry, category) && 
-                (!filter || containsIgnoreCase(entry[filter_language], filter)) )
+                (!filterRegEx || filterRegEx.test(entry[filter_language])) &&
+                (!typeRegEx || typeRegEx.test(entry["Type"])) )
             {         
                 const copyId = "copy" + tableEntries.length;                
                 tableHTML += "<tr>";
@@ -98,7 +102,13 @@ function onCategoryChanged()
     profiling.innerHTML = "";
 
     const start = performance.now();
-    formatToTable(dictionary, document.getElementById("categories").value, document.getElementById("filter").value, document.getElementById("filter_language").value);
+    formatToTable(
+        dictionary, 
+        document.getElementById("categories").value, 
+        document.getElementById("filter").value, 
+        document.getElementById("filter_language").value,
+        document.getElementById("type_filter").value,
+    );
     const end = performance.now();
 
     profiling.innerHTML += `Execution time: ${end - start} ms`;
