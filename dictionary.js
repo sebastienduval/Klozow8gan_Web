@@ -69,6 +69,9 @@ function formatToTable(data, category="", filter="", filter_language, type_filte
             }
         }
 
+        let resultCount = document.getElementById("result_count");
+        resultCount.innerHTML = "Nombre de résultats: " + tableEntries.length;
+
         tableContainer.innerHTML = tableHTML + "</table>";        
         console.log(data.length);
         if (endIndex < data.length) 
@@ -98,10 +101,13 @@ function formatToTable(data, category="", filter="", filter_language, type_filte
 
 function onCategoryChanged() 
 {
-    var profiling = document.getElementById("profiling");
-    profiling.innerHTML = "";
+    let profiling = document.getElementById("profiling");
+    if ( profiling )
+    {
+        profiling.innerHTML = "";
+        const start = performance.now();
+    }
 
-    const start = performance.now();
     formatToTable(
         dictionary, 
         document.getElementById("categories").value, 
@@ -109,7 +115,9 @@ function onCategoryChanged()
         document.getElementById("filter_language").value,
         document.getElementById("type_filter").value,
     );
-    const end = performance.now();
-
-    profiling.innerHTML += `Execution time: ${end - start} ms`;
+    if ( profiling )
+    {    
+        const end = performance.now();
+        profiling.innerHTML += `Execution time: ${end - start} ms`;
+    }
 }
