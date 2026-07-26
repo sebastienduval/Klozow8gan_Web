@@ -178,6 +178,8 @@ export function generateVerbAffix(root, index, animacy, order, tense, isPlural, 
             endings.set("o", ["", "o", "", "oda", "oda", "okw", ""]);
             endings.set("em", ["", "a", "", "emoda", "emoda", "emokw", ""]);
             endings.set("am", ["", "a", "", "amoda", "amoda", "amokw", ""]);
+            endings.set("om", ["", "a", "", "omoda", "omoda", "omokw", ""]);
+            endings.set("im", ["", "ia", "", "imoda", "imoda", "imokw", ""]);            
         }
         else
         {
@@ -299,7 +301,8 @@ export function generateVerbAffix(root, index, animacy, order, tense, isPlural, 
         if ( endings )
         {
             for (let [key, value] of  endings.entries()) 
-            {                
+            {   
+                console.log(key);             
                 if ( root.endsWith(key) )
                 {
                     return [endings.get(key)[index], root.slice(0, root.length-key.length), root.at(-1)];

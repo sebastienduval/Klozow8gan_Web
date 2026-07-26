@@ -993,6 +993,18 @@ describe("Génération d'affixes", () =>
                         let results = generateEveryVerbAffix('idam', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
                         test(expected, results);                        
                     });
+                    describe("Affirmatif", () => 
+                    {                        
+                        let expected = ["","manoha","","manohomoda","manohomoda","manohomokw", ""];
+                        let results = generateEveryVerbAffix('manohom', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+                        test(expected, results);                        
+                    });
+                    describe("Affirmatif", () => 
+                    {                        
+                        let expected = ["","ponagia","","ponagimoda","ponagimoda","ponagimokw", ""];
+                        let results = generateEveryVerbAffix('ponagim', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+                        test(expected, results);                        
+                    });                                        
                     describe("Négatif", () => 
                     {
                         let expected = ["","akwi waj8na","","akwi waj8nemoda","akwi waj8nemoda","akwi waj8nemokw", ""];
@@ -1005,6 +1017,18 @@ describe("Génération d'affixes", () =>
                         let results = generateEveryVerbAffix('idam', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
                         test(expected, results);                                              
                     });
+                   describe("Négatif", () => 
+                    {                        
+                        let expected = ["","akwi manoha","","akwi manohomoda","akwi manohomoda","akwi manohomokw", ""];
+                        let results = generateEveryVerbAffix('manohom', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+                        test(expected, results);                        
+                    });
+                    describe("Négatif", () => 
+                    {                        
+                        let expected = ["","akwi ponagia","","akwi ponagimoda","akwi ponagimoda","akwi ponagimokw", ""];
+                        let results = generateEveryVerbAffix('ponagim', undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+                        test(expected, results);                        
+                    });                     
                 });                
             });
         });  
