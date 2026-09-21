@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Éditeur de dictionnaire</title>
+<link rel="stylesheet" href="dictionary_editor.css" />
+</head>
+<body>
+  <header>
+    <h1>📖 Éditeur de dictionnaire</h1>
+  </header>
+
+  <div class="container">
+    <div class="controls">
+      <div class="controls-row">
+        <!-- SEARCH -->
+        <div class="field search">
+          <label for="starts">Commence par</label>
+          <input id="starts" type="text" placeholder="exemple 8g" />
+        </div>
+        <div class="field search">
+          <label for="ends">Se termine par</label>
+          <input id="ends" type="text" placeholder="exemple em" />
+        </div>
+        <div class="field language">
+          <label for="language">Langue</label>
+          <select id="language">
+            <option value="abenaki">Abenaki</option>
+            <option value="french">Français</option>
+          </select>
+        </div>
+
+        <!-- RANGE OF IDS -->
+        <div class="field range">
+          <label for="idRange">Plage d'index (de–à)</label>
+          <input id="idRange" type="text" placeholder="1–20" class="range-field" />
+        </div>
+
+        <div class="actions">
+          <button id="searchBtn" class="primary">Rechercher</button>
+          <button id="addBtn" class="primary">＋ Ajouter un mot</button>
+        </div>
+      </div>
+      <div class="hint">
+        Utilisez la barre de recherche (l'un des champs) ou la plage d'index. En laissant les champs de recherche vides et en cliquant
+        <strong>Rechercher</strong>, tous les mots sont affichés.
+      </div>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Index</th>
+            <th>Abenaki</th>
+            <th>Français</th>
+            <th>Type</th>
+            <th>Source</th>
+            <th>Source alternative</th>
+            <th>Infinitif</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="wordsBody">
+          <tr><td colspan="8" class="empty">Cliquez sur <strong>Rechercher</strong> ou sur <strong>Charger par index</strong> pour voir les mots.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Edit / Add Modal -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <button class="close" id="modalClose">✕</button>
+      <h2 id="modalTitle">Ajouter un mot</h2>
+      <form id="wordForm">
+        <input type="hidden" id="wordId" />
+
+        <div class="grid">
+          <div class="field full">
+            <label class="required" for="abenaki">Abenaki</label>
+            <input id="abenaki" type="text" required />
+          </div>
+          <div class="field full">
+            <label class="required" for="french">Français</label>
+            <input id="french" type="text" required />
+          </div>
+          <div class="field">
+            <label class="required" for="type">Type</label>
+            <input id="type" type="text" required />
+          </div>
+
+          <div class="field">
+            <label for="source">Source</label>
+            <input id="source" type="text" />
+          </div>
+          <div class="field">
+            <label for="alternative_source">Source alternative</label>
+            <input id="alternative_source" type="text" />
+          </div>
+          <div class="field full">
+            <label for="infinitive">Infinitif</label>
+            <input id="infinitive" type="text" />
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="close" id="modalCancel" style="display:none;">Annuler</button>
+          <button type="submit" class="primary" id="saveBtn">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="dictionary_editor.js"></script>
+</body>
+</html>
