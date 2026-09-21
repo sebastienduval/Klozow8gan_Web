@@ -1,7 +1,7 @@
 // ---------------------------------------------------------------------------
 // API helpers
 // ---------------------------------------------------------------------------
-const API = 'http://localhost:3000';
+const API = 'http://klozow8gan.ddns.net';
 
 async function apiGet(path) {
     const res = await fetch(API + path);
