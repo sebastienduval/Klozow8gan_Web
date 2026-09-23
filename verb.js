@@ -78,7 +78,7 @@ function GetConjugationIndices(VerbTense, LastChar)
     return [0, 1, 2, 3,4, 5, 6];
 }
 
-function GetVerbEndings(VerbTense, VerbPattern, LastChar)
+function GetVerbEndings(VerbTense, LastChar)
 {
     var EffectiveVerbTense = VerbTense;
     if ( VerbTense == tempsPasseCompose || VerbTense == tempsFuture || VerbTense == tempsConditionnel)
