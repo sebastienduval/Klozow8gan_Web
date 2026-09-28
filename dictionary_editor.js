@@ -48,6 +48,13 @@ async function deleteWord(id) {
     return apiDelete('/api/words/' + encodeURIComponent(id));
 }
 
+async function exportDictionary() {
+    const res = await fetch(API + '/api/export', { method: 'PUT' });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `La requête a échoué (${res.status})`);
+    return data;
+}
+
 // Fetch a range of ids by hitting GET /api/words/:id for each.
 async function loadRange(from, to) {
     const ids = [];
@@ -305,6 +312,16 @@ document.getElementById('modalClose').addEventListener('click', closeModal);
 addBtn.addEventListener('click', closeModal);
 modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+document.getElementById('exportBtn').addEventListener('click', async () => {
+    setStatus('Export en cours…');
+    try {
+        const data = await exportDictionary();
+        setStatus(`Export réussi: ${data.message}`, 'ok');
+    } catch (err) {
+        setStatus(err.message, 'error');
+    }
+});
 
 tbody.addEventListener('click', (e) => {
     const id = e.target.getAttribute('data-edit') || e.target.getAttribute('data-delete');
