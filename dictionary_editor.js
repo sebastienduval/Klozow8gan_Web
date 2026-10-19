@@ -1,23 +1,3 @@
-// ---------------------------------------------------------------------------
-// API helpers
-// ---------------------------------------------------------------------------
-//const API = 'http://klozow8gan.ddns.net';
-//const API = 'http://localhost:3000';
-
-async function apiGet(path) {
-    const res = await fetch(API + path);
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || `La requête a échoué (${res.status})`);
-    return data;
-}
-
-async function apiDelete(path) {
-    const res = await fetch(API + path, { method: 'DELETE' });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || `La requête a échoué (${res.status})`);
-    return data;
-}
-
 async function getWord(id) {
     return apiGet('/api/words/' + encodeURIComponent(id));
 }
@@ -75,17 +55,6 @@ async function loadRange(from, to) {
     return results;
 }
 
-// ---------------------------------------------------------------------------
-// UI helpers
-// ---------------------------------------------------------------------------
-const statusEl = document.getElementById('status');
-const tbody = document.getElementById('wordsBody');
-
-function setStatus(msg, kind) {
-    statusEl.textContent = msg || '';
-    statusEl.className = 'status' + (kind ? ' ' + kind : '');
-}
-
 function renderWords(words) {
     tbody.innerHTML = '';
 
@@ -115,12 +84,6 @@ function renderWords(words) {
       `;
       tbody.appendChild(tr);
     });
-}
-
-function escapeHtml(str) {
-    return String(str == null ? '' : str)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 // ---------------------------------------------------------------------------

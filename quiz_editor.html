@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Éditeur de quiz</title>
+<link rel="stylesheet" href="quiz_editor.css" />
+</head>
+<body>
+  <header>
+    <h1>🎯 Éditeur de quiz</h1>
+  </header>
+
+  <div class="container">
+    <div class="controls">
+      <div class="controls-row">
+        <!-- FILTER -->
+        <div class="field search">
+          <label for="authorFilter">Auteur</label>
+          <input id="authorFilter" type="text" placeholder="exemple" />
+        </div>
+
+        <div class="actions">
+          <button id="listBtn" class="primary">Rechercher</button>
+          <button id="addBtn" class="primary">＋ Nouveau quiz</button>
+        </div>
+      </div>
+      <div class="hint">
+        Entrez un nom d'auteur puis cliquez <strong>Rechercher</strong> pour afficher les quiz.
+        Cliquez sur un quiz pour développer sa liste de mots.
+      </div>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Quiz</th>
+            <th>Auteur</th>
+            <th>Mots</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="mainBody">
+          <tr><td colspan="4" class="empty">Cliquez sur <strong>Rechercher</strong> ou sur <strong>Nouveau quiz</strong> pour voir les quiz.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Quiz add / edit Modal -->
+  <div class="modal-backdrop" id="quizModalBackdrop">
+    <div class="modal">
+      <button class="close" id="quizModalClose">✕</button>
+      <h2 id="quizModalTitle">Créer un quiz</h2>
+      <form id="quizForm">
+        <input type="hidden" id="quizId" />
+
+        <div class="grid">
+          <div class="field full">
+            <label class="required" for="name">Nom</label>
+            <input id="name" type="text" required />
+          </div>
+          <div class="field full">
+            <label class="required" for="author">Auteur</label>
+            <input id="author" type="text" required />
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="close" id="quizModalCancel" style="display:none;">Annuler</button>
+          <button type="submit" class="primary" id="saveBtn">Créer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Word add Modal -->
+  <div class="modal-backdrop" id="wordModalBackdrop">
+    <div class="modal">
+      <button class="close" id="wordModalClose">✕</button>
+      <h2>Ajouter un mot au quiz</h2>
+      <form id="wordForm">
+        <input type="hidden" id="wordQuizId" />
+        <input type="hidden" id="wordSelectedId" />
+
+        <div class="grid">
+          <div class="field">
+            <label class="required" for="wordLang">Langue</label>
+            <select id="wordLang">
+              <option value="abenaki">Abenaki</option>
+              <option value="french">Français</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label class="required" for="wordSearch">Rechercher un mot</label>
+            <input id="wordSearch" type="text" placeholder="Par ex. 8g" />
+          </div>
+        </div>
+
+        <div id="wordResults" class="word-results"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="close" id="wordModalCancel">Annuler</button>
+          <button type="submit" class="primary" id="wordAddBtn">Ajouter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="APIUrl.js"></script>
+  <script src="editor_utils.js"></script>  
+  <script src="quiz_editor.js"></script>
+</body>
+</html>
