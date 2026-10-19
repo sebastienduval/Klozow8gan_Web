@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="klozow8gan.css">
+    <a href="..\index.html">Accueil</a>    
+</head>
+<body>
+
+<ol> 
+  <li>
+    <a href="quiz.html/?quiz=ABK-1902.2.json">Test quiz</a>
+  </li>
+</ol>
+
+</body>
+</html>
