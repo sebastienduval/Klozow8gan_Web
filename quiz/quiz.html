@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadodemow8ganal</title>
+    <link rel="stylesheet" href="../klozow8gan.css">
+    <a href="quiz_index.html">Retour</a>    
+</head>
+<body id="body">
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>    
+<script src="../learning.js"></script>
+<script src="../Dict.json"></script>
+<script src="../string.js"></script>
+<script src="../dictionary_utils.js"></script>
+<script src="../game.js"></script>
+<script src="../url_utils.js"></script>
+
+<h1 id="title_header"></h1>
+<br> 
+</br>
+<p id="quiz"></p>
+<br> 
+</br>
+<p id="toggle"></p>
+<p id="word_table" hidden=true></p>
+<script>  
+    function onGenerateNewQuestion()
+    {   
+        let quizJson = GetURLParameter("quiz_json");
+        console.log(quizJson);
+        loadAndGenerateQuestionFromAbenakiWordList(quizJson);
+    }
+    addGameHtmlTo("quiz", 'onGenerateNewQuestion()');
+    onGenerateNewQuestion();
+</script>
+
+</body>
+</html>
