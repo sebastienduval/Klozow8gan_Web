@@ -11,7 +11,7 @@
 
 <ol> 
   <li>
-    <a href="quiz.html/?quiz=ABK-1902.2.json">Test quiz</a>
+    <a href="quiz.html?quiz=ABK-1902.2.json">Test quiz</a>
   </li>
 </ol>
 
