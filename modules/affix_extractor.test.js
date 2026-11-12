@@ -320,17 +320,28 @@ describe("Extraction d'affixes", () =>
   {
     function DoTest(dict, root, animacy, order, tense, isPlural, isDefinite, isNegative)
     {
+      console.log(root + " " + order + " " + tense + " ");
       for ( let test of generateEveryVerbAffix(root, animacy, order, tense, isPlural, isDefinite, isNegative) )
-      {        
+      {    
+        if ( test == "" ) continue;
         it (test, () => 
         {  
           let context = new ExtractionContext(dict, test);    
           let results = extract(context, verbConfig);
+          console.log(results);
           let successCount = 0;
           assert.isAtLeast(results.length, 1);
           let i = 0;
           for ( let result of results )
           {
+            let value = normalizeString(generateVerbAffix(root, 0, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false));
+            console.log(value);
+            console.log(result.entry.Abenaki);
+            console.log(result.animacy);
+            console.log(animacy);
+            console.log(result.order);
+            console.log(order);            
+            console.log(result.tense);                        
             let success = 
               result.entry.Abenaki == 
                 normalizeString(generateVerbAffix(root, 0, animacy, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false)) &&
@@ -338,8 +349,9 @@ describe("Extraction d'affixes", () =>
               result.order == order && 
               result.tense == tense;
 
-            //console.log(test + " " + i++);
-            //console.log(result);
+            console.log(success);
+            console.log(test + " " + i++);
+            console.log(result);
             if ( success )
             {
               ++successCount;
@@ -355,13 +367,13 @@ describe("Extraction d'affixes", () =>
     { 
       describe("Patron en A", () => 
       {
-        describe("Ordre indépendant", () => 
-        {   
-          let dict = new Dictionary([
-            {"French":"Je travaille","Type":"VAI;1;s;Présent","Abenaki":"Nd'aloka","Meta":"Verbe"}
-          ]);
+        let dict = new Dictionary([
+          {"French":"Je travaille","Type":"VAI;1;s;Présent","Abenaki":"Nd'aloka","Meta":"Verbe"}
+        ]);
           
-          let root = 'aloka';          
+        let root = 'aloka';           
+        describe("Ordre indépendant", () => 
+        {          
           describe("Affirmatif", () => 
           {
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
@@ -379,16 +391,26 @@ describe("Extraction d'affixes", () =>
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, true);     
           });
         });
+        describe("Ordre impératif", () => 
+        {        
+          describe("Affirmatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+          });
+          describe("Négatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+          });                       
+        });     
       });
       describe("Patron en I", () => 
       {        
+        let dict = new Dictionary([
+           {"French":"Je mange","Type":"VAI;1;s;Présent","Abenaki":"N'michi","Meta":"Verbe"}
+        ]);  
+        let root = 'michi';              
         describe("Ordre indépendant", () => 
-        {               
-          let dict = new Dictionary([
-            {"French":"Je mange","Type":"VAI;1;s;Présent","Abenaki":"N'michi","Meta":"Verbe"}
-          ]);       
-          
-          let root = 'michi';
+        {                                
           describe("Affirmatif", () => 
           {
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
@@ -406,16 +428,27 @@ describe("Extraction d'affixes", () =>
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, true);     
           });
         });
+        describe("Ordre impératif", () => 
+        {  
+          describe("Affirmatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+          });
+          describe("Négatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+          });                       
+        });         
       });
       describe("Patron en Ï", () => 
       { 
+        let dict = new Dictionary([
+          {"French":"	Je suis ","Type":"VAI;1;s;Présent","Abenaki":"Nd'aï","Meta":"Verbe"}
+        ]);       
+          
+        let root = 'aï';        
         describe("Ordre indépendant", () => 
         {               
-          let dict = new Dictionary([
-            {"French":"	Je suis ","Type":"VAI;1;s;Présent","Abenaki":"Nd'aï","Meta":"Verbe"}
-          ]);       
-          
-          let root = 'aï';
           describe("Affirmatif", () => 
           {
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
@@ -432,19 +465,30 @@ describe("Extraction d'affixes", () =>
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.FUTUR, false, false, true);
             DoTest(dict, root, undefined, VerbalOrder.INDEPENDENT, VerbalTense.CONDITIONAL, false, false, true);     
           });
-        });        
+        }); 
+        describe("Ordre impératif", () => 
+        {        
+          describe("Affirmatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+          });
+          describe("Négatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+          });                       
+        });               
       });
     });
     describe("VTA", () => 
     {
       describe("Patron en 8", () => 
       {
+        let dict = new Dictionary([
+          {"French":"	J'observe quelquechose (A) ou quelqu'un","Type":"VTA;1;s;Présent","Abenaki":"N'namih8","Meta":"Verbe"}
+        ]);        
+        let root = 'namih8';        
         describe("Ordre indépendant", () => 
-        {   
-          let dict = new Dictionary([
-            {"French":"	J'observe quelquechose (A) ou quelqu'un","Type":"VTA;1;s;Présent","Abenaki":"N'namih8","Meta":"Verbe"}
-          ]);        
-          let root = 'namih8';
+        {
           let animacy = Animacy.ANIMATE;  
           describe("Indéfini", () => 
           {
@@ -510,20 +554,31 @@ describe("Extraction d'affixes", () =>
               });
             });            
           });          
-        });        
+        });
+        describe("Ordre impératif", () => 
+        {        
+          describe("Affirmatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+          });
+          describe("Négatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+          });                       
+        });                
       });      
     });
     describe("VTI", () => 
     {
         let animacy = Animacy.INANIMATE;       
       describe("Patron en O", () => 
-      {       
+      {     
+        let dict = new Dictionary([
+          {"French":"J'attends quelquechose (I)","Type":"VTI;1;s;Présent","Abenaki":"Nd'askawito","Meta":"Verbe"}
+        ]);        
+        let root = 'askawito';          
         describe("Ordre indépendant", () => 
         {   
-          let dict = new Dictionary([
-            {"French":"J'attends quelquechose (I)","Type":"VTI;1;s;Présent","Abenaki":"Nd'askawito","Meta":"Verbe"}
-          ]);        
-          let root = 'askawito';
           describe("Indéfini", () => 
           {
             let isDefinite = false;
@@ -588,16 +643,27 @@ describe("Extraction d'affixes", () =>
               });
             });            
           });          
-        });        
+        });
+        describe("Ordre impératif", () => 
+        {        
+          describe("Affirmatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+          });
+          describe("Négatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+          });                    
+        });                
       });
       describe("Patron en M", () => 
-      {       
+      {     
+        let dict = new Dictionary([
+          {"French":"	Je possède quelquechose (I).","Type":"VTI;1;s;Présent","Abenaki":"N'waj8nem","Meta":"Verbe"}
+        ]);        
+        let root = 'waj8nem';          
         describe("Ordre indépendant", () => 
         {   
-          let dict = new Dictionary([
-            {"French":"	Je possède quelquechose (I).","Type":"VTI;1;s;Présent","Abenaki":"N'waj8nem","Meta":"Verbe"}
-          ]);        
-          let root = 'waj8nem';
           describe("Indéfini", () => 
           {
             let isDefinite = false;
@@ -662,8 +728,19 @@ describe("Extraction d'affixes", () =>
               });
             });            
           });          
-        });        
-      });           
-    });         
+        });
+        describe("Ordre impératif", () => 
+        {        
+          describe("Affirmatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, false);
+          });
+          describe("Négatif", () => 
+          {
+            DoTest(dict, root, undefined, VerbalOrder.IMPERATIVE, VerbalTense.PRESENT, false, false, true);
+          });                     
+        });               
+      });      
+    });      
   });
 });

@@ -302,7 +302,7 @@ export function generateVerbAffix(root, index, animacy, order, tense, isPlural, 
         {
             for (let [key, value] of  endings.entries()) 
             {   
-                console.log(key);             
+                //console.log(key);             
                 if ( root.endsWith(key) )
                 {
                     return [endings.get(key)[index], root.slice(0, root.length-key.length), root.at(-1)];
