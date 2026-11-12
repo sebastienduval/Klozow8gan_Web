@@ -56,19 +56,24 @@ function Translate()
             
             if ( result.isVerb )
             {
-                resultMessage += "(Ordre " + result.order + ")";
-                resultMessage += "(Temps " + result.tense + ")";
-                resultMessage += "(Personne " + result.person + ")";
-                resultMessage += "(Défini " + result.isDefinite + ")";
-                if ( result.animacy )
+                resultMessage += result.order + "-";                    
+                resultMessage += "[V";
+
+                if ( result.animacy != undefined )
                 {
-                    resultMessage += "(Transitif " + result.animacy + ")";
-                }
-                else
-                {
-                    resultMessage += "(Intransitif " + result.animacy + ")";                    
-                }
-                resultMessage += "(Défini " + result.isDefinite + ")";
+                    if ( result.animacy )
+                    {
+                        resultMessage += "T" + result.animacy.toStringShort();
+                    }
+                    else
+                    {
+                        resultMessage += result.animacy.toStringShort() + "I";                    
+                    }
+                } 
+                resultMessage += result.isDefinite?"d":"i" + ";";                               
+                resultMessage += result.person.toStringShort();
+                resultMessage += result.tense.toLocaleLowerCase() + "]";
+
             }
             else
             {
