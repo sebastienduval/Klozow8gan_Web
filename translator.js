@@ -1,12 +1,15 @@
 import { extractPluralAffix, extractLocativeAffix, extractPossessiveAffix, ExtractionContext, extract } from "./modules/affix_extractor.js";
 import { Dictionary } from "./modules/dictionary.js";
 import { verbConfig } from "./modules/verb_config.js";
+import { nthToken,replaceChar } from "./modules/string.js";
+import { isVerb } from "./modules/verb_type.js";
 
 function Translate()
 {    
     document.getElementById("translation").innerHTML = "";
 
     let text = document.getElementById("Input").value;
+    text = replaceChar(text, '’', "'");
     let words = text.split(/([ .,!?])|\s+/)
                    .filter(Boolean)
                    .map(t => t.trim())
@@ -41,35 +44,25 @@ function Translate()
             console.log("Try extract possessive affix for " + word + "(" + (context.entry != null? "success" : "failure") + ")");
         }
         
-        if ( context.entry == null )
+        if ( context.entry == null || isVerb(result.entry.Type) )
         {
             let results = extract(context, verbConfig);             
             result = results.length > 0 ? results[0] : null;
             console.log("Try extract verb affixes for " + word + "(" + (results.length > 0? "success" : "failure") + ")");
-        }        
+        }
 
         let resultMessage = "";
         if ( result != null )
         {
             let temp = result.entry[Dictionary.FRENCH];
             resultMessage = temp;
+            resultMessage += " (";
             
+            resultMessage += "[" + nthToken(result.entry.Type, ";", 0);            
             if ( result.isVerb )
             {
-                resultMessage += result.order + "-";                    
-                resultMessage += "[V";
+                resultMessage += result.order + "-";    
 
-                if ( result.animacy != undefined )
-                {
-                    if ( result.animacy )
-                    {
-                        resultMessage += "T" + result.animacy.toStringShort();
-                    }
-                    else
-                    {
-                        resultMessage += result.animacy.toStringShort() + "I";                    
-                    }
-                } 
                 resultMessage += result.isDefinite?"d":"i" + ";";                               
                 resultMessage += result.person.toStringShort();
                 resultMessage += result.tense.toLocaleLowerCase() + "]";
@@ -77,12 +70,14 @@ function Translate()
             }
             else
             {
+                resultMessage += "]";                
                 resultMessage +=
                     (result.isLocative ? " (locatif)" : "") 
                     + (result.isPlural ? " (pluriel)" : "") 
                     + (result.isPossessive ? " (possessif)" : "") 
                     + (result.person ? " (personne " + result.person + ")" : "");
             }
+            resultMessage += ")";
         }
         else
         {

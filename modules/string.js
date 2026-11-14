@@ -77,3 +77,17 @@ export function findDuplicates(strings)
 
   return duplicates;
 }
+
+export function nthToken(str, splitter, nth) 
+{
+  if (!str) return null;
+  const tokens = str.split(splitter);
+  console.log(tokens);
+  return tokens[nth] ?? null;
+}
+
+export function replaceChar(str, from, to) {
+  if (!str) return str;
+  if (from === to) return str;
+  return str.split(from).join(to);
+}
