@@ -21,8 +21,8 @@ function Translate()
         word = word.toLowerCase();
         let context = new ExtractionContext(dict, word);
         context.entry = dict.findEntry(Dictionary.ABENAKI, word);
+        
         let result = context;
-
         if ( context.entry == null )
         {
             extractPluralAffix(context);
@@ -57,12 +57,12 @@ function Translate()
             let temp = result.entry[Dictionary.FRENCH];
             resultMessage = temp;
             resultMessage += " (";
-            
-            resultMessage += "[" + nthToken(result.entry.Type, ";", 0);            
+                    
+            let wordType = nthToken(result.entry.Type, ";", 0);
             if ( result.isVerb )
             {
                 resultMessage += result.order + "-";    
-
+                resultMessage += "[" + wordType;    
                 resultMessage += result.isDefinite?"d":"i" + ";";                               
                 resultMessage += result.person.toStringShort();
                 resultMessage += result.tense.toLocaleLowerCase() + "]";
@@ -70,6 +70,7 @@ function Translate()
             }
             else
             {
+                resultMessage += "[" + wordType;
                 resultMessage += "]";                
                 resultMessage +=
                     (result.isLocative ? " (locatif)" : "") 

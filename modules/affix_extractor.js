@@ -423,17 +423,18 @@ export function extract(context, config)
     let word = context.word.toLowerCase();
     for (const configEntry of config.entries ) 
     {
-        //console.log("Prefix  " + configEntry.prefix + " Suffix " + configEntry.suffix);         
+        console.log("Order: " + configEntry.annotations.order + " Prefix  " + configEntry.prefix + " Suffix " + configEntry.suffix);         
         if (word.startsWith(configEntry.prefix) && word.endsWith(configEntry.suffix)) 
         {
             let stripped = word.slice(configEntry.prefix.length, word.length - configEntry.suffix.length) + configEntry.reconstruction.suffix;
-            //console.log("Stripped " + stripped); 
+            console.log("Stripped " + stripped); 
             let reconstructed = generateVerbAffix(stripped, 0, undefined, VerbalOrder.INDEPENDENT, VerbalTense.PRESENT, false, false, false);
 
             //let reconstructed = configEntry.reconstruction.prefix + stripped + configEntry.reconstruction.suffix;
-            //console.log("Reconstructed " + reconstructed);  
+            console.log("Reconstructed " + reconstructed);  
             
             let dictEntry = context.dictionary.findEntry(Dictionary.ABENAKI, reconstructed);
+            console.log("dictEntry " + dictEntry);              
             if ( dictEntry != null )
             {
                 let newContext = context.clone();
