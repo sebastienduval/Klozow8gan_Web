@@ -1,6 +1,7 @@
 import { extractPluralAffix, extractLocativeAffix, extractPossessiveAffix, ExtractionContext, extract } from "./modules/affix_extractor.js";
 import { Dictionary } from "./modules/dictionary.js";
 import { verbConfig } from "./modules/verb_config.js";
+import { VerbalOrder } from "./modules/verbal_order.js";
 import { nthToken,replaceChar } from "./modules/string.js";
 import { isVerb } from "./modules/verb_type.js";
 
@@ -62,8 +63,12 @@ function Translate()
             if ( result.isVerb )
             {
                 resultMessage += result.order.toStringShort(); + "-";    
-                resultMessage += "[" + wordType;    
-                resultMessage += result.isDefinite?"d":"i" + ";";                               
+                resultMessage += "[" + wordType;  
+                if ( result.order == VerbalOrder.INDEPENDENT )  
+                {
+                    resultMessage += result.isDefinite?"d":"i";
+                }
+                resultMessage += ";";
                 resultMessage += result.person.toStringShort();
                 resultMessage += result.tense.toLocaleLowerCase() + "]";
 
