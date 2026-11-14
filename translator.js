@@ -61,7 +61,7 @@ function Translate()
             let wordType = nthToken(result.entry.Type, ";", 0);
             if ( result.isVerb )
             {
-                resultMessage += result.order + "-";    
+                resultMessage += result.order.toStringShort(); + "-";    
                 resultMessage += "[" + wordType;    
                 resultMessage += result.isDefinite?"d":"i" + ";";                               
                 resultMessage += result.person.toStringShort();
