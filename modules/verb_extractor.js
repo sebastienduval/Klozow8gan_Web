@@ -49,24 +49,3 @@ export function extractImperative(context)
     }
 }
 
-/*
-  describe("L'impératif", () => 
-  {  
-      describe("Patron en A", () => 
-      {
-        it("Aloka -> Nd'aloka + [Impératif] + [2e personne du singulier]", () => 
-        {
-          let context = new ExtractionContext(dict, 'Aloka');      
-          assert.equal(extractImperative(context), "Nd'aloka");               
-        });
-        it("Alokada -> Nd'aloka + [Impératif] + [1re personne du pluriel]", () => 
-        {
-           
-        });
-        it("Alokakw -> Nd'aloka + [Impératif] + [2e personne du pluriel]", () => 
-        {
-             
-        });                     
-      });
-  });
-*/
