@@ -12,12 +12,17 @@
     <div class="container">
         <h2>Convertisseur de textes</h2>
         
+        <!-- Preset Selection Area -->
+        <div class="form-group">
+            <label for="preset-select">Jeu de règles prédéfini:</label>
+            <select id="preset-select"></select>
+        </div>
+
         <!-- JSON Configuration Area -->
         <div class="form-group">
             <label for="json-rules">Règles de conversion (Format JSON):</label>
             <label class="small">Ajouter ^ pour marquer le début d'un mot ou $ pour la fin d'un mot.</label>
-            <textarea id="json-rules" class="code" rows="7">
-            </textarea>
+            <textarea id="json-rules" class="code" rows="7"></textarea>
         </div>
         
         <!-- Input Area -->
@@ -37,6 +42,28 @@
     </div>
 
     <script>
+        const RULE_PRESETS = [
+            {
+                label: "Laurent vers Charland",
+                path: "./tc_day_to_charland.json"
+            }, 
+            {
+                label: "Day vers Charland",
+                path: "./tc_laurent_to_charland.json"
+            },
+            {
+                label: "Wz8khilain vers Charland",
+                path: "./tc_wz8khilain_to_charland.json"
+            },                        
+            // Add additional rule files here:
+            // { label: "Autre conversion", path: "./tc_autre.json" }
+        ];
+
+        const presetSelect = document.getElementById('preset-select');
+        const jsonRulesArea = document.getElementById('json-rules');
+        let lastLoadedJson = '';
+        let currentPresetIndex = 0;
+
         // Helper function to escape special characters for Regex
         function escapeRegExp(string) {
             return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -128,8 +155,58 @@
             return result;
         }
 
+        function loadRulesFile(filePath, targetIndex) {
+            fetch(filePath)
+                .then(response => {
+                    if (!response.ok) throw new Error('File not found');
+                    return response.text();
+                })
+                .then(text => {
+                    let formattedText = text;
+                    try {
+                        formattedText = JSON.stringify(JSON.parse(text), null, 2);
+                    } catch (e) {
+                        console.warn('Could not pretty-print JSON, using raw text:', e);
+                    }
+                    jsonRulesArea.value = formattedText;
+                    lastLoadedJson = formattedText;
+                    currentPresetIndex = targetIndex;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert(`Impossible de charger le fichier : ${filePath}`);
+                    presetSelect.selectedIndex = currentPresetIndex;
+                });
+        }
+
+        // Populate preset dropdown
+        RULE_PRESETS.forEach((preset, index) => {
+            const option = document.createElement('option');
+            option.value = preset.path;
+            option.textContent = preset.label;
+            if (index === 0) option.selected = true;
+            presetSelect.appendChild(option);
+        });
+
+        presetSelect.addEventListener('change', (e) => {
+            const newIndex = presetSelect.selectedIndex;
+            const hasUnsavedChanges = jsonRulesArea.value.trim() !== lastLoadedJson.trim();
+
+            if (hasUnsavedChanges) {
+                const confirmed = confirm(
+                    "Vous avez modifié les règles JSON. Changer de jeu de règles écrasera vos modifications. Continuer ?"
+                );
+                if (!confirmed) {
+                    presetSelect.selectedIndex = currentPresetIndex;
+                    return;
+                }
+            }
+
+            loadRulesFile(e.target.value, newIndex);
+        });
+
         document.getElementById('convert-btn').addEventListener('click', () => {
-            const jsonText = document.getElementById('json-rules').value;
+            const jsonText = jsonRulesArea.value;
             const inputText = document.getElementById('input-text').value;
             const outputArea = document.getElementById('output-text');
             
@@ -150,16 +227,10 @@
             outputArea.value = result;
         });
 
-        let filePath = './tc_laurent_to_charland.json';
-        fetch(filePath)
-        .then(response => {
-            if (!response.ok) throw new Error('File not found');
-            return response.text();
-        })
-        .then(text => {
-            document.getElementById('json-rules').value = text;
-        })
-        .catch(error => console.error('Error:', error));
+        // Initial seed load
+        if (RULE_PRESETS.length > 0) {
+            loadRulesFile(RULE_PRESETS[0].path, 0);
+        }
     </script>
 </body>
 </html>
