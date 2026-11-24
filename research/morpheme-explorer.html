@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorateur de morphologie et de motifs</title>
+    <style>
+        :root {
+            --bg-app: #0f172a;
+            --bg-panel: #1e293b;
+            --bg-input: #0f172a;
+            --border: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --entry-color: #10b981;
+            --highlight: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace, sans-serif;
+            background-color: var(--bg-app);
+            color: var(--text-main);
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .panel {
+            background-color: var(--bg-panel);
+            border-right: 1px solid var(--border);
+            padding: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow-y: auto;
+        }
+
+        .panel.right {
+            background-color: var(--bg-app);
+            border-right: none;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 1.1rem;
+            align-items: start;
+        }
+
+        .column-stack {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: calc(100vh - 2.2rem);
+            overflow-y: auto;
+        }
+
+        h1 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            border-top: 1px solid #283548;
+            padding-top: 0.75rem;
+        }
+
+        .control-group:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 0.45rem;
+            align-items: center;
+        }
+
+        input[type="text"], input[type="number"] {
+            flex: 1;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.42rem 0.65rem;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.83rem;
+            min-width: 0;
+        }
+
+        input[type="number"] {
+            width: 58px;
+            flex: none;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        button {
+            background: var(--accent);
+            color: #0f172a;
+            border: none;
+            padding: 0.42rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.15s;
+            white-space: nowrap;
+        }
+
+        button:hover:not(:disabled) {
+            background: var(--accent-hover);
+            color: #fff;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        button.danger {
+            background: transparent;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        button.danger:hover:not(:disabled) {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        button.secondary {
+            background: #334155;
+            color: var(--text-main);
+        }
+
+        button.secondary:hover:not(:disabled) {
+            background: #475569;
+        }
+
+        .status-msg {
+            font-size: 0.76rem;
+            min-height: 1.05rem;
+            color: var(--text-muted);
+            word-break: break-word;
+        }
+
+        /* Word List */
+        .word-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .word-chip {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.22rem 0.45rem;
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            cursor: pointer;
+        }
+
+        .word-chip:hover, .word-chip.active {
+            border-color: var(--highlight);
+            color: var(--highlight);
+        }
+
+        .word-chip .del-btn {
+            color: var(--text-muted);
+            font-weight: bold;
+            padding: 0 2px;
+        }
+
+        .word-chip .del-btn:hover {
+            color: var(--danger);
+        }
+
+        /* Pattern Candidates */
+        .pattern-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        .pattern-item {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 0.38rem 0.6rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .pattern-item:hover, .pattern-item.active {
+            border-color: var(--highlight);
+        }
+
+        .pattern-str {
+            font-weight: 700;
+            color: var(--highlight);
+        }
+
+        .pattern-meta {
+            color: var(--text-muted);
+            font-size: 0.74rem;
+        }
+
+        /* Morpheme Manager */
+        .morpheme-form {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .morpheme-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .morpheme-card {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.5rem 0.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            font-size: 0.78rem;
+            cursor: pointer;
+        }
+
+        .morpheme-card:hover {
+            border-color: var(--accent);
+        }
+
+        .morpheme-card.selected {
+            border-color: var(--highlight);
+            background: #172033;
+        }
+
+        .morpheme-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .morpheme-token {
+            font-weight: 700;
+            color: var(--highlight);
+            font-size: 0.86rem;
+        }
+
+        .morpheme-type-badge {
+            background: #283548;
+            color: var(--accent);
+            border-radius: 4px;
+            padding: 0.1rem 0.4rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .morpheme-desc {
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .morpheme-actions {
+            display: flex;
+            gap: 0.35rem;
+            margin-top: 0.2rem;
+        }
+
+        .morpheme-actions button {
+            padding: 0.2rem 0.45rem;
+            font-size: 0.72rem;
+        }
+
+        /* Metrics & Occurrences */
+        .metrics-card {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .prop-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.6rem;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 0.3rem;
+        }
+
+        .prop-key {
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .prop-val {
+            font-weight: 600;
+            color: var(--accent);
+            text-align: right;
+            word-break: break-word;
+        }
+
+        .occ-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            flex: 1;
+            overflow-y: auto;
+            margin-top: 0.25rem;
+        }
+
+        .occ-card {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 0.45rem 0.6rem;
+            font-size: 0.8rem;
+        }
+
+        .occ-word {
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .occ-ctx {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .occ-ctx mark {
+            background: rgba(245, 158, 11, 0.25);
+            color: var(--highlight);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .occ-gloss {
+            color: var(--entry-color);
+            font-size: 0.76rem;
+            margin-top: 0.15rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Panneau gauche : Initialisation, modification, motifs récurrents, mots -->
+    <aside class="panel">
+        <div>
+            <h1>Explorateur de morphologie</h1>
+            <p style="font-size: 0.76rem; color: var(--text-muted); margin-top: 0.2rem;">
+                Explorateur de sous-chaînes lexicales et de motifs morphémiques
+            </p>
+        </div>
+
+        <div class="control-group">
+            <h2>Initialiser le lexique</h2>
+            <div class="input-row">
+                <button id="seedAbenakiBtn" style="flex: 1;">Charger l'API abénaquise</button>
+            </div>
+            <div id="seedStatus" class="status-msg"></div>
+        </div>
+
+        <div class="control-group">
+            <h2>Ajouter / Supprimer un mot</h2>
+            <div class="input-row">
+                <input type="text" id="wordInput" placeholder="Entrer un mot..." autocomplete="off">
+                <button id="addBtn">Ajouter</button>
+            </div>
+            <div class="input-row">
+                <button id="removeBtn" class="danger" style="flex: 1;">Supprimer le mot</button>
+                <button id="clearBtn" class="secondary">Effacer</button>
+            </div>
+            <div id="statusMsg" class="status-msg"></div>
+        </div>
+
+        <div class="control-group">
+            <h2>Suivre un motif / une sous-chaîne</h2>
+            <div class="input-row">
+                <input type="text" id="patternInput" placeholder="ex. cat, 8ba, higan..." autocomplete="off">
+                <button id="clearPatternBtn" class="secondary">Réinitialiser</button>
+            </div>
+            <div id="patternStatus" class="status-msg"></div>
+        </div>
+
+        <div class="control-group">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Sous-chaînes récurrentes</h2>
+                <div class="input-row" style="gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-muted);">min</span>
+                    <input type="number" id="minFreqInput" value="2" min="2" max="50" title="Nombre minimal de mots">
+                    <button id="scanPatternsBtn" class="secondary" style="padding: 0.25rem 0.5rem; font-size: 0.74rem;">Analyser</button>
+                </div>
+            </div>
+            <div id="patternList" class="pattern-list"></div>
+        </div>
+
+        <div class="control-group">
+            <h2>Lexique (<span id="wordCount">0</span>)</h2>
+            <ul id="wordList" class="word-list"></ul>
+        </div>
+    </aside>
+
+    <!-- Zone principale : Statistiques/Contextes à gauche, CRUD/Recherche des morphèmes à droite -->
+    <main class="panel right">
+        <div class="column-stack">
+            <div class="control-group">
+                <h2>Statistiques du lexique</h2>
+                <div class="metrics-card">
+                    <div class="prop-row" style="border: none; padding: 0;">
+                        <span class="prop-key">Mots dans le lexique</span>
+                        <span class="prop-val" id="statWords">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group" style="flex: 1; display: flex; flex-direction: column;">
+                <h2 id="matchesHeading">Mots et contextes correspondants</h2>
+                <div id="matchesList" class="occ-list"></div>
+            </div>
+        </div>
+
+        <div class="column-stack">
+            <div class="control-group" style="flex: 1; display: flex; flex-direction: column;">
+                <h2>Morphèmes (API)</h2>
+
+                <!-- Recherche -->
+                <div class="input-row">
+                    <input type="text" id="morphSearchInput" placeholder="Rechercher un morphème ou une descr..." autocomplete="off">
+                    <input type="text" id="morphTypeFilterInput" placeholder="Type..." style="max-width: 82px;" autocomplete="off">
+                    <button id="morphSearchBtn" class="secondary">Chercher</button>
+                </div>
+
+                <!-- Formulaire d'ajout / de modification -->
+                <div class="morpheme-form">
+                    <div class="input-row">
+                        <input type="text" id="morphFormToken" placeholder="Morphème (ex. -al)" autocomplete="off">
+                        <input type="text" id="morphFormType" placeholder="Type (ex. suffixe)" style="max-width: 105px;" autocomplete="off">
+                    </div>
+                    <input type="text" id="morphFormDesc" placeholder="Description / glose..." autocomplete="off">
+                    <div class="input-row">
+                        <button id="morphSaveBtn" style="flex: 1;">Ajouter un morphème</button>
+                        <button id="morphCancelEditBtn" class="secondary" style="display: none;">Annuler</button>
+                    </div>
+                </div>
+
+                <div id="morphStatus" class="status-msg"></div>
+                <div id="morphemeList" class="morpheme-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="graph.js"></script>
+    <script>
+        const API_BASE_URL = 'https://klozow8gan.ddns.net';
+        const ABENAKI_API_URL = `${API_BASE_URL}/api/search/?language=abenaki`;
+
+        const morphemeApi = new MorphemeApiClient(API_BASE_URL);
+        const morphemeStore = new MorphemeStore(morphemeApi);
+
+        let graph = new WordPatternGraph();
+        let activePattern = '';
+        let activeWordFilter = null;
+        let editingMorphemeId = null;
+
+        // DOM refs
+        const wordInput = document.getElementById('wordInput');
+        const patternInput = document.getElementById('patternInput');
+        const minFreqInput = document.getElementById('minFreqInput');
+        const statusMsg = document.getElementById('statusMsg');
+        const seedStatus = document.getElementById('seedStatus');
+        const seedAbenakiBtn = document.getElementById('seedAbenakiBtn');
+        const patternStatus = document.getElementById('patternStatus');
+        const patternListEl = document.getElementById('patternList');
+        const wordListEl = document.getElementById('wordList');
+        const wordCountEl = document.getElementById('wordCount');
+
+        // Morpheme DOM refs
+        const morphSearchInput = document.getElementById('morphSearchInput');
+        const morphTypeFilterInput = document.getElementById('morphTypeFilterInput');
+        const morphSearchBtn = document.getElementById('morphSearchBtn');
+        const morphFormToken = document.getElementById('morphFormToken');
+        const morphFormType = document.getElementById('morphFormType');
+        const morphFormDesc = document.getElementById('morphFormDesc');
+        const morphSaveBtn = document.getElementById('morphSaveBtn');
+        const morphCancelEditBtn = document.getElementById('morphCancelEditBtn');
+        const morphStatus = document.getElementById('morphStatus');
+        const morphemeListEl = document.getElementById('morphemeList');
+
+        function render() {
+            const stats = graph.getStats();
+            document.getElementById('statWords').textContent = stats.wordCount;
+
+            updateWordList();
+            //updateRecurringPatterns();
+            updateMatchesView();
+        }
+
+        function updateMatchesView() {
+            const matchesList = document.getElementById('matchesList');
+            const matchesHeading = document.getElementById('matchesHeading');
+
+            if (activePattern) {
+                const occs = graph.findPatternOccurrences(activePattern);
+                matchesHeading.textContent = `Motif « ${activePattern} » (${occs.length} correspondances)`;
+                renderOccurrences(occs);
+            } else if (activeWordFilter && graph.lexicon.has(activeWordFilter)) {
+                const meta = graph.lexicon.get(activeWordFilter);
+                matchesHeading.textContent = `Mot : ${activeWordFilter}`;
+                matchesList.innerHTML = `
+                    <div class="occ-card">
+                        <div class="occ-word">${escapeHtml(activeWordFilter)}</div>
+                        ${meta?.french ? `<div class="occ-gloss">${escapeHtml(meta.french)} ${meta.type ? `(${escapeHtml(meta.type)})` : ''}</div>` : ''}
+                        ${meta?.source ? `<div class="occ-ctx">${escapeHtml(meta.source)}</div>` : ''}
+                    </div>
+                `;
+            } else {
+                matchesHeading.textContent = 'Mots et contextes correspondants';
+                matchesList.innerHTML = '<span style="color: var(--text-muted); font-size: 0.78rem;">Sélectionnez un motif, un morphème ou un mot pour afficher les contextes correspondants.</span>';
+            }
+        }
+
+        function renderOccurrences(occs) {
+            const matchesList = document.getElementById('matchesList');
+            matchesList.innerHTML = '';
+
+            if (occs.length === 0) {
+                matchesList.innerHTML = '<span style="color: var(--text-muted); font-size: 0.78rem;">Aucun mot correspondant.</span>';
+                return;
+            }
+
+            occs.slice(0, 100).forEach(o => {
+                const meta = graph.lexicon.get(o.word);
+                const matchText = o.match !== undefined ? o.match : activePattern;
+                const div = document.createElement('div');
+                div.className = 'occ-card';
+                div.innerHTML = `
+                    <div class="occ-ctx">${escapeHtml(o.left)}<mark>${escapeHtml(matchText)}</mark>${escapeHtml(o.right)}</div>
+                    ${meta?.french ? `<div class="occ-gloss">${escapeHtml(meta.french)} ${meta.type ? `[${escapeHtml(meta.type)}]` : ''}</div>` : ''}
+                    ${meta?.source ? `<div class="occ-ctx">${escapeHtml(meta.source)}</div>` : ''}
+                `;
+                matchesList.appendChild(div);
+            });
+        }
+
+        function updateWordList() {
+            const words = graph.getAllWords();
+            wordCountEl.textContent = words.length;
+            wordListEl.innerHTML = '';
+
+            words.forEach(word => {
+                const li = document.createElement('li');
+                li.className = `word-chip ${activeWordFilter === word ? 'active' : ''}`;
+                li.innerHTML = `<span>${escapeHtml(word)}</span><span class="del-btn" title="Supprimer">×</span>`;
+
+                li.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('del-btn')) {
+                        graph.removeWord(word);
+                        if (activeWordFilter === word) activeWordFilter = null;
+                        statusMsg.textContent = `« ${word} » supprimé`;
+                        render();
+                    } else {
+                        activePattern = '';
+                        patternInput.value = '';
+                        patternStatus.textContent = '';
+                        activeWordFilter = activeWordFilter === word ? null : word;
+                        render();
+                    }
+                });
+
+                wordListEl.appendChild(li);
+            });
+        }
+
+        function updateRecurringPatterns() {
+            const minFreq = Math.max(2, parseInt(minFreqInput.value, 10) || 2);
+            const candidates = graph.discoverRecurringPatterns(2, 6, minFreq);
+            patternListEl.innerHTML = '';
+
+            if (candidates.length === 0) {
+                patternListEl.innerHTML = '<span style="color: var(--text-muted); font-size: 0.78rem;">Aucune sous-chaîne récurrente trouvée à ce seuil.</span>';
+                return;
+            }
+
+            candidates.forEach(cand => {
+                const div = document.createElement('div');
+                div.className = `pattern-item ${activePattern === cand.pattern ? 'active' : ''}`;
+                div.innerHTML = `
+                    <span class="pattern-str">${escapeHtml(cand.pattern)}</span>
+                    <span class="pattern-meta">${cand.wordCount} mots</span>
+                `;
+                div.addEventListener('click', () => {
+                    activeWordFilter = null;
+                    activePattern = activePattern === cand.pattern ? '' : cand.pattern;
+                    patternInput.value = activePattern;
+                    patternStatus.textContent = activePattern ? `Mise en surbrillance de « ${activePattern} »` : '';
+                    render();
+                });
+                patternListEl.appendChild(div);
+            });
+        }
+
+        // ---------------------------------------------------------
+        // Morpheme CRUD & Search Handlers
+        // ---------------------------------------------------------
+        function resetMorphemeForm() {
+            editingMorphemeId = null;
+            morphFormToken.value = '';
+            morphFormType.value = '';
+            morphFormDesc.value = '';
+            morphSaveBtn.textContent = 'Ajouter un morphème';
+            morphCancelEditBtn.style.display = 'none';
+        }
+
+        function startEditMorpheme(item) {
+            editingMorphemeId = item.id;
+            morphemeStore.selectedId = item.id;
+            morphFormToken.value = item.morpheme || '';
+            morphFormType.value = item.type || '';
+            morphFormDesc.value = item.description || '';
+            morphSaveBtn.textContent = 'Enregistrer les modifications';
+            morphCancelEditBtn.style.display = 'inline-block';
+            renderMorphemeList();
+        }
+
+        function renderMorphemeList() {
+            morphemeListEl.innerHTML = '';
+
+            if (!morphemeStore.items.length) {
+                morphemeListEl.innerHTML = '<span style="color: var(--text-muted); font-size: 0.76rem;">Aucun morphème trouvé.</span>';
+                return;
+            }
+
+            morphemeStore.items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `morpheme-card ${morphemeStore.selectedId === item.id ? 'selected' : ''}`;
+
+                card.innerHTML = `
+                    <div class="morpheme-header">
+                        <span class="morpheme-token">${escapeHtml(item.morpheme)}</span>
+                        <span class="morpheme-type-badge">${escapeHtml(item.type)}</span>
+                    </div>
+                    <div class="morpheme-desc">${escapeHtml(item.description)}</div>
+                    <div class="morpheme-actions">
+                        <button type="button" class="secondary edit-morph-btn">Modifier</button>
+                        <button type="button" class="danger del-morph-btn">Supprimer</button>
+                    </div>
+                `;
+
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('button')) return;
+                    morphemeStore.selectedId = item.id;
+                    const cleanToken = String(item.morpheme || '').replace(/^-|-$/g, '').trim().toLowerCase();
+                    if (cleanToken) {
+                        activeWordFilter = null;
+                        activePattern = cleanToken;
+                        patternInput.value = cleanToken;
+                        patternStatus.textContent = `Suivi du morphème « ${cleanToken} »`;
+                        render();
+                    }
+                    renderMorphemeList();
+                });
+
+                card.querySelector('.edit-morph-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    startEditMorpheme(item);
+                });
+
+                card.querySelector('.del-morph-btn').addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    try {
+                        morphStatus.style.color = 'var(--text-muted)';
+                        morphStatus.textContent = `Suppression de « ${item.morpheme} »...`;
+                        await morphemeStore.delete(item.id);
+                        if (editingMorphemeId === item.id) {
+                            resetMorphemeForm();
+                        }
+                        morphStatus.style.color = 'var(--entry-color)';
+                        morphStatus.textContent = `« ${item.morpheme} » supprimé`;
+                        renderMorphemeList();
+                    } catch (err) {
+                        morphStatus.style.color = 'var(--danger)';
+                        morphStatus.textContent = `Erreur de suppression : ${err.message}`;
+                    }
+                });
+
+                morphemeListEl.appendChild(card);
+            });
+        }
+
+        async function handleSearchMorphemes() {
+            const q = morphSearchInput.value.trim();
+            const type = morphTypeFilterInput.value.trim();
+            try {
+                morphStatus.style.color = 'var(--text-muted)';
+                morphStatus.textContent = 'Recherche de morphèmes...';
+                await morphemeStore.refresh({ q, type });
+                morphStatus.style.color = 'var(--text-muted)';
+                morphStatus.textContent = `${morphemeStore.items.length} morphème(s) trouvé(s)`;
+                renderMorphemeList();
+            } catch (err) {
+                morphStatus.style.color = 'var(--danger)';
+                morphStatus.textContent = `Erreur de recherche : ${err.message}`;
+            }
+        }
+
+        async function handleSaveMorpheme() {
+            const morpheme = morphFormToken.value.trim();
+            const type = morphFormType.value.trim();
+            const description = morphFormDesc.value.trim();
+
+            if (!morpheme || !type || !description) {
+                morphStatus.style.color = 'var(--danger)';
+                morphStatus.textContent = 'Le morphème, le type et la description sont requis.';
+                return;
+            }
+
+            morphSaveBtn.disabled = true;
+            try {
+                if (editingMorphemeId !== null) {
+                    morphStatus.textContent = 'Mise à jour du morphème...';
+                    await morphemeStore.edit(editingMorphemeId, { morpheme, type, description });
+                    morphStatus.style.color = 'var(--entry-color)';
+                    morphStatus.textContent = `« ${morpheme} » mis à jour`;
+                    resetMorphemeForm();
+                } else {
+                    morphStatus.textContent = 'Ajout du morphème...';
+                    await morphemeStore.create({ morpheme, type, description });
+                    morphStatus.style.color = 'var(--entry-color)';
+                    morphStatus.textContent = `« ${morpheme} » ajouté`;
+                    resetMorphemeForm();
+                }
+                renderMorphemeList();
+            } catch (err) {
+                morphStatus.style.color = 'var(--danger)';
+                morphStatus.textContent = `Erreur d'enregistrement : ${err.message}`;
+            } finally {
+                morphSaveBtn.disabled = false;
+            }
+        }
+
+        morphSearchBtn.addEventListener('click', handleSearchMorphemes);
+        morphSearchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleSearchMorphemes();
+        });
+        morphTypeFilterInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleSearchMorphemes();
+        });
+        morphSaveBtn.addEventListener('click', handleSaveMorpheme);
+        morphCancelEditBtn.addEventListener('click', () => {
+            resetMorphemeForm();
+            morphStatus.textContent = 'Modification annulée';
+            renderMorphemeList();
+        });
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        // Lexicon Actions
+        function handleAddWord() {
+            const raw = wordInput.value.trim();
+            if (!raw) return;
+            const norm = raw.toLowerCase();
+            graph.addWord(norm, { raw });
+            wordInput.value = '';
+            statusMsg.textContent = `« ${norm} » ajouté`;
+            render();
+        }
+
+        function handleRemoveWord() {
+            const raw = wordInput.value.trim().toLowerCase();
+            if (!raw) return;
+            const ok = graph.removeWord(raw);
+            statusMsg.textContent = ok ? `« ${raw} » supprimé` : `« ${raw} » introuvable`;
+            wordInput.value = '';
+            render();
+        }
+
+        document.getElementById('addBtn').addEventListener('click', handleAddWord);
+        wordInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleAddWord();
+        });
+        document.getElementById('removeBtn').addEventListener('click', handleRemoveWord);
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            GraphNode.nextId = 0;
+            graph = new WordPatternGraph();
+            activePattern = '';
+            activeWordFilter = null;
+            patternInput.value = '';
+            statusMsg.textContent = 'Lexique effacé';
+            seedStatus.textContent = '';
+            patternStatus.textContent = '';
+            render();
+        });
+
+        patternInput.addEventListener('input', () => {
+            activeWordFilter = null;
+            activePattern = patternInput.value.trim().toLowerCase();
+            const occs = graph.findPatternOccurrences(activePattern);
+            patternStatus.textContent = activePattern ? `${occs.length} occurrence(s)` : '';
+            render();
+        });
+
+        document.getElementById('clearPatternBtn').addEventListener('click', () => {
+            activePattern = '';
+            activeWordFilter = null;
+            patternInput.value = '';
+            patternStatus.textContent = '';
+            render();
+        });
+
+        document.getElementById('scanPatternsBtn').addEventListener('click', () => {
+            updateRecurringPatterns();
+        });
+
+        async function seedFromAbenakiApi() {
+            seedAbenakiBtn.disabled = true;
+            seedStatus.style.color = 'var(--text-muted)';
+            seedStatus.textContent = 'Récupération des entrées abénaquises...';
+
+            try {
+                const res = await fetch(ABENAKI_API_URL);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                if (!Array.isArray(data)) throw new Error('Tableau JSON attendu');
+
+                GraphNode.nextId = 0;
+                graph = new WordPatternGraph();
+                let count = 0;
+
+                for (const item of data) {
+                    if (item && typeof item.abenaki === 'string') {
+                        const word = item.abenaki.trim().toLowerCase();
+                        if (word) {
+                            graph.addWord(word, {
+                                french: item.french || '',
+                                type: item.type || '',
+                                source: item.source || '',
+                                raw: item.abenaki
+                            });
+                            count++;
+                        }
+                    }
+                }
+
+                activePattern = '';
+                activeWordFilter = null;
+                patternInput.value = '';
+                seedStatus.style.color = 'var(--entry-color)';
+                seedStatus.textContent = `${count} entrées abénaquises chargées`;
+                render();
+            } catch (err) {
+                seedStatus.style.color = 'var(--danger)';
+                seedStatus.textContent = `Erreur API : ${err.message}`;
+            } finally {
+                seedAbenakiBtn.disabled = false;
+            }
+        }
+
+        function seedSample() {
+            GraphNode.nextId = 0;
+            graph = new WordPatternGraph();
+            [
+                { w: 'cat', french: 'chat' },
+                { w: 'locate', french: 'localiser' },
+                { w: 'catamaran', french: 'catamaran' },
+                { w: 'educate', french: 'éduquer' },
+                { w: 'car', french: 'voiture' },
+                { w: 'cart', french: 'charrette' }
+            ].forEach(entry => graph.addWord(entry.w, { french: entry.french }));
+
+            activePattern = '';
+            activeWordFilter = null;
+            patternInput.value = '';
+            seedStatus.style.color = 'var(--text-muted)';
+            seedStatus.textContent = "Mots d'exemple chargés";
+            render();
+        }
+
+        seedAbenakiBtn.addEventListener('click', seedFromAbenakiApi);
+
+        // Boot
+        handleSearchMorphemes();
+    </script>
+</body>
+</html>
